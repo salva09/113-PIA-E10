@@ -1,6 +1,6 @@
 package com.lexer
 
-import jdk.nashorn.internal.runtime.ParserException
+import com.control.LanguageException
 import java.util.*
 
 class Parser {
@@ -19,7 +19,7 @@ class Parser {
 
         if (lookahead!!.token != Token.EPSILON) {
             if (!lookahead!!.sequence?.isEmpty()!!)
-                throw ParserException("At line " + line + ": " + "Unexpected symbol \"" + lookahead!!.sequence + "\" was found")
+                throw LanguageException("At line " + line + ": " + "Unexpected symbol \"" + lookahead!!.sequence + "\" was found")
         }
     }
 
@@ -38,10 +38,10 @@ class Parser {
         }
         else {
             if (lookahead!!.sequence?.isEmpty()!!) {
-                throw ParserException("At line " + line + ": " + "Symbol \"programa\" was expected, but empty string was found")
+                throw LanguageException("At line " + line + ": " + "Symbol \"programa\" was expected, but empty string was found")
             }
             else {
-                throw ParserException("At line " + line + ": " + "Symbol \"programa\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+                throw LanguageException("At line " + line + ": " + "Symbol \"programa\" was expected, but \"" + lookahead!!.sequence + "\" was found")
             }
         }
     }
@@ -53,10 +53,10 @@ class Parser {
         }
         else {
             if (lookahead!!.sequence?.isEmpty()!!) {
-                throw ParserException("At line " + line + ": " + "Symbol \"iniciar\" was expected, but empty string was found")
+                throw LanguageException("At line " + line + ": " + "Symbol \"iniciar\" was expected, but empty string was found")
             }
             else {
-                throw ParserException("At line " + line + ": " + "Symbol \"iniciar\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+                throw LanguageException("At line " + line + ": " + "Symbol \"iniciar\" was expected, but \"" + lookahead!!.sequence + "\" was found")
             }
         }
     }
@@ -77,7 +77,7 @@ class Parser {
                     nextLine()
                 }
                 else -> {
-                    throw ParserException("At line " + line + ": " + "Something went wrong")
+                    throw LanguageException("At line " + line + ": " + "Something went wrong")
                 }
             }
         }
@@ -90,17 +90,17 @@ class Parser {
             }
             else {
                 if (lookahead!!.sequence?.isEmpty()!!) {
-                    throw ParserException("At line " + line + ": " + "A instruction was expected, but empty string was found")
+                    throw LanguageException("At line " + line + ": " + "A instruction was expected, but empty string was found")
                 }
                 else {
-                    throw ParserException("At line " + line + ": " + "A instruction was expected, but \"" + lookahead!!.sequence + "\" was found")
+                    throw LanguageException("At line " + line + ": " + "A instruction was expected, but \"" + lookahead!!.sequence + "\" was found")
                 }
             }
         }
         try {
             instructions()
         }
-        catch (ex: ParserException) { }
+        catch (ex: LanguageException) { }
     }
 
     private fun assignation() {
@@ -112,10 +112,10 @@ class Parser {
         }
         else {
             if (lookahead!!.sequence?.isEmpty()!!) {
-                throw ParserException("At line " + line + ": " + "Symbol \":=\" was expected, but empty string was found")
+                throw LanguageException("At line " + line + ": " + "Symbol \":=\" was expected, but empty string was found")
             }
             else {
-                throw ParserException("At line " + line + ": " + "Symbol \":=\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+                throw LanguageException("At line " + line + ": " + "Symbol \":=\" was expected, but \"" + lookahead!!.sequence + "\" was found")
             }
         }
     }
@@ -186,10 +186,10 @@ class Parser {
             expression()
             if (lookahead!!.token != Token.CLOSE_BRACKET) {
                 if(lookahead!!.sequence?.isEmpty()!!) {
-                    throw ParserException("Close brackets was expected, but empty string was found")
+                    throw LanguageException("Close brackets was expected, but empty string was found")
                 }
                 else {
-                    throw ParserException("Close brackets was expected, but \"" + lookahead!!.sequence + "\" was found")
+                    throw LanguageException("Close brackets was expected, but \"" + lookahead!!.sequence + "\" was found")
                 }
             }
             nextToken()
@@ -208,7 +208,7 @@ class Parser {
                 nextToken()
             }
             else {
-                throw ParserException("At line " + line + ": " + "A value was expected, but empty string was found")
+                throw LanguageException("At line " + line + ": " + "A value was expected, but empty string was found")
             }
         }
     }
@@ -219,10 +219,10 @@ class Parser {
         }
         else {
             if (lookahead!!.sequence?.isEmpty()!!) {
-                throw ParserException("At line " + line + ": " + "Symbol \"terminar.\" was expected, but empty string was found")
+                throw LanguageException("At line " + line + ": " + "Symbol \"terminar.\" was expected, but empty string was found")
             }
             else {
-                throw ParserException("At line " + line + ": " + "Symbol \"terminar.\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+                throw LanguageException("At line " + line + ": " + "Symbol \"terminar.\" was expected, but \"" + lookahead!!.sequence + "\" was found")
             }
         }
     }
@@ -234,10 +234,10 @@ class Parser {
         }
         else {
             if (lookahead!!.sequence?.isEmpty()!!) {
-                throw ParserException("At line " + line + ": " + "A name was expected, but empty string was found")
+                throw LanguageException("At line " + line + ": " + "A name was expected, but empty string was found")
             }
             else {
-                throw ParserException("At line " + line + ": " + "A name was expected, but \"" + lookahead!!.sequence + "\" was found")
+                throw LanguageException("At line " + line + ": " + "A name was expected, but \"" + lookahead!!.sequence + "\" was found")
             }
         }
     }
@@ -248,10 +248,10 @@ class Parser {
         }
         else {
             if (lookahead!!.sequence?.isEmpty()!!) {
-                throw ParserException("At line " + line + ": " + "A whitespace was expected, but empty string was found")
+                throw LanguageException("At line " + line + ": " + "A whitespace was expected, but empty string was found")
             }
             else {
-                throw ParserException("At line " + line + ": " + "A whitespace was expected, but \"" + lookahead!!.sequence + "\" was found")
+                throw LanguageException("At line " + line + ": " + "A whitespace was expected, but \"" + lookahead!!.sequence + "\" was found")
             }
         }
     }
@@ -268,10 +268,10 @@ class Parser {
         }
         else {
             if (lookahead!!.sequence?.isEmpty()!!) {
-                throw ParserException("At line " + line + ": " + "Symbol \";\" was expected, but empty string was found")
+                throw LanguageException("At line " + line + ": " + "Symbol \";\" was expected, but empty string was found")
             }
             else {
-                throw ParserException("At line " + line + ": " + "Symbol \";\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+                throw LanguageException("At line " + line + ": " + "Symbol \";\" was expected, but \"" + lookahead!!.sequence + "\" was found")
             }
         }
     }
@@ -283,10 +283,10 @@ class Parser {
         }
         else {
             if (lookahead!!.sequence?.isEmpty()!!) {
-                throw ParserException("At line " + line + ": " + "Line break was expected")
+                throw LanguageException("At line " + line + ": " + "Line break was expected")
             }
             else {
-                throw ParserException("At line " + line + ": " + "Line break was expected, but \"" + lookahead!!.sequence + "\" was found")
+                throw LanguageException("At line " + line + ": " + "Line break was expected, but \"" + lookahead!!.sequence + "\" was found")
             }
         }
     }

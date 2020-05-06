@@ -1,6 +1,6 @@
 package com.lexer
 
-import jdk.nashorn.internal.runtime.ParserException
+import com.control.LanguageException
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -16,7 +16,7 @@ class Tokenizer {
     }
 
     fun tokenize(string: String) {
-        if (string.isEmpty()) throw ParserException("Expected some input, but empty string was found")
+        if (string.isEmpty()) throw LanguageException("Expected some input, but empty string was found")
 
         var input: String = string
         var line = 1
@@ -41,7 +41,7 @@ class Tokenizer {
                 }
             }
             if (!match) {
-                throw ParserException("At line " + line + ": " + "Unexpected character: \"" + input + "\"")
+                throw LanguageException("At line " + line + ": " + "Unexpected character: \"" + input + "\"")
             }
         }
     }

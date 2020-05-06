@@ -3,7 +3,7 @@ package com.control
 import com.lexer.Parser
 import com.lexer.Token
 import com.lexer.Tokenizer
-import jdk.nashorn.internal.runtime.ParserException
+import com.control.LanguageException
 import javax.swing.JOptionPane
 
 class Validator {
@@ -38,7 +38,7 @@ class Validator {
 
             JOptionPane.showMessageDialog(null, "The input is valid!", ":)", JOptionPane.INFORMATION_MESSAGE)
         }
-        catch (ex: ParserException) {
+        catch (ex: Exception) {
             JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error", JOptionPane.ERROR_MESSAGE)
         }
     }

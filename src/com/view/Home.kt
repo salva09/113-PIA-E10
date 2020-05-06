@@ -135,12 +135,11 @@ class Home : JFrame() {
         text_area.syntaxEditingStyle = "text/program"
 
         //Colors
-        val green: Color = Color(123, 160, 91)
-        val gray: Color = Color(128, 128, 128)
-        val red: Color = Color(220, 20, 60)
-        val blue: Color = Color(176, 196, 222)
-        val light_background: Color = Color(255, 255, 255)
-        val dark_background: Color = Color(35, 38, 41)
+        val green = Color(123, 160, 91)
+        val gray = Color(128, 128, 128)
+        val red = Color(220, 20, 60)
+        val blue = Color(176, 196, 222)
+        val light_background = Color(255, 255, 255)
 
         //Color schemes
         val scheme: SyntaxScheme = text_area.syntaxScheme
