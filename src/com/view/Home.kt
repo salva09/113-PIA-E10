@@ -32,19 +32,19 @@ class Home : JFrame() {
         val open_file = JMenuItem("Open file")
         val save_file = JMenuItem("Save file")
         val exit = JMenuItem("Exit")
-        open_file!!.addActionListener { event: ActionEvent? ->
-            if (openFile(open_file!!, text_area)) {
+        open_file.addActionListener { event: ActionEvent? ->
+            if (openFile(open_file)) {
                 text_area.text = getFileContent()
                 title = getFileName() + "~113-PIA-E10"
                 text_area.discardAllEdits()
             }
         }
-        save_file!!.addActionListener { actionEvent: ActionEvent? -> saveFile(open_file!!, text_area.text) }
-        exit!!.addActionListener { actionEvent: ActionEvent? -> System.exit(0) }
-        file_menu!!.add(open_file)
-        file_menu!!.add(save_file)
-        file_menu!!.add(exit)
-        menu_bar!!.add(file_menu)
+        save_file.addActionListener { actionEvent: ActionEvent? -> saveFile(text_area.text) }
+        exit.addActionListener { actionEvent: ActionEvent? -> System.exit(0) }
+        file_menu.add(open_file)
+        file_menu.add(save_file)
+        file_menu.add(exit)
+        menu_bar.add(file_menu)
 
         val edit_menu = JMenu("Edit")
         edit_menu.add(createMenuItem(RTextArea.getAction(RTextArea.UNDO_ACTION)))
@@ -56,7 +56,7 @@ class Home : JFrame() {
         edit_menu.add(createMenuItem(RTextArea.getAction(RTextArea.DELETE_ACTION)))
         edit_menu.addSeparator()
         edit_menu.add(createMenuItem(RTextArea.getAction(RTextArea.SELECT_ALL_ACTION)))
-        menu_bar!!.add(edit_menu)
+        menu_bar.add(edit_menu)
 
         val analyzer_menu = JMenu("Analyze")
         val analyze = JMenuItem("Analyze syntax")
@@ -64,8 +64,8 @@ class Home : JFrame() {
             val validator = Validator()
             validator.analyze(text_area.getText())
         }
-        analyzer_menu!!.add(analyze)
-        menu_bar!!.add(analyzer_menu)
+        analyzer_menu.add(analyze)
+        menu_bar.add(analyzer_menu)
 
         val about_menu = JMenu("About")
         val team_info = JMenuItem("Info")
@@ -77,7 +77,7 @@ class Home : JFrame() {
         about_menu.add(team_info)
         about_menu.add(how_to_use)
         about_menu.add(license_info)
-        menu_bar!!.add(about_menu)
+        menu_bar.add(about_menu)
 
         jMenuBar = menu_bar
     }

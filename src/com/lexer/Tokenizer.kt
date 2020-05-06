@@ -7,14 +7,9 @@ import java.util.regex.Pattern
 
 
 class Tokenizer {
-    private lateinit var tokeninfo: LinkedList<TokenInfo>
-    private lateinit var tokens: LinkedList<Token>
+    private var tokeninfo: LinkedList<TokenInfo> = LinkedList()
+    private var tokens: LinkedList<Token> = LinkedList()
     private var output: String = ""
-
-    init {
-        tokeninfo = LinkedList()
-        tokens = LinkedList()
-    }
 
     fun add(regex: String, token: Int) {
         tokeninfo.add(TokenInfo(Pattern.compile("^("+regex+")"), token))
@@ -24,11 +19,11 @@ class Tokenizer {
         if (string.isEmpty()) throw ParserException("Expected some input, but empty string was found")
 
         var input: String = string
-        var line: Int = 1
+        var line = 1
         tokens.clear()
 
         while (!input.equals("")) {
-            var match: Boolean = false
+            var match = false
 
             for (info in tokeninfo) {
                 val m: Matcher = info.regex.matcher(input)
@@ -53,9 +48,5 @@ class Tokenizer {
 
     fun getTokens(): LinkedList<Token> {
         return tokens
-    }
-
-    fun getOutput(): String {
-        return output
     }
 }

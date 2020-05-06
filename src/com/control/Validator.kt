@@ -7,10 +7,9 @@ import jdk.nashorn.internal.runtime.ParserException
 import javax.swing.JOptionPane
 
 class Validator {
-    private lateinit var tokenizer: Tokenizer
+    private var tokenizer: Tokenizer = Tokenizer()
 
     init {
-        tokenizer = Tokenizer()
 
         tokenizer.add("programa", Token.KEYWORD_1)
         tokenizer.add("iniciar", Token.KEYWORD_2)

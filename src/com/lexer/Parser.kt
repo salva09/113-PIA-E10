@@ -5,11 +5,10 @@ import java.util.*
 
 class Parser {
     private var line: Int = 1
-    private var number_assigned: Boolean = false
     private var tokens: LinkedList<Token>? = null
     private var lookahead: Token? = null
 
-    public fun parse(tokens: LinkedList<Token>?) {
+    fun parse(tokens: LinkedList<Token>?) {
         this.tokens = tokens?.clone() as LinkedList<Token>?
         lookahead = this.tokens!!.first
 
@@ -132,9 +131,6 @@ class Parser {
             term()
             sumOp()
         }
-        else{
-
-        }
     }
 
     private fun signedTerm() {
@@ -159,9 +155,6 @@ class Parser {
             signedFactor()
             termOp()
         }
-        else {
-
-        }
     }
 
     private fun signedFactor() {
@@ -185,9 +178,6 @@ class Parser {
             nextToken()
             signedFactor()
         }
-        else {
-
-        }
     }
 
     private fun argument() {
@@ -202,7 +192,7 @@ class Parser {
                     throw ParserException("Close brackets was expected, but \"" + lookahead!!.sequence + "\" was found")
                 }
             }
-            nextToken();
+            nextToken()
         }
         else {
             value()
