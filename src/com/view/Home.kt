@@ -5,10 +5,7 @@ import com.file.FileManager.Companion.getFileContent
 import com.file.FileManager.Companion.getFileName
 import com.file.FileManager.Companion.openFile
 import com.file.FileManager.Companion.saveFile
-import com.view.About.Companion.aboutLicense
-import com.view.About.Companion.aboutTeam
-import com.view.About.Companion.howToUse
-import com.view.About.Companion.welcome
+import com.view.*
 import org.fife.ui.autocomplete.AutoCompletion
 import org.fife.ui.autocomplete.BasicCompletion
 import org.fife.ui.autocomplete.CompletionProvider
@@ -18,10 +15,8 @@ import org.fife.ui.rtextarea.RTextArea
 import org.fife.ui.rtextarea.RTextScrollPane
 import java.awt.BorderLayout
 import java.awt.Color
-import java.awt.event.ActionEvent
 import java.io.File
 import javax.swing.*
-
 
 class Home : JFrame() {
     private var text_area: RSyntaxTextArea
@@ -32,15 +27,15 @@ class Home : JFrame() {
         val open_file = JMenuItem("Open file")
         val save_file = JMenuItem("Save file")
         val exit = JMenuItem("Exit")
-        open_file.addActionListener { event: ActionEvent? ->
+        open_file.addActionListener {
             if (openFile(open_file)) {
                 text_area.text = getFileContent()
                 title = getFileName() + "~113-PIA-E10"
                 text_area.discardAllEdits()
             }
         }
-        save_file.addActionListener { actionEvent: ActionEvent? -> saveFile(text_area.text) }
-        exit.addActionListener { actionEvent: ActionEvent? -> System.exit(0) }
+        save_file.addActionListener { saveFile(text_area.text) }
+        exit.addActionListener { System.exit(0) }
         file_menu.add(open_file)
         file_menu.add(save_file)
         file_menu.add(exit)
@@ -60,7 +55,7 @@ class Home : JFrame() {
 
         val analyzer_menu = JMenu("Analyze")
         val analyze = JMenuItem("Analyze syntax")
-        analyze.addActionListener { actionEvent ->
+        analyze.addActionListener {
             val validator = Validator()
             validator.analyze(text_area.getText())
         }
@@ -71,9 +66,9 @@ class Home : JFrame() {
         val team_info = JMenuItem("Info")
         val license_info = JMenuItem("License")
         val how_to_use = JMenuItem("How to use")
-        team_info.addActionListener { actionEvent -> aboutTeam() }
-        license_info.addActionListener { actionEvent -> aboutLicense() }
-        how_to_use.addActionListener { actionEvent -> howToUse() }
+        team_info.addActionListener { aboutTeam() }
+        license_info.addActionListener { aboutLicense() }
+        how_to_use.addActionListener { howToUse() }
         about_menu.add(team_info)
         about_menu.add(how_to_use)
         about_menu.add(license_info)
