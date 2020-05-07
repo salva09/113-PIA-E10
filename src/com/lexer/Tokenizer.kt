@@ -40,7 +40,9 @@ class Tokenizer {
                 }
             }
             if (!match) {
-                throw LanguageException("At line $line: Unexpected character: \"$input\"")
+                throw LanguageException("Lexicon error\n" +
+                        "At line $line: Unexpected character : \"" + input[0] + "\""
+                )
             }
         }
     }
