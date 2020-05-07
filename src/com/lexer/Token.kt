@@ -7,7 +7,7 @@ class Token(token: Int, sequence: String?) {
         const val KEYWORD_2 = 2
         const val KEYWORD_3 = 3
         const val FUNCTION = 4
-        const val NAME = 5
+        const val VARIABLE = 5
         const val OPEN_BRACKET = 6
         const val CLOSE_BRACKET = 7
         const val ASSIGNATION = 8

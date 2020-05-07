@@ -13,7 +13,7 @@ class Validator {
         tokenizer.add("iniciar", Token.KEYWORD_2)
         tokenizer.add("terminar.", Token.KEYWORD_3)
         tokenizer.add("imprimir|leer", Token.FUNCTION)
-        tokenizer.add("[a-z][a-z0-9_]*", Token.NAME)
+        tokenizer.add("[a-z][a-z0-9_]*", Token.VARIABLE)
         tokenizer.add("\\(", Token.OPEN_BRACKET)
         tokenizer.add("\\)", Token.CLOSE_BRACKET)
         tokenizer.add(":=", Token.ASSIGNATION)
