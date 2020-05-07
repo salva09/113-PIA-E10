@@ -1,6 +1,7 @@
 package com.lexer
 
 import com.control.LanguageException
+import java.lang.Exception
 import java.util.*
 
 class Parser {
@@ -71,23 +72,8 @@ class Parser {
     private fun instructions() {
         when (lookahead!!.token) {
             Token.FUNCTION -> {
-                when (lookahead!!.sequence) {
-                    "leer" -> {
-                        nextToken()
-                        name()
-                        endOfLine()
-                        nextLine()
-                    }
-                    "imprimir" -> {
-                        nextToken()
-                        name()
-                        endOfLine()
-                        nextLine()
-                    }
-                    else -> {
-                        throw LanguageException("At line $line: Something went wrong")
-                    }
-                }
+                leer()
+                imprimir()
             }
             else -> {
                 when (lookahead!!.token) {
@@ -112,6 +98,43 @@ class Parser {
         }
         if (lookahead!!.token == Token.FUNCTION) instructions()
         if (lookahead!!.token == Token.VARIABLE) instructions()
+    }
+
+    private fun leer() {
+        if (lookahead!!.sequence.equals("leer")) {
+            nextToken()
+            name()
+            endOfLine()
+            nextLine()
+        }
+    }
+
+    private fun imprimir() {
+        if (lookahead!!.sequence.equals("imprimir")) {
+            nextToken()
+
+            var argument: Boolean
+            try {
+                name()
+                argument = true
+            }
+            catch (ex: Exception) {
+                argument = false
+            }
+
+            if (!argument) {
+                try {
+                    value()
+                    argument = true
+                }
+                catch (ex: Exception){
+                    throw LanguageException("At line $line: Function impimir is expecting an argument")
+                }
+            }
+
+            endOfLine()
+            nextLine()
+        }
     }
 
     private fun assignation() {
