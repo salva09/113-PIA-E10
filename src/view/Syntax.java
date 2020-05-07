@@ -3,7 +3,7 @@
 /*
  * Generated on 4/30/20, 7:08 PM
  */
-package com.view;
+package view;
 
 import java.io.*;
 import javax.swing.text.Segment;

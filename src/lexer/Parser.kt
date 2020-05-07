@@ -1,6 +1,6 @@
-package com.lexer
+package lexer
 
-import com.control.LanguageException
+import control.LanguageException
 import java.lang.Exception
 import java.util.*
 

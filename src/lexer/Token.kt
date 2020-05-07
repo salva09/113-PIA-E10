@@ -1,4 +1,4 @@
-package com.lexer
+package lexer
 
 class Token(token: Int, sequence: String?) {
     companion object {

@@ -1,4 +1,4 @@
-package com.file
+package file
 
 import javax.swing.JFileChooser
 import javax.swing.JMenuItem
@@ -31,7 +31,7 @@ class FileManager {
             return File(file.absolutePath).readText()
         }
 
-        fun saveFile(modified_text: String): Unit {
+        fun saveFile(modified_text: String) {
             File(file.absolutePath).writeText(modified_text)
         }
     }

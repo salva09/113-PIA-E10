@@ -1,8 +1,8 @@
-package com.control
+package control
 
-import com.lexer.Parser
-import com.lexer.Token
-import com.lexer.Tokenizer
+import lexer.Parser
+import lexer.Token
+import lexer.Tokenizer
 import javax.swing.JOptionPane
 
 class Validator {

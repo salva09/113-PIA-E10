@@ -1,11 +1,10 @@
-package com.view
+package view
 
-import com.control.Validator
-import com.file.FileManager.Companion.fileName
-import com.file.FileManager.Companion.getFileContent
-import com.file.FileManager.Companion.openFile
-import com.file.FileManager.Companion.saveFile
-import com.view.*
+import control.Validator
+import file.FileManager.Companion.fileName
+import file.FileManager.Companion.getFileContent
+import file.FileManager.Companion.openFile
+import file.FileManager.Companion.saveFile
 import org.fife.ui.autocomplete.AutoCompletion
 import org.fife.ui.autocomplete.BasicCompletion
 import org.fife.ui.autocomplete.CompletionProvider
@@ -131,7 +130,7 @@ class Home : JFrame() {
 
         //Syntax highlighting config
         val atmf = TokenMakerFactory.getDefaultInstance() as AbstractTokenMakerFactory
-        atmf.putMapping("text/program", "com.view.Syntax")
+        atmf.putMapping("text/program", "view.Syntax")
         text_area.syntaxEditingStyle = "text/program"
 
         //Colors
