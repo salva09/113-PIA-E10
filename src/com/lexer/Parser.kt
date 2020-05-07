@@ -39,7 +39,7 @@ class Parser {
             else -> {
                 when {
                     lookahead!!.sequence?.isEmpty()!! -> {
-                        throw LanguageException("At line " + line + ": " + "Symbol \"programa\" was expected, but empty string was found")
+                        throw LanguageException("At line $line: Symbol \"programa\" was expected, but empty string was found")
                     }
                     else -> {
                         throw LanguageException("At line " + line + ": " + "Symbol \"programa\" was expected, but \"" + lookahead!!.sequence + "\" was found")
@@ -58,7 +58,7 @@ class Parser {
             else -> {
                 when {
                     lookahead!!.sequence?.isEmpty()!! -> {
-                        throw LanguageException("At line " + line + ": " + "Symbol \"iniciar\" was expected, but empty string was found")
+                        throw LanguageException("At line $line: Symbol \"iniciar\" was expected, but empty string was found")
                     }
                     else -> {
                         throw LanguageException("At line " + line + ": " + "Symbol \"iniciar\" was expected, but \"" + lookahead!!.sequence + "\" was found")
@@ -85,13 +85,13 @@ class Parser {
                         nextLine()
                     }
                     else -> {
-                        throw LanguageException("At line " + line + ": " + "Something went wrong")
+                        throw LanguageException("At line $line: Something went wrong")
                     }
                 }
             }
             else -> {
                 when (lookahead!!.token) {
-                    Token.NAME -> {
+                    Token.VARIABLE -> {
                         nextToken()
                         assignation()
                         endOfLine()
@@ -100,17 +100,18 @@ class Parser {
                     else -> {
                         when {
                             lookahead!!.sequence?.isEmpty()!! -> {
-                                throw LanguageException("At line " + line + ": " + "A instruction was expected, but empty string was found")
+                                throw LanguageException("At line $line: A instruction was expected, but empty string was found")
                             }
                             else -> {
-                                throw LanguageException("At line " + line + ": " + "A instruction was expected, but \"" + lookahead!!.sequence + "\" was found")
+                                throw LanguageException("At line $line: A instruction was expected, but \"" + lookahead!!.sequence + "\" was found")
                             }
                         }
                     }
                 }
             }
         }
-        if (lookahead!!.token == Token.FUNCTION or Token.NAME) instructions()
+        if (lookahead!!.token == Token.FUNCTION) instructions()
+        if (lookahead!!.token == Token.VARIABLE) instructions()
     }
 
     private fun assignation() {
@@ -119,7 +120,7 @@ class Parser {
             lookahead!!.token != Token.ASSIGNATION -> {
                 when {
                     lookahead!!.sequence?.isEmpty()!! -> {
-                        throw LanguageException("At line " + line + ": " + "Symbol \":=\" was expected, but empty string was found")
+                        throw LanguageException("At line $line: Symbol \":=\" was expected, but empty string was found")
                     }
                     else -> {
                         throw LanguageException("At line " + line + ": " + "Symbol \":=\" was expected, but \"" + lookahead!!.sequence + "\" was found")
@@ -236,7 +237,7 @@ class Parser {
             }
             else -> {
                 when (lookahead!!.token) {
-                    Token.NAME -> {
+                    Token.VARIABLE -> {
                         nextToken()
                     }
                     else -> {
@@ -268,7 +269,7 @@ class Parser {
     private fun name() {
         whitespace()
         when (lookahead!!.token) {
-            Token.NAME -> {
+            Token.VARIABLE -> {
                 nextToken()
             }
             else -> {
