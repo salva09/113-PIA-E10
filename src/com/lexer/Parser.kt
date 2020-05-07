@@ -5,6 +5,7 @@ import java.util.*
 
 class Parser {
     private var line: Int = 1
+    private var active_division = false
     private var tokens: LinkedList<Token>? = null
     private var lookahead: Token? = null
 
@@ -17,10 +18,8 @@ class Parser {
         instructions()
         end()
 
-        if (lookahead!!.token != Token.EPSILON) {
-            if (!lookahead!!.sequence?.isEmpty()!!)
-                throw LanguageException("At line " + line + ": " + "Unexpected symbol \"" + lookahead!!.sequence + "\" was found")
-        }
+        if (lookahead!!.token != Token.EPSILON && !lookahead!!.sequence?.isEmpty()!!)
+            throw LanguageException("At line " + line + ": " + "Unexpected symbol \"" + lookahead!!.sequence + "\" was found")
     }
 
     private fun nextToken() {
@@ -30,92 +29,107 @@ class Parser {
     }
 
     private fun startOfProgram() {
-        if (lookahead!!.token == Token.KEYWORD_1) {
-            nextToken()
-            name()
-            endOfLine()
-            nextLine()
-        }
-        else {
-            if (lookahead!!.sequence?.isEmpty()!!) {
-                throw LanguageException("At line " + line + ": " + "Symbol \"programa\" was expected, but empty string was found")
+        when (lookahead!!.token) {
+            Token.KEYWORD_1 -> {
+                nextToken()
+                name()
+                endOfLine()
+                nextLine()
             }
-            else {
-                throw LanguageException("At line " + line + ": " + "Symbol \"programa\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+            else -> {
+                when {
+                    lookahead!!.sequence?.isEmpty()!! -> {
+                        throw LanguageException("At line " + line + ": " + "Symbol \"programa\" was expected, but empty string was found")
+                    }
+                    else -> {
+                        throw LanguageException("At line " + line + ": " + "Symbol \"programa\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+                    }
+                }
             }
         }
     }
 
     private fun start() {
-        if (lookahead!!.token == Token.KEYWORD_2) {
-            nextToken()
-            nextLine()
-        }
-        else {
-            if (lookahead!!.sequence?.isEmpty()!!) {
-                throw LanguageException("At line " + line + ": " + "Symbol \"iniciar\" was expected, but empty string was found")
+        when (lookahead!!.token) {
+            Token.KEYWORD_2 -> {
+                nextToken()
+                nextLine()
             }
-            else {
-                throw LanguageException("At line " + line + ": " + "Symbol \"iniciar\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+            else -> {
+                when {
+                    lookahead!!.sequence?.isEmpty()!! -> {
+                        throw LanguageException("At line " + line + ": " + "Symbol \"iniciar\" was expected, but empty string was found")
+                    }
+                    else -> {
+                        throw LanguageException("At line " + line + ": " + "Symbol \"iniciar\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+                    }
+                }
             }
         }
     }
 
     private fun instructions() {
-        if (lookahead!!.token == Token.FUNCTION) {
-            when (lookahead!!.sequence) {
-                "leer" -> {
-                    nextToken()
-                    name()
-                    endOfLine()
-                    nextLine()
+        when (lookahead!!.token) {
+            Token.FUNCTION -> {
+                when (lookahead!!.sequence) {
+                    "leer" -> {
+                        nextToken()
+                        name()
+                        endOfLine()
+                        nextLine()
+                    }
+                    "imprimir" -> {
+                        nextToken()
+                        name()
+                        endOfLine()
+                        nextLine()
+                    }
+                    else -> {
+                        throw LanguageException("At line " + line + ": " + "Something went wrong")
+                    }
                 }
-                "imprimir" -> {
-                    nextToken()
-                    name()
-                    endOfLine()
-                    nextLine()
-                }
-                else -> {
-                    throw LanguageException("At line " + line + ": " + "Something went wrong")
+            }
+            else -> {
+                when (lookahead!!.token) {
+                    Token.NAME -> {
+                        nextToken()
+                        assignation()
+                        endOfLine()
+                        nextLine()
+                    }
+                    else -> {
+                        when {
+                            lookahead!!.sequence?.isEmpty()!! -> {
+                                throw LanguageException("At line " + line + ": " + "A instruction was expected, but empty string was found")
+                            }
+                            else -> {
+                                throw LanguageException("At line " + line + ": " + "A instruction was expected, but \"" + lookahead!!.sequence + "\" was found")
+                            }
+                        }
+                    }
                 }
             }
         }
-        else {
-            if (lookahead!!.token == Token.NAME) {
-                nextToken()
-                assignation()
-                endOfLine()
-                nextLine()
-            }
-            else {
-                if (lookahead!!.sequence?.isEmpty()!!) {
-                    throw LanguageException("At line " + line + ": " + "A instruction was expected, but empty string was found")
-                }
-                else {
-                    throw LanguageException("At line " + line + ": " + "A instruction was expected, but \"" + lookahead!!.sequence + "\" was found")
-                }
-            }
-        }
-        try {
-            instructions()
-        }
-        catch (ex: LanguageException) { }
+        if (lookahead!!.token == Token.FUNCTION or Token.NAME) instructions()
     }
 
     private fun assignation() {
         optionalWhitespace()
-        if (lookahead!!.token == Token.ASSIGNATION) {
-            nextToken()
-            optionalWhitespace()
-            expression()
-        }
-        else {
-            if (lookahead!!.sequence?.isEmpty()!!) {
-                throw LanguageException("At line " + line + ": " + "Symbol \":=\" was expected, but empty string was found")
+        when {
+            lookahead!!.token != Token.ASSIGNATION -> {
+                when {
+                    lookahead!!.sequence?.isEmpty()!! -> {
+                        throw LanguageException("At line " + line + ": " + "Symbol \":=\" was expected, but empty string was found")
+                    }
+                    else -> {
+                        throw LanguageException("At line " + line + ": " + "Symbol \":=\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+                    }
+                }
             }
-            else {
-                throw LanguageException("At line " + line + ": " + "Symbol \":=\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+            else -> {
+                nextToken()
+                optionalWhitespace()
+                expression()
             }
         }
     }
@@ -126,20 +140,24 @@ class Parser {
     }
 
     private fun sumOp() {
-        if (lookahead!!.token == Token.PLUS_MINUS) {
-            nextToken()
-            term()
-            sumOp()
+        when (lookahead!!.token) {
+            Token.PLUS_MINUS -> {
+                nextToken()
+                term()
+                sumOp()
+            }
         }
     }
 
     private fun signedTerm() {
-        if (lookahead!!.token == Token.PLUS_MINUS) {
-            nextToken()
-            term()
-        }
-        else {
-            term()
+        when (lookahead!!.token) {
+            Token.PLUS_MINUS -> {
+                nextToken()
+                term()
+            }
+            else -> {
+                term()
+            }
         }
     }
 
@@ -150,20 +168,25 @@ class Parser {
 
     private fun termOp() {
         optionalWhitespace()
-        if (lookahead!!.token == Token.MULT_DIV) {
-            nextToken()
-            signedFactor()
-            termOp()
+        when (lookahead!!.token) {
+            Token.MULT_DIV -> {
+                if (lookahead!!.sequence.equals("/")) active_division = true
+                nextToken()
+                signedFactor()
+                termOp()
+            }
         }
     }
 
     private fun signedFactor() {
-        if (lookahead!!.token == Token.PLUS_MINUS) {
-            nextToken()
-            factor()
-        }
-        else {
-            factor()
+        when (lookahead!!.token) {
+            Token.PLUS_MINUS -> {
+                nextToken()
+                factor()
+            }
+            else -> {
+                factor()
+            }
         }
     }
 
@@ -174,84 +197,107 @@ class Parser {
     }
 
     private fun factorOp() {
-        if (lookahead!!.token == Token.RAISED) {
-            nextToken()
-            signedFactor()
+        when (lookahead!!.token) {
+            Token.RAISED -> {
+                nextToken()
+                signedFactor()
+            }
         }
     }
 
     private fun argument() {
-        if (lookahead!!.token == Token.OPEN_BRACKET) {
-            nextToken()
-            expression()
-            if (lookahead!!.token != Token.CLOSE_BRACKET) {
-                if(lookahead!!.sequence?.isEmpty()!!) {
-                    throw LanguageException("Close brackets was expected, but empty string was found")
+        when (lookahead!!.token) {
+            Token.OPEN_BRACKET -> {
+                nextToken()
+                expression()
+                if (lookahead!!.token != Token.CLOSE_BRACKET) {
+                    if(lookahead!!.sequence?.isEmpty()!!) {
+                        throw LanguageException("Close brackets was expected, but empty string was found")
+                    } else {
+                        throw LanguageException("Close brackets was expected, but \"" + lookahead!!.sequence + "\" was found")
+                    }
                 }
-                else {
-                    throw LanguageException("Close brackets was expected, but \"" + lookahead!!.sequence + "\" was found")
-                }
+                nextToken()
             }
-            nextToken()
-        }
-        else {
-            value()
+            else -> {
+                value()
+            }
         }
     }
 
     private fun value() {
-        if (lookahead!!.token == Token.NUMBER) {
-            nextToken()
-        }
-        else {
-            if (lookahead!!.token == Token.NAME) {
+        when (lookahead!!.token) {
+            Token.NUMBER -> {
+                if (active_division and lookahead!!.sequence.equals("0"))
+                    throw LanguageException("At line " + line + ": Divide by zero cannot be possible")
+                else
+                    active_division = false
                 nextToken()
             }
-            else {
-                throw LanguageException("At line " + line + ": " + "A value was expected, but empty string was found")
+            else -> {
+                when (lookahead!!.token) {
+                    Token.NAME -> {
+                        nextToken()
+                    }
+                    else -> {
+                        throw LanguageException("At line " + line + ": " + "A value was expected, but empty string was found")
+                    }
+                }
             }
         }
     }
 
     private fun end() {
-        if (lookahead!!.token == Token.KEYWORD_3) {
-            nextToken()
-        }
-        else {
-            if (lookahead!!.sequence?.isEmpty()!!) {
-                throw LanguageException("At line " + line + ": " + "Symbol \"terminar.\" was expected, but empty string was found")
+        when (lookahead!!.token) {
+            Token.KEYWORD_3 -> {
+                nextToken()
             }
-            else {
-                throw LanguageException("At line " + line + ": " + "Symbol \"terminar.\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+            else -> {
+                when {
+                    lookahead!!.sequence?.isEmpty()!! -> {
+                        throw LanguageException("At line " + line + ": " + "Symbol \"terminar.\" was expected, but empty string was found")
+                    }
+                    else -> {
+                        throw LanguageException("At line " + line + ": " + "Symbol \"terminar.\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+                    }
+                }
             }
         }
     }
 
     private fun name() {
         whitespace()
-        if (lookahead!!.token == Token.NAME) {
-            nextToken()
-        }
-        else {
-            if (lookahead!!.sequence?.isEmpty()!!) {
-                throw LanguageException("At line " + line + ": " + "A name was expected, but empty string was found")
+        when (lookahead!!.token) {
+            Token.NAME -> {
+                nextToken()
             }
-            else {
-                throw LanguageException("At line " + line + ": " + "A name was expected, but \"" + lookahead!!.sequence + "\" was found")
+            else -> {
+                when {
+                    lookahead!!.sequence?.isEmpty()!! -> {
+                        throw LanguageException("At line " + line + ": " + "A name was expected, but empty string was found")
+                    }
+                    else -> {
+                        throw LanguageException("At line " + line + ": " + "A name was expected, but \"" + lookahead!!.sequence + "\" was found")
+                    }
+                }
             }
         }
     }
 
     private fun whitespace() {
-        if (lookahead!!.token == Token.WHITESPACE) {
-            nextToken()
-        }
-        else {
-            if (lookahead!!.sequence?.isEmpty()!!) {
-                throw LanguageException("At line " + line + ": " + "A whitespace was expected, but empty string was found")
+        when (lookahead!!.token) {
+            Token.WHITESPACE -> {
+                nextToken()
             }
-            else {
-                throw LanguageException("At line " + line + ": " + "A whitespace was expected, but \"" + lookahead!!.sequence + "\" was found")
+            else -> {
+                when {
+                    lookahead!!.sequence?.isEmpty()!! -> {
+                        throw LanguageException("At line " + line + ": " + "A whitespace was expected, but empty string was found")
+                    }
+                    else -> {
+                        throw LanguageException("At line " + line + ": " + "A whitespace was expected, but \"" + lookahead!!.sequence + "\" was found")
+                    }
+                }
             }
         }
     }
@@ -263,30 +309,38 @@ class Parser {
     }
 
     private fun endOfLine() {
-        if (lookahead!!.token == Token.SEMICOLON) {
-            nextToken()
-        }
-        else {
-            if (lookahead!!.sequence?.isEmpty()!!) {
-                throw LanguageException("At line " + line + ": " + "Symbol \";\" was expected, but empty string was found")
+        when (lookahead!!.token) {
+            Token.SEMICOLON -> {
+                nextToken()
             }
-            else {
-                throw LanguageException("At line " + line + ": " + "Symbol \";\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+            else -> {
+                when {
+                    lookahead!!.sequence?.isEmpty()!! -> {
+                        throw LanguageException("At line " + line + ": " + "Symbol \";\" was expected, but empty string was found")
+                    }
+                    else -> {
+                        throw LanguageException("At line " + line + ": " + "Symbol \";\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+                    }
+                }
             }
         }
     }
 
     private fun nextLine() {
-        if (lookahead!!.token == Token.LINE_BREAK) {
-            line++
-            nextToken()
-        }
-        else {
-            if (lookahead!!.sequence?.isEmpty()!!) {
-                throw LanguageException("At line " + line + ": " + "Line break was expected")
+        when (lookahead!!.token) {
+            Token.LINE_BREAK -> {
+                line++
+                nextToken()
             }
-            else {
-                throw LanguageException("At line " + line + ": " + "Line break was expected, but \"" + lookahead!!.sequence + "\" was found")
+            else -> {
+                when {
+                    lookahead!!.sequence?.isEmpty()!! -> {
+                        throw LanguageException("At line " + line + ": " + "Line break was expected")
+                    }
+                    else -> {
+                        throw LanguageException("At line " + line + ": " + "Line break was expected, but \"" + lookahead!!.sequence + "\" was found")
+                    }
+                }
             }
         }
     }
