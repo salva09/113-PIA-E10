@@ -125,7 +125,6 @@ class Parser {
             if (!argument) {
                 try {
                     value()
-                    argument = true
                 }
                 catch (ex: Exception){
                     throw LanguageException("At line $line: Function impimir is expecting an argument")
