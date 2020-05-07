@@ -3,7 +3,6 @@ package com.control
 import com.lexer.Parser
 import com.lexer.Token
 import com.lexer.Tokenizer
-import com.control.LanguageException
 import javax.swing.JOptionPane
 
 class Validator {
