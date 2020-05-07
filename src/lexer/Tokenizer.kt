@@ -5,7 +5,6 @@ import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-
 class Tokenizer {
     private var tokeninfo = LinkedList<TokenInfo>()
     private var tokens = LinkedList<Token>()
