@@ -1,8 +1,8 @@
 package com.view
 
 import com.control.Validator
+import com.file.FileManager.Companion.fileName
 import com.file.FileManager.Companion.getFileContent
-import com.file.FileManager.Companion.getFileName
 import com.file.FileManager.Companion.openFile
 import com.file.FileManager.Companion.saveFile
 import com.view.*
@@ -30,7 +30,7 @@ class Home : JFrame() {
         open_file.addActionListener {
             if (openFile(open_file)) {
                 text_area.text = getFileContent()
-                title = getFileName() + "~113-PIA-E10"
+                title = fileName + "~113-PIA-E10"
                 text_area.discardAllEdits()
             }
         }

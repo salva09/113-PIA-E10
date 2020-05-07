@@ -7,9 +7,8 @@ import java.util.regex.Pattern
 
 
 class Tokenizer {
-    private var tokeninfo: LinkedList<TokenInfo> = LinkedList()
-    private var tokens: LinkedList<Token> = LinkedList()
-    private var output: String = ""
+    private var tokeninfo = LinkedList<TokenInfo>()
+    private var tokens = LinkedList<Token>()
 
     fun add(regex: String, token: Int) {
         tokeninfo.add(TokenInfo(Pattern.compile("^("+regex+")"), token))
@@ -18,7 +17,7 @@ class Tokenizer {
     fun tokenize(string: String) {
         if (string.isEmpty()) throw LanguageException("Expected some input, but empty string was found")
 
-        var input: String = string
+        var input = string
         var line = 1
         tokens.clear()
 
@@ -41,7 +40,7 @@ class Tokenizer {
                 }
             }
             if (!match) {
-                throw LanguageException("At line " + line + ": " + "Unexpected character: \"" + input + "\"")
+                throw LanguageException("At line $line: Unexpected character: \"$input\"")
             }
         }
     }

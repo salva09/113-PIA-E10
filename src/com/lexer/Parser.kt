@@ -4,8 +4,8 @@ import com.control.LanguageException
 import java.util.*
 
 class Parser {
-    private var line: Int = 1
-    private var active_division = false
+    private var line = 1
+    private var activeDivision = false
     private var tokens: LinkedList<Token>? = null
     private var lookahead: Token? = null
 
@@ -19,7 +19,7 @@ class Parser {
         end()
 
         if (lookahead!!.token != Token.EPSILON && !lookahead!!.sequence?.isEmpty()!!)
-            throw LanguageException("At line " + line + ": " + "Unexpected symbol \"" + lookahead!!.sequence + "\" was found")
+            throw LanguageException("At line " + line + ": " + "Unexpected symbol \"$lookahead!!.sequence\" was found")
     }
 
     private fun nextToken() {
@@ -42,7 +42,7 @@ class Parser {
                         throw LanguageException("At line $line: Symbol \"programa\" was expected, but empty string was found")
                     }
                     else -> {
-                        throw LanguageException("At line " + line + ": " + "Symbol \"programa\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+                        throw LanguageException("At line " + line + ": " + "Symbol \"programa\" was expected, but \"$lookahead!!.sequence\" was found")
                     }
                 }
             }
@@ -61,7 +61,7 @@ class Parser {
                         throw LanguageException("At line $line: Symbol \"iniciar\" was expected, but empty string was found")
                     }
                     else -> {
-                        throw LanguageException("At line " + line + ": " + "Symbol \"iniciar\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+                        throw LanguageException("At line $line: Symbol \"iniciar\" was expected, but \"$lookahead!!.sequence\" was found")
                     }
                 }
             }
@@ -103,7 +103,7 @@ class Parser {
                                 throw LanguageException("At line $line: A instruction was expected, but empty string was found")
                             }
                             else -> {
-                                throw LanguageException("At line $line: A instruction was expected, but \"" + lookahead!!.sequence + "\" was found")
+                                throw LanguageException("At line $line: A instruction was expected, but \"$lookahead!!.sequence\" was found")
                             }
                         }
                     }
@@ -123,7 +123,7 @@ class Parser {
                         throw LanguageException("At line $line: Symbol \":=\" was expected, but empty string was found")
                     }
                     else -> {
-                        throw LanguageException("At line " + line + ": " + "Symbol \":=\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+                        throw LanguageException("At line $line: Symbol \":=\" was expected, but \"$lookahead!!.sequence\" was found")
                     }
                 }
             }
@@ -171,7 +171,7 @@ class Parser {
         optionalWhitespace()
         when (lookahead!!.token) {
             Token.MULT_DIV -> {
-                if (lookahead!!.sequence.equals("/")) active_division = true
+                if (lookahead!!.sequence.equals("/")) activeDivision = true
                 nextToken()
                 signedFactor()
                 termOp()
@@ -213,9 +213,9 @@ class Parser {
                 expression()
                 if (lookahead!!.token != Token.CLOSE_BRACKET) {
                     if(lookahead!!.sequence?.isEmpty()!!) {
-                        throw LanguageException("Close brackets was expected, but empty string was found")
+                        throw LanguageException("At line $line: Close brackets was expected, but empty string was found")
                     } else {
-                        throw LanguageException("Close brackets was expected, but \"" + lookahead!!.sequence + "\" was found")
+                        throw LanguageException("At line $line: Close brackets was expected, but \"$lookahead!!.sequence\" was found")
                     }
                 }
                 nextToken()
@@ -229,10 +229,10 @@ class Parser {
     private fun value() {
         when (lookahead!!.token) {
             Token.NUMBER -> {
-                if (active_division and lookahead!!.sequence.equals("0"))
-                    throw LanguageException("At line " + line + ": Divide by zero cannot be possible")
+                if (activeDivision and lookahead!!.sequence.equals("0"))
+                    throw LanguageException("At line $line: Divide by zero cannot be possible")
                 else
-                    active_division = false
+                    activeDivision = false
                 nextToken()
             }
             else -> {
@@ -241,7 +241,7 @@ class Parser {
                         nextToken()
                     }
                     else -> {
-                        throw LanguageException("At line " + line + ": " + "A value was expected, but empty string was found")
+                        throw LanguageException("At line $line: A value was expected, but empty string was found")
                     }
                 }
             }
@@ -256,10 +256,10 @@ class Parser {
             else -> {
                 when {
                     lookahead!!.sequence?.isEmpty()!! -> {
-                        throw LanguageException("At line " + line + ": " + "Symbol \"terminar.\" was expected, but empty string was found")
+                        throw LanguageException("At line $line: Symbol \"terminar.\" was expected, but empty string was found")
                     }
                     else -> {
-                        throw LanguageException("At line " + line + ": " + "Symbol \"terminar.\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+                        throw LanguageException("At line $line: Symbol \"terminar.\" was expected, but \"$lookahead!!.sequence\" was found")
                     }
                 }
             }
@@ -275,10 +275,10 @@ class Parser {
             else -> {
                 when {
                     lookahead!!.sequence?.isEmpty()!! -> {
-                        throw LanguageException("At line " + line + ": " + "A name was expected, but empty string was found")
+                        throw LanguageException("At line $line: A name was expected, but empty string was found")
                     }
                     else -> {
-                        throw LanguageException("At line " + line + ": " + "A name was expected, but \"" + lookahead!!.sequence + "\" was found")
+                        throw LanguageException("At line $line: A name was expected, but \"$lookahead!!.sequence\" was found")
                     }
                 }
             }
@@ -293,10 +293,10 @@ class Parser {
             else -> {
                 when {
                     lookahead!!.sequence?.isEmpty()!! -> {
-                        throw LanguageException("At line " + line + ": " + "A whitespace was expected, but empty string was found")
+                        throw LanguageException("At line $line: A whitespace was expected, but empty string was found")
                     }
                     else -> {
-                        throw LanguageException("At line " + line + ": " + "A whitespace was expected, but \"" + lookahead!!.sequence + "\" was found")
+                        throw LanguageException("At line $line: A whitespace was expected, but \"$lookahead!!.sequence\" was found")
                     }
                 }
             }
@@ -317,10 +317,10 @@ class Parser {
             else -> {
                 when {
                     lookahead!!.sequence?.isEmpty()!! -> {
-                        throw LanguageException("At line " + line + ": " + "Symbol \";\" was expected, but empty string was found")
+                        throw LanguageException("At line $line: Symbol \";\" was expected, but empty string was found")
                     }
                     else -> {
-                        throw LanguageException("At line " + line + ": " + "Symbol \";\" was expected, but \"" + lookahead!!.sequence + "\" was found")
+                        throw LanguageException("At line $line: Symbol \";\" was expected, but \"$lookahead!!.sequence\" was found")
                     }
                 }
             }
@@ -336,10 +336,10 @@ class Parser {
             else -> {
                 when {
                     lookahead!!.sequence?.isEmpty()!! -> {
-                        throw LanguageException("At line " + line + ": " + "Line break was expected")
+                        throw LanguageException("At line $line: Line break was expected")
                     }
                     else -> {
-                        throw LanguageException("At line " + line + ": " + "Line break was expected, but \"" + lookahead!!.sequence + "\" was found")
+                        throw LanguageException("At line $line: Line break was expected, but \"$lookahead!!.sequence\" was found")
                     }
                 }
             }
