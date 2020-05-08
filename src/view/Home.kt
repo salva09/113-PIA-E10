@@ -20,6 +20,20 @@ import javax.swing.*
 class Home : JFrame() {
     private var textArea: RSyntaxTextArea
 
+    init {
+        val cp = JPanel(BorderLayout())
+        textArea = createTextArea()
+        val sp = RTextScrollPane(textArea)
+        cp.add(sp)
+
+        contentPane = cp
+        title = "113-PIA-E10"
+        defaultCloseOperation = EXIT_ON_CLOSE
+        pack()
+        setLocationRelativeTo(null)
+        createMenuBar()
+    }
+
     private fun createMenuBar() {
         val menuBar = JMenuBar()
         val fileMenu = JMenu("File")
@@ -87,25 +101,27 @@ class Home : JFrame() {
         fun main(args: Array<String>) {
             // Start all Swing applications on the EDT.
             SwingUtilities.invokeLater {
-                try {
-                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel")
-                } catch (e: UnsupportedLookAndFeelException) {
-                    try {
-                        UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel")
-                    }
-                    catch (ex: Exception) {
-                        val message = "Cannot initialize the app\n" + ex.localizedMessage
-                        JOptionPane.showMessageDialog(null, message, "System error", JOptionPane.QUESTION_MESSAGE)
-                        System.exit(0)
-                    }
-                }
+                setLookAndFeel()
                 Home().isVisible = true
+                setConfig()
+            }
+        }
 
-                //Read config file
-                val file = File("config.txt")
-                var showAtStartup: Boolean
-                if(!file.exists()) {
-                    file.createNewFile()
+        private fun setConfig() {
+            val file = File("config.txt")
+            var showAtStartup: Boolean
+            if(!file.exists()) {
+                file.createNewFile()
+                showAtStartup = welcome()
+                if(showAtStartup) {
+                    file.writeText("welcome: true")
+                }
+                else {
+                    file.writeText("welcome: false")
+                }
+            }
+            else{
+                file.forEachLine { if(it.contains("welcome: true")) {
                     showAtStartup = welcome()
                     if(showAtStartup) {
                         file.writeText("welcome: true")
@@ -113,24 +129,28 @@ class Home : JFrame() {
                     else {
                         file.writeText("welcome: false")
                     }
+                } }
+            }
+        }
+
+        private fun setLookAndFeel() {
+            try {
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel")
+            } catch (e: Exception) {
+                try {
+                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel")
                 }
-                else{
-                    file.forEachLine { if(it.contains("welcome: true")) {
-                        showAtStartup = welcome()
-                        if(showAtStartup) {
-                            file.writeText("welcome: true")
-                        }
-                        else {
-                            file.writeText("welcome: false")
-                        }
-                    } }
+                catch (ex: Exception) {
+                    val message = "OS not supported\n" + ex.localizedMessage
+                    JOptionPane.showMessageDialog(null, message, "System error", JOptionPane.QUESTION_MESSAGE)
+                    System.exit(0)
                 }
             }
         }
     }
 
     private fun createTextArea(): RSyntaxTextArea {
-        val textArea = RSyntaxTextArea(30, 60)
+        var textArea = RSyntaxTextArea(30, 60)
         textArea.isCodeFoldingEnabled = true
         textArea.paintTabLines = true
 
@@ -139,26 +159,8 @@ class Home : JFrame() {
         atmf.putMapping("text/program", "view.Syntax")
         textArea.syntaxEditingStyle = "text/program"
 
-        //Colors
-        val green = Color(123, 160, 91)
-        val gray = Color(128, 128, 128)
-        val red = Color(220, 20, 60)
-        val blue = Color(176, 196, 222)
-        val lightBackground = Color(255, 255, 255)
-        val darkBackground = Color(31, 40, 42)
-
-        //Color schemes
-        val scheme: SyntaxScheme = textArea.syntaxScheme
-
-        scheme.getStyle(Token.RESERVED_WORD).foreground = gray
-        scheme.getStyle(Token.RESERVED_WORD_2).foreground = red
-        scheme.getStyle(Token.FUNCTION).foreground = green
-        scheme.getStyle(Token.LITERAL_NUMBER_DECIMAL_INT).foreground = blue
-        textArea.background = lightBackground
-        textArea.currentLineHighlightColor = lightBackground
-        textArea.isMarginLineEnabled = true
-        textArea.marginLineColor = Color.DARK_GRAY
-        textArea.revalidate()
+        //Theme light ot dark (experimental)
+        textArea = setLightTheme(textArea)
 
         //Code completion config
         val provider = createCompletionProvider()
@@ -168,18 +170,57 @@ class Home : JFrame() {
         return textArea
     }
 
-    init {
-        val cp = JPanel(BorderLayout())
-        textArea = createTextArea()
-        val sp = RTextScrollPane(textArea)
-        cp.add(sp)
+    private fun setLightTheme(textArea: RSyntaxTextArea): RSyntaxTextArea {
+        //Colors
+        val green = Color(123, 160, 91)
+        val gray = Color(128, 128, 128)
+        val red = Color(220, 20, 60)
+        val blue = Color(176, 196, 222)
+        val background = Color(255, 255, 255)
+        val foreground = Color(0, 0, 0)
 
-        contentPane = cp
-        title = "113-PIA-E10"
-        defaultCloseOperation = EXIT_ON_CLOSE
-        pack()
-        setLocationRelativeTo(null)
-        createMenuBar()
+        //Color schemes
+        val scheme: SyntaxScheme = textArea.syntaxScheme
+
+        scheme.getStyle(Token.RESERVED_WORD).foreground = gray
+        scheme.getStyle(Token.RESERVED_WORD_2).foreground = red
+        scheme.getStyle(Token.FUNCTION).foreground = green
+        scheme.getStyle(Token.LITERAL_NUMBER_DECIMAL_INT).foreground = blue
+        textArea.background = background
+        textArea.foreground = foreground
+        textArea.currentLineHighlightColor = background
+        textArea.isMarginLineEnabled = true
+        textArea.marginLineColor = Color.DARK_GRAY
+        textArea.revalidate()
+
+        return textArea
+    }
+
+    //Experimental
+    private fun setDarkTheme(textArea: RSyntaxTextArea): RSyntaxTextArea{
+        //Colors
+        val green = Color(123, 160, 91)
+        val gray = Color(128, 128, 128)
+        val red = Color(220, 20, 60)
+        val blue = Color(176, 196, 222)
+        val background = Color(43, 43, 43)
+        val foreground = Color(255, 255, 255)
+
+        //Color schemes
+        val scheme: SyntaxScheme = textArea.syntaxScheme
+
+        scheme.getStyle(Token.RESERVED_WORD).foreground = gray
+        scheme.getStyle(Token.RESERVED_WORD_2).foreground = red
+        scheme.getStyle(Token.FUNCTION).foreground = green
+        scheme.getStyle(Token.LITERAL_NUMBER_DECIMAL_INT).foreground = blue
+        textArea.background = background
+        textArea.foreground = foreground
+        textArea.currentLineHighlightColor = background
+        textArea.isMarginLineEnabled = true
+        textArea.marginLineColor = Color.DARK_GRAY
+        textArea.revalidate()
+
+        return textArea
     }
 
     private fun createCompletionProvider(): CompletionProvider? {
