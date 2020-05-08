@@ -96,6 +96,7 @@ class Home : JFrame() {
                     catch (ex: Exception) {
                         val message = "Cannot initialize the app\n" + ex.localizedMessage
                         JOptionPane.showMessageDialog(null, message, "System error", JOptionPane.QUESTION_MESSAGE)
+                        System.exit(0)
                     }
                 }
                 Home().isVisible = true
