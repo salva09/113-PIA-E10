@@ -1,8 +1,8 @@
 package file
 
+import java.io.File
 import javax.swing.JFileChooser
 import javax.swing.JMenuItem
-import java.io.File
 import javax.swing.JOptionPane
 
 private lateinit var fileChooser: JFileChooser

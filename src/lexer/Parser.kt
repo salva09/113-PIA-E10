@@ -1,7 +1,6 @@
 package lexer
 
 import control.LanguageException
-import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -130,31 +129,26 @@ private fun imprimir() {
             if (lookahead!!.token == Token.VARIABLE) {
                 if (variables!!.contains(lookahead!!.sequence)) {
                     nextToken()
-                }
-                else {
+                } else {
                     throw LanguageException("Syntax error\n" +
                             "At line $line: Variable not declared")
                 }
-            }
-            else {
+            } else {
                 throw ArithmeticException("Syntax error\n" +
                         "At line $line: A variable was expected, but \"" + lookahead!!.sequence + "\" was found")
             }
             true
-        }
-        catch (ex: LanguageException) {
+        } catch (ex: LanguageException) {
             throw LanguageException("Syntax error\n" +
                     "At line $line: Variable not declared")
-        }
-        catch (ex: ArithmeticException) {
+        } catch (ex: ArithmeticException) {
             false
         }
 
         if (!argument) {
             try {
                 value()
-            }
-            catch (ex: Exception){
+            } catch (ex: Exception) {
                 throw LanguageException("Syntax error\n" +
                         "At line $line: Function impimir is expecting an argument")
             }
@@ -265,7 +259,7 @@ private fun argument() {
             nextToken()
             expression()
             if (lookahead!!.token != Token.CLOSE_BRACKET) {
-                if(lookahead!!.sequence?.isEmpty()!!) {
+                if (lookahead!!.sequence?.isEmpty()!!) {
                     throw LanguageException("Syntax error\n" +
                             "At line $line: Close brackets was expected, but empty string was found")
                 } else {

@@ -1,3 +1,3 @@
 package control
 
-class LanguageException(message: String): Exception(message)
+class LanguageException(message: String) : Exception(message)

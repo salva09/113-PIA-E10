@@ -95,7 +95,7 @@ class Home : JFrame() {
         item.toolTipText = null // Swing annoyingly adds tool tip text to the menu item
         return item
     }
-    
+
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
@@ -110,26 +110,25 @@ class Home : JFrame() {
         private fun setConfig() {
             val file = File("config.txt")
             var showAtStartup: Boolean
-            if(!file.exists()) {
+            if (!file.exists()) {
                 file.createNewFile()
                 showAtStartup = welcome()
-                if(showAtStartup) {
+                if (showAtStartup) {
                     file.writeText("welcome: true")
-                }
-                else {
+                } else {
                     file.writeText("welcome: false")
                 }
-            }
-            else{
-                file.forEachLine { if(it.contains("welcome: true")) {
-                    showAtStartup = welcome()
-                    if(showAtStartup) {
-                        file.writeText("welcome: true")
+            } else {
+                file.forEachLine {
+                    if (it.contains("welcome: true")) {
+                        showAtStartup = welcome()
+                        if (showAtStartup) {
+                            file.writeText("welcome: true")
+                        } else {
+                            file.writeText("welcome: false")
+                        }
                     }
-                    else {
-                        file.writeText("welcome: false")
-                    }
-                } }
+                }
             }
         }
 
@@ -139,8 +138,7 @@ class Home : JFrame() {
             } catch (e: Exception) {
                 try {
                     UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel")
-                }
-                catch (ex: Exception) {
+                } catch (ex: Exception) {
                     val message = "OS not supported\n" + ex.localizedMessage
                     JOptionPane.showMessageDialog(null, message, "System error", JOptionPane.QUESTION_MESSAGE)
                     System.exit(0)
@@ -197,7 +195,7 @@ class Home : JFrame() {
     }
 
     //Experimental
-    private fun setDarkTheme(textArea: RSyntaxTextArea): RSyntaxTextArea{
+    private fun setDarkTheme(textArea: RSyntaxTextArea): RSyntaxTextArea {
         //Colors
         val green = Color(123, 160, 91)
         val gray = Color(128, 128, 128)
