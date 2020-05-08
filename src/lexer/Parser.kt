@@ -3,14 +3,18 @@ package lexer
 import control.LanguageException
 import java.lang.Exception
 import java.util.*
+import kotlin.collections.ArrayList
 
-private var line = 1
+private var line: Int = 0
 private var activeDivision = false
 private var tokens: LinkedList<Token>? = null
+private var variables: ArrayList<String>? = null
 private var lookahead: Token? = null
 
 fun parse(tokenList: LinkedList<Token>?) {
+    line = 1
     tokens = tokenList?.clone() as LinkedList<Token>?
+    variables = ArrayList()
     lookahead = tokens!!.first
 
     startOfProgram()
@@ -82,7 +86,7 @@ private fun instructions() {
         else -> {
             when (lookahead!!.token) {
                 Token.VARIABLE -> {
-                    nextToken()
+                    variable()
                     assignation()
                     endOfLine()
                     nextLine()
@@ -109,7 +113,8 @@ private fun instructions() {
 private fun leer() {
     if (lookahead!!.sequence.equals("leer")) {
         nextToken()
-        name()
+        whitespace()
+        variable()
         endOfLine()
         nextLine()
     }
@@ -121,10 +126,27 @@ private fun imprimir() {
 
         val argument: Boolean
         argument = try {
-            name()
+            whitespace()
+            if (lookahead!!.token == Token.VARIABLE) {
+                if (variables!!.contains(lookahead!!.sequence)) {
+                    nextToken()
+                }
+                else {
+                    throw LanguageException("Syntax error\n" +
+                            "At line $line: Variable not declared")
+                }
+            }
+            else {
+                throw ArithmeticException("Syntax error\n" +
+                        "At line $line: A variable was expected, but \"" + lookahead!!.sequence + "\" was found")
+            }
             true
         }
-        catch (ex: Exception) {
+        catch (ex: LanguageException) {
+            throw LanguageException("Syntax error\n" +
+                    "At line $line: Variable not declared")
+        }
+        catch (ex: ArithmeticException) {
             false
         }
 
@@ -318,6 +340,27 @@ private fun name() {
                 else -> {
                     throw LanguageException("Syntax error\n" +
                             "At line $line: A name was expected, but \"" + lookahead!!.sequence + "\" was found")
+                }
+            }
+        }
+    }
+}
+
+private fun variable() {
+    when (lookahead!!.token) {
+        Token.VARIABLE -> {
+            variables!!.add(lookahead!!.sequence.toString())
+            nextToken()
+        }
+        else -> {
+            when {
+                lookahead!!.sequence?.isEmpty()!! -> {
+                    throw LanguageException("Syntax error\n" +
+                            "At line $line: A variable was expected, but empty string was found")
+                }
+                else -> {
+                    throw LanguageException("Syntax error\n" +
+                            "At line $line: A variable was expected, but \"" + lookahead!!.sequence + "\" was found")
                 }
             }
         }
