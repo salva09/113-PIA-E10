@@ -1,6 +1,6 @@
 package control
 
-import lexer.Parser
+import lexer.parse
 import lexer.Token
 import lexer.Tokenizer
 import javax.swing.JOptionPane
@@ -32,8 +32,7 @@ class Validator {
         try {
             tokenizer.tokenize(input)
 
-            val parser = Parser()
-            parser.parse(tokenizer.getTokens())
+            parse(tokenizer.getTokens())
 
             JOptionPane.showMessageDialog(null, "The input is valid!", ":)", JOptionPane.INFORMATION_MESSAGE)
         }
