@@ -88,8 +88,15 @@ class Home : JFrame() {
             // Start all Swing applications on the EDT.
             SwingUtilities.invokeLater {
                 try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
-                } catch (e: Exception) { /* Never happens */
+                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel")
+                } catch (e: UnsupportedLookAndFeelException) {
+                    try {
+                        UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel")
+                    }
+                    catch (ex: Exception) {
+                        val message = "Cannot initialize the app\n" + ex.localizedMessage
+                        JOptionPane.showMessageDialog(null, message, "System error", JOptionPane.QUESTION_MESSAGE)
+                    }
                 }
                 Home().isVisible = true
 
@@ -137,6 +144,7 @@ class Home : JFrame() {
         val red = Color(220, 20, 60)
         val blue = Color(176, 196, 222)
         val lightBackground = Color(255, 255, 255)
+        val darkBackground = Color(31, 40, 42)
 
         //Color schemes
         val scheme: SyntaxScheme = textArea.syntaxScheme
