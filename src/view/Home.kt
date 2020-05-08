@@ -18,62 +18,62 @@ import java.io.File
 import javax.swing.*
 
 class Home : JFrame() {
-    private var text_area: RSyntaxTextArea
+    private var textArea: RSyntaxTextArea
 
     private fun createMenuBar() {
-        val menu_bar = JMenuBar()
-        val file_menu = JMenu("File")
-        val open_file = JMenuItem("Open file")
-        val save_file = JMenuItem("Save file")
+        val menuBar = JMenuBar()
+        val fileMenu = JMenu("File")
+        val openFile = JMenuItem("Open file")
+        val saveFile = JMenuItem("Save file")
         val exit = JMenuItem("Exit")
-        open_file.addActionListener {
-            if (openFile(open_file)) {
-                text_area.text = getFileContent()
+        openFile.addActionListener {
+            if (openFile(openFile)) {
+                textArea.text = getFileContent()
                 title = fileName + "~113-PIA-E10"
-                text_area.discardAllEdits()
+                textArea.discardAllEdits()
             }
         }
-        save_file.addActionListener { saveFile(text_area.text) }
+        saveFile.addActionListener { saveFile(textArea.text) }
         exit.addActionListener { System.exit(0) }
-        file_menu.add(open_file)
-        file_menu.add(save_file)
-        file_menu.add(exit)
-        menu_bar.add(file_menu)
+        fileMenu.add(openFile)
+        fileMenu.add(saveFile)
+        fileMenu.add(exit)
+        menuBar.add(fileMenu)
 
-        val edit_menu = JMenu("Edit")
-        edit_menu.add(createMenuItem(RTextArea.getAction(RTextArea.UNDO_ACTION)))
-        edit_menu.add(createMenuItem(RTextArea.getAction(RTextArea.REDO_ACTION)))
-        edit_menu.addSeparator()
-        edit_menu.add(createMenuItem(RTextArea.getAction(RTextArea.CUT_ACTION)))
-        edit_menu.add(createMenuItem(RTextArea.getAction(RTextArea.COPY_ACTION)))
-        edit_menu.add(createMenuItem(RTextArea.getAction(RTextArea.PASTE_ACTION)))
-        edit_menu.add(createMenuItem(RTextArea.getAction(RTextArea.DELETE_ACTION)))
-        edit_menu.addSeparator()
-        edit_menu.add(createMenuItem(RTextArea.getAction(RTextArea.SELECT_ALL_ACTION)))
-        menu_bar.add(edit_menu)
+        val editMenu = JMenu("Edit")
+        editMenu.add(createMenuItem(RTextArea.getAction(RTextArea.UNDO_ACTION)))
+        editMenu.add(createMenuItem(RTextArea.getAction(RTextArea.REDO_ACTION)))
+        editMenu.addSeparator()
+        editMenu.add(createMenuItem(RTextArea.getAction(RTextArea.CUT_ACTION)))
+        editMenu.add(createMenuItem(RTextArea.getAction(RTextArea.COPY_ACTION)))
+        editMenu.add(createMenuItem(RTextArea.getAction(RTextArea.PASTE_ACTION)))
+        editMenu.add(createMenuItem(RTextArea.getAction(RTextArea.DELETE_ACTION)))
+        editMenu.addSeparator()
+        editMenu.add(createMenuItem(RTextArea.getAction(RTextArea.SELECT_ALL_ACTION)))
+        menuBar.add(editMenu)
 
-        val analyzer_menu = JMenu("Analyze")
-        val analyze = JMenuItem("Analyze syntax")
+        val analyzerMenu = JMenu("Analyze")
+        val analyze = JMenuItem("Analyze language")
         analyze.addActionListener {
             val validator = Validator()
-            validator.analyze(text_area.getText())
+            validator.analyze(textArea.text)
         }
-        analyzer_menu.add(analyze)
-        menu_bar.add(analyzer_menu)
+        analyzerMenu.add(analyze)
+        menuBar.add(analyzerMenu)
 
-        val about_menu = JMenu("About")
-        val team_info = JMenuItem("Info")
-        val license_info = JMenuItem("License")
-        val how_to_use = JMenuItem("How to use")
-        team_info.addActionListener { aboutTeam() }
-        license_info.addActionListener { aboutLicense() }
-        how_to_use.addActionListener { howToUse() }
-        about_menu.add(team_info)
-        about_menu.add(how_to_use)
-        about_menu.add(license_info)
-        menu_bar.add(about_menu)
+        val aboutMenu = JMenu("About")
+        val teamInfo = JMenuItem("Info")
+        val licenseInfo = JMenuItem("License")
+        val howToUse = JMenuItem("How to use")
+        teamInfo.addActionListener { aboutTeam() }
+        licenseInfo.addActionListener { aboutLicense() }
+        howToUse.addActionListener { howToUse() }
+        aboutMenu.add(teamInfo)
+        aboutMenu.add(howToUse)
+        aboutMenu.add(licenseInfo)
+        menuBar.add(aboutMenu)
 
-        jMenuBar = menu_bar
+        jMenuBar = menuBar
     }
 
     private fun createMenuItem(action: Action): JMenuItem? {
@@ -83,8 +83,6 @@ class Home : JFrame() {
     }
     
     companion object {
-        private val frame: JFrame? = null
-
         @JvmStatic
         fun main(args: Array<String>) {
             // Start all Swing applications on the EDT.
@@ -96,12 +94,12 @@ class Home : JFrame() {
                 Home().isVisible = true
 
                 //Read config file
-                var file = File("config.txt")
-                var show_at_startup: Boolean
+                val file = File("config.txt")
+                var showAtStartup: Boolean
                 if(!file.exists()) {
                     file.createNewFile()
-                    show_at_startup = welcome()
-                    if(show_at_startup) {
+                    showAtStartup = welcome()
+                    if(showAtStartup) {
                         file.writeText("welcome: true")
                     }
                     else {
@@ -110,8 +108,8 @@ class Home : JFrame() {
                 }
                 else{
                     file.forEachLine { if(it.contains("welcome: true")) {
-                        show_at_startup = welcome()
-                        if(show_at_startup) {
+                        showAtStartup = welcome()
+                        if(showAtStartup) {
                             file.writeText("welcome: true")
                         }
                         else {
@@ -124,47 +122,47 @@ class Home : JFrame() {
     }
 
     private fun createTextArea(): RSyntaxTextArea {
-        val text_area = RSyntaxTextArea(30, 60)
-        text_area.isCodeFoldingEnabled = true
-        text_area.paintTabLines = true
+        val textArea = RSyntaxTextArea(30, 60)
+        textArea.isCodeFoldingEnabled = true
+        textArea.paintTabLines = true
 
         //Syntax highlighting config
         val atmf = TokenMakerFactory.getDefaultInstance() as AbstractTokenMakerFactory
         atmf.putMapping("text/program", "view.Syntax")
-        text_area.syntaxEditingStyle = "text/program"
+        textArea.syntaxEditingStyle = "text/program"
 
         //Colors
         val green = Color(123, 160, 91)
         val gray = Color(128, 128, 128)
         val red = Color(220, 20, 60)
         val blue = Color(176, 196, 222)
-        val light_background = Color(255, 255, 255)
+        val lightBackground = Color(255, 255, 255)
 
         //Color schemes
-        val scheme: SyntaxScheme = text_area.syntaxScheme
+        val scheme: SyntaxScheme = textArea.syntaxScheme
 
         scheme.getStyle(Token.RESERVED_WORD).foreground = gray
         scheme.getStyle(Token.RESERVED_WORD_2).foreground = red
         scheme.getStyle(Token.FUNCTION).foreground = green
         scheme.getStyle(Token.LITERAL_NUMBER_DECIMAL_INT).foreground = blue
-        text_area.background = light_background
-        text_area.currentLineHighlightColor = light_background
-        text_area.isMarginLineEnabled = true
-        text_area.marginLineColor = Color.DARK_GRAY
-        text_area.revalidate()
+        textArea.background = lightBackground
+        textArea.currentLineHighlightColor = lightBackground
+        textArea.isMarginLineEnabled = true
+        textArea.marginLineColor = Color.DARK_GRAY
+        textArea.revalidate()
 
-        //Code completition config
+        //Code completion config
         val provider = createCompletionProvider()
         val ac = AutoCompletion(provider)
-        ac.install(text_area)
+        ac.install(textArea)
 
-        return text_area
+        return textArea
     }
 
     init {
         val cp = JPanel(BorderLayout())
-        text_area = createTextArea()
-        val sp = RTextScrollPane(text_area)
+        textArea = createTextArea()
+        val sp = RTextScrollPane(textArea)
         cp.add(sp)
 
         contentPane = cp
