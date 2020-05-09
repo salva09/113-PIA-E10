@@ -10,5 +10,6 @@
     <orderEntry type="library" name="rsyntaxtextarea-3.0.6" level="project" />
     <orderEntry type="library" name="autocomplete-3.0.4" level="project" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
+    <orderEntry type="library" name="flatlaf-0.34" level="project" />
   </component>
 </module>
