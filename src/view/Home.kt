@@ -26,12 +26,12 @@ class Home : JFrame() {
     private var textArea: RSyntaxTextArea
 
     init {
-        val cp = JPanel(BorderLayout())
+        val pane = JPanel(BorderLayout())
         textArea = createTextArea()
-        val sp = RTextScrollPane(textArea)
-        cp.add(sp)
+        val scrollPane = RTextScrollPane(textArea)
+        pane.add(scrollPane)
 
-        contentPane = cp
+        contentPane = pane
         title = "113-PIA-E10"
         defaultCloseOperation = EXIT_ON_CLOSE
         pack()
@@ -41,16 +41,21 @@ class Home : JFrame() {
 
     private fun createMenuBar() {
         val menuBar = JMenuBar()
+
         val fileMenu = JMenu("File")
         val openFile = JMenuItem("Open")
         val saveFile = JMenuItem("Save")
         val saveFileAs = JMenuItem("Save as")
         val exit = JMenuItem("Exit")
         openFile.addActionListener {
-            if (openFile(openFile)) {
-                textArea.text = getFileContent()
-                title = "$fileName~113-PIA-E10"
-                textArea.discardAllEdits()
+            try {
+                if (openFile(openFile)) {
+                    textArea.text = getFileContent()
+                    title = "$fileName~113-PIA-E10"
+                    textArea.discardAllEdits()
+                }
+            } catch (ex: Exception) {
+                print(ex.localizedMessage)
             }
         }
         saveFile.addActionListener { saveFile(openFile, textArea.text) }
