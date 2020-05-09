@@ -121,8 +121,7 @@ private fun imprimir() {
     if (lookahead!!.sequence.equals("imprimir")) {
         nextToken()
 
-        val argument: Boolean
-        argument = try {
+        val argument: Boolean = try {
             whitespace()
             if (lookahead!!.token == Token.VARIABLE) {
                 if (variables!!.contains(lookahead!!.sequence)) {
@@ -286,7 +285,12 @@ private fun value() {
         else -> {
             when (lookahead!!.token) {
                 Token.VARIABLE -> {
-                    nextToken()
+                    if (variables!!.contains(lookahead!!.sequence.toString())) {
+                        nextToken()
+                    } else {
+                        throw LanguageException("Syntax error\n" +
+                                "At line $line: Variable not declared")
+                    }
                 }
                 else -> {
                     throw LanguageException("Syntax error\n" +
