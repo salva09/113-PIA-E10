@@ -1,5 +1,7 @@
 package view
 
+import com.formdev.flatlaf.FlatDarkLaf
+import com.formdev.flatlaf.FlatLightLaf
 import control.analyze
 import file.fileName
 import file.getFileContent
@@ -37,6 +39,57 @@ class Home : JFrame() {
         pack()
         setLocationRelativeTo(null)
         createMenuBar()
+    }
+
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            // Start all Swing applications on the EDT.
+            SwingUtilities.invokeLater {
+                setLookAndFeel()
+                Home().isVisible = true
+                setConfig()
+            }
+        }
+
+        private fun setConfig() {
+            val file = File("config.txt")
+            var showAtStartup: Boolean
+            if (!file.exists()) {
+                file.createNewFile()
+                showAtStartup = welcome()
+                if (showAtStartup) {
+                    file.writeText("welcome: true")
+                } else {
+                    file.writeText("welcome: false")
+                }
+            } else {
+                file.forEachLine {
+                    if (it.contains("welcome: true")) {
+                        showAtStartup = welcome()
+                        if (showAtStartup) {
+                            file.writeText("welcome: true")
+                        } else {
+                            file.writeText("welcome: false")
+                        }
+                    }
+                }
+            }
+        }
+
+        private fun setLookAndFeel() {
+            try {
+                UIManager.setLookAndFeel(FlatLightLaf())
+            } catch (e: Exception) {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
+                } catch (ex: Exception) {
+                    val message = "OS not supported\n" + ex.localizedMessage
+                    JOptionPane.showMessageDialog(null, message, "System error", JOptionPane.QUESTION_MESSAGE)
+                    System.exit(0)
+                }
+            }
+        }
     }
 
     private fun createMenuBar() {
@@ -108,57 +161,6 @@ class Home : JFrame() {
         return item
     }
 
-    companion object {
-        @JvmStatic
-        fun main(args: Array<String>) {
-            // Start all Swing applications on the EDT.
-            SwingUtilities.invokeLater {
-                setLookAndFeel()
-                Home().isVisible = true
-                setConfig()
-            }
-        }
-
-        private fun setConfig() {
-            val file = File("config.txt")
-            var showAtStartup: Boolean
-            if (!file.exists()) {
-                file.createNewFile()
-                showAtStartup = welcome()
-                if (showAtStartup) {
-                    file.writeText("welcome: true")
-                } else {
-                    file.writeText("welcome: false")
-                }
-            } else {
-                file.forEachLine {
-                    if (it.contains("welcome: true")) {
-                        showAtStartup = welcome()
-                        if (showAtStartup) {
-                            file.writeText("welcome: true")
-                        } else {
-                            file.writeText("welcome: false")
-                        }
-                    }
-                }
-            }
-        }
-
-        private fun setLookAndFeel() {
-            try {
-                UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel")
-            } catch (e: Exception) {
-                try {
-                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel")
-                } catch (ex: Exception) {
-                    val message = "OS not supported\n" + ex.localizedMessage
-                    JOptionPane.showMessageDialog(null, message, "System error", JOptionPane.QUESTION_MESSAGE)
-                    System.exit(0)
-                }
-            }
-        }
-    }
-
     private fun createTextArea(): RSyntaxTextArea {
         var textArea = RSyntaxTextArea(30, 60)
         textArea.isCodeFoldingEnabled = true
@@ -190,7 +192,7 @@ class Home : JFrame() {
         val foreground = Color(0, 0, 0)
 
         //Color schemes
-        val scheme: SyntaxScheme = textArea.syntaxScheme
+        val scheme = textArea.syntaxScheme
 
         scheme.getStyle(Token.RESERVED_WORD).foreground = gray
         scheme.getStyle(Token.RESERVED_WORD_2).foreground = red
