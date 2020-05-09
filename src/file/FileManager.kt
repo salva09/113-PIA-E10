@@ -12,7 +12,9 @@ var fileName = ""
 
 fun openFile(openFile: JMenuItem): Boolean {
     fileChooser = JFileChooser()
-    fileChooser.showOpenDialog(openFile)
+    var result = fileChooser.showOpenDialog(openFile)
+
+    if (result != 0) throw Exception("No file open")
 
     return if (!fileChooser.selectedFile.name.endsWith(".txt")) {
         JOptionPane.showMessageDialog(null, "File type not supported", "Error", JOptionPane.ERROR_MESSAGE)
