@@ -16,6 +16,7 @@ import java.awt.BorderLayout
 import java.awt.Color
 import java.io.File
 import javax.swing.*
+import kotlin.system.exitProcess
 
 class Home : JFrame() {
     private var textArea: RSyntaxTextArea
@@ -37,20 +38,23 @@ class Home : JFrame() {
     private fun createMenuBar() {
         val menuBar = JMenuBar()
         val fileMenu = JMenu("File")
-        val openFile = JMenuItem("Open file")
-        val saveFile = JMenuItem("Save file")
+        val openFile = JMenuItem("Open")
+        val saveFile = JMenuItem("Save")
+        val saveFileAs = JMenuItem("Save as")
         val exit = JMenuItem("Exit")
         openFile.addActionListener {
             if (openFile(openFile)) {
                 textArea.text = getFileContent()
-                title = fileName + "~113-PIA-E10"
+                title = "$fileName~113-PIA-E10"
                 textArea.discardAllEdits()
             }
         }
-        saveFile.addActionListener { saveFile(textArea.text) }
-        exit.addActionListener { System.exit(0) }
+        saveFile.addActionListener { saveFile(openFile, textArea.text) }
+        saveFileAs.addActionListener { file.saveFileAs(openFile, textArea.text) }
+        exit.addActionListener { exitProcess(0) }
         fileMenu.add(openFile)
         fileMenu.add(saveFile)
+        fileMenu.add(saveFileAs)
         fileMenu.add(exit)
         menuBar.add(fileMenu)
 

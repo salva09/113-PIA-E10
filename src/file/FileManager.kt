@@ -6,28 +6,50 @@ import javax.swing.JMenuItem
 import javax.swing.JOptionPane
 
 private lateinit var fileChooser: JFileChooser
-private lateinit var file: File
+private var file: File? = null
 var fileName = ""
     private set
 
-fun openFile(open_file: JMenuItem): Boolean {
+fun openFile(openFile: JMenuItem): Boolean {
     fileChooser = JFileChooser()
-    fileChooser.showOpenDialog(open_file)
+    fileChooser.showOpenDialog(openFile)
 
     return if (!fileChooser.selectedFile.name.endsWith(".txt")) {
         JOptionPane.showMessageDialog(null, "File type not supported", "Error", JOptionPane.ERROR_MESSAGE)
         false
     } else {
         file = fileChooser.selectedFile
-        fileName = file.name
+        fileName = file!!.name
         true
     }
 }
 
 fun getFileContent(): String {
-    return File(file.absolutePath).readText()
+    return File(file!!.absolutePath).readText()
 }
 
-fun saveFile(modified_text: String) {
-    File(file.absolutePath).writeText(modified_text)
+fun saveFile(openFile: JMenuItem, modified_text: String) {
+    if (file != null) {
+        File(file!!.absolutePath).writeText(modified_text)
+    } else {
+        fileChooser = JFileChooser()
+        fileChooser.dialogTitle = "Save file"
+        val result = fileChooser.showSaveDialog(openFile)
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            file = File(fileChooser.selectedFile.absolutePath)
+            file!!.writeText(modified_text)
+        }
+    }
+}
+
+fun saveFileAs(openFile: JMenuItem, modified_text: String) {
+    fileChooser = JFileChooser()
+    fileChooser.dialogTitle = "Save file"
+    val result = fileChooser.showSaveDialog(openFile)
+
+    if (result == JFileChooser.APPROVE_OPTION) {
+        file = File(fileChooser.selectedFile.absolutePath)
+        file!!.writeText(modified_text)
+    }
 }
