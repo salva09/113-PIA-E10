@@ -147,7 +147,7 @@ private fun imprimir() {
         if (!argument) {
             try {
                 value()
-            } catch (ex: Exception) {
+            } catch (ex: LanguageException) {
                 throw LanguageException("Syntax error\n" +
                         "At line $line: Function impimir is expecting an argument")
             }

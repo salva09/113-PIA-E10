@@ -9,9 +9,13 @@ import org.fife.ui.autocomplete.AutoCompletion
 import org.fife.ui.autocomplete.BasicCompletion
 import org.fife.ui.autocomplete.CompletionProvider
 import org.fife.ui.autocomplete.DefaultCompletionProvider
-import org.fife.ui.rsyntaxtextarea.*
 import org.fife.ui.rtextarea.RTextArea
 import org.fife.ui.rtextarea.RTextScrollPane
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
+import org.fife.ui.rsyntaxtextarea.TokenMakerFactory
+import org.fife.ui.rsyntaxtextarea.AbstractTokenMakerFactory
+import org.fife.ui.rsyntaxtextarea.SyntaxScheme
+import org.fife.ui.rsyntaxtextarea.Token
 import java.awt.BorderLayout
 import java.awt.Color
 import java.io.File
