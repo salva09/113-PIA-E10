@@ -1,41 +1,36 @@
 package control
 
-import lexer.Token
-import lexer.add
-import lexer.tokenize
-import lexer.tokens
-import lexer.parse
+import lexer.*
 import javax.swing.JOptionPane
 
 private fun init() {
-    add("programa", Token.KEYWORD_1)
-    add("iniciar", Token.KEYWORD_2)
-    add("terminar.", Token.KEYWORD_3)
-    add("imprimir|leer", Token.FUNCTION)
-    add("[a-z][a-z0-9_]*", Token.VARIABLE)
-    add("\\(", Token.OPEN_BRACKET)
-    add("\\)", Token.CLOSE_BRACKET)
-    add(":=", Token.ASSIGNATION)
-    add("[0-9]+", Token.NUMBER)
-    add("[+-]", Token.PLUS_MINUS)
-    add("[*/]", Token.MULT_DIV)
-    add("\\^", Token.RAISED)
-    add("-", Token.MINUS)
-    add("\n", Token.LINE_BREAK)
-    add(";", Token.SEMICOLON)
-    add("\\s", Token.WHITESPACE)
-    add("\t", Token.TAB)
+    add("programa", KEYWORD_1)
+    add("iniciar", KEYWORD_2)
+    add("terminar.", KEYWORD_3)
+    add("imprimir|leer", FUNCTION)
+    add("[a-z][a-z0-9_]*", VARIABLE)
+    add("\\(", OPEN_BRACKET)
+    add("\\)", CLOSE_BRACKET)
+    add(":=", ASSIGNATION)
+    add("[0-9]+", NUMBER)
+    add("[+-]", PLUS_MINUS)
+    add("[*/]", MULT_DIV)
+    add("\\^", RAISED)
+    add("-", MINUS)
+    add("\n", LINE_BREAK)
+    add(";", SEMICOLON)
+    add("\\s", WHITESPACE)
+    add("\t", TAB)
 }
 
 fun analyze(input: String) {
     init()
     try {
         tokenize(input)
-
         parse()
 
         JOptionPane.showMessageDialog(null, "The input is valid!", ":)", JOptionPane.INFORMATION_MESSAGE)
-    } catch (ex: Exception) {
+    } catch (ex: LanguageException) {
         JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error", JOptionPane.ERROR_MESSAGE)
     }
 }
