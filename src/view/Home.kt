@@ -1,6 +1,5 @@
 package view
 
-import com.formdev.flatlaf.FlatDarkLaf
 import com.formdev.flatlaf.FlatLightLaf
 import control.analyze
 import file.fileName
