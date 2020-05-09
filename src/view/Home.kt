@@ -25,11 +25,11 @@ import javax.swing.*
 import kotlin.system.exitProcess
 
 class Home : JFrame() {
-    private var textArea: RSyntaxTextArea
+    private lateinit var textArea: RSyntaxTextArea
 
     init {
         val pane = JPanel(BorderLayout())
-        textArea = createTextArea()
+        createTextArea()
         val scrollPane = RTextScrollPane(textArea)
         pane.add(scrollPane)
 
@@ -161,8 +161,8 @@ class Home : JFrame() {
         return item
     }
 
-    private fun createTextArea(): RSyntaxTextArea {
-        var textArea = RSyntaxTextArea(30, 60)
+    private fun createTextArea() {
+        textArea = RSyntaxTextArea(30, 60)
         textArea.isCodeFoldingEnabled = true
         textArea.paintTabLines = true
 
@@ -171,18 +171,16 @@ class Home : JFrame() {
         atmf.putMapping("text/program", "view.Syntax")
         textArea.syntaxEditingStyle = "text/program"
 
-        //Theme light ot dark (experimental)
-        textArea = setLightTheme(textArea)
+        //Light theme
+        setLightTheme()
 
         //Code completion config
         val provider = createCompletionProvider()
         val ac = AutoCompletion(provider)
         ac.install(textArea)
-
-        return textArea
     }
 
-    private fun setLightTheme(textArea: RSyntaxTextArea): RSyntaxTextArea {
+    private fun setLightTheme() {
         //Colors
         val green = Color(123, 160, 91)
         val gray = Color(128, 128, 128)
@@ -204,39 +202,11 @@ class Home : JFrame() {
         textArea.isMarginLineEnabled = true
         textArea.marginLineColor = Color.DARK_GRAY
         textArea.revalidate()
-
-        return textArea
     }
 
-    //Experimental
-    private fun setDarkTheme(textArea: RSyntaxTextArea): RSyntaxTextArea {
-        //Colors
-        val green = Color(123, 160, 91)
-        val gray = Color(128, 128, 128)
-        val red = Color(220, 20, 60)
-        val blue = Color(176, 196, 222)
-        val background = Color(43, 43, 43)
-        val foreground = Color(255, 255, 255)
+    //Experimental field
 
-        //Color schemes
-        val scheme: SyntaxScheme = textArea.syntaxScheme
-
-        scheme.getStyle(Token.RESERVED_WORD).foreground = gray
-        scheme.getStyle(Token.RESERVED_WORD_2).foreground = red
-        scheme.getStyle(Token.FUNCTION).foreground = green
-        scheme.getStyle(Token.LITERAL_NUMBER_DECIMAL_INT).foreground = blue
-        textArea.background = background
-        textArea.foreground = foreground
-        textArea.currentLineHighlightColor = background
-        textArea.isMarginLineEnabled = true
-        textArea.marginLineColor = Color.DARK_GRAY
-        textArea.revalidate()
-
-        return textArea
-    }
-
-    private fun createCompletionProvider(): CompletionProvider? {
-
+    private fun createCompletionProvider(): CompletionProvider {
         // A DefaultCompletionProvider is the simplest concrete implementation
         // of CompletionProvider. This provider has no understanding of
         // language semantics. It simply checks the text entered up to the
