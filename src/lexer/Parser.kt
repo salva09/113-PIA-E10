@@ -6,15 +6,13 @@ import kotlin.collections.ArrayList
 
 private var line: Int = 0
 private var activeDivision = false
-private var tokens: LinkedList<Token>? = null
 private var variables: ArrayList<String>? = null
 private var lookahead: Token? = null
 
-fun parse(tokenList: LinkedList<Token>?) {
+fun parse() {
     line = 1
-    tokens = tokenList?.clone() as LinkedList<Token>?
     variables = ArrayList()
-    lookahead = tokens!!.first
+    lookahead = tokens.first
 
     startOfProgram()
     start()
@@ -27,9 +25,9 @@ fun parse(tokenList: LinkedList<Token>?) {
 }
 
 private fun nextToken() {
-    tokens!!.pop()
+    tokens.pop()
     // at the end of input we return an epsilon token
-    lookahead = if (tokens!!.isEmpty()) Token(Token.EPSILON, "") else tokens!!.first
+    lookahead = if (tokens.isEmpty()) Token(Token.EPSILON, "") else tokens.first
 }
 
 private fun startOfProgram() {

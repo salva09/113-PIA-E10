@@ -1,6 +1,6 @@
 package view
 
-import control.Validator
+import control.analyze
 import file.fileName
 import file.getFileContent
 import file.openFile
@@ -69,8 +69,7 @@ class Home : JFrame() {
         val analyzerMenu = JMenu("Analyze")
         val analyze = JMenuItem("Analyze language")
         analyze.addActionListener {
-            val validator = Validator()
-            validator.analyze(textArea.text)
+            analyze(textArea.text)
         }
         analyzerMenu.add(analyze)
         menuBar.add(analyzerMenu)
