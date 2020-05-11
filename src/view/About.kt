@@ -7,10 +7,10 @@ import javax.swing.JOptionPane
 fun welcome(): Boolean {
     val message: String = "<html>" +
             "Thank you for using my program! <br>" +
-            "I hope that you don\'t face any bugs <br>" +
-            "You have some file examples with this program <br><br>" +
+            "I hope that you don\'t face any bugs. <br>" +
+            "You have some file examples with this program. <br><br>" +
             "Tip: If you don\'t know how to use this program <br>" +
-            "go to About -> How to use" +
+            "go to About -> How to use." +
             "</html>"
     val checkbox = JCheckBox("Show at startup")
     checkbox.isSelected = true
@@ -26,21 +26,21 @@ fun howToUse() {
             "a syntax highlighting and a (broken) code completition. <br><br>" +
             "Basic options: <br>" +
             "If you want to open a file, use File -> Open file. <br>" +
-            "If you want to save that file, just File -> Save file <br>" +
+            "If you want to save that file, just File -> Save file. <br>" +
             "You have some edit options in the Edit tab. <br>" +
-            "To exit the program you can use File -> Exit or just close <br>" +
+            "To exit the program you can use File -> Exit or just close. <br>" +
             "the window <br><br>" +
             "If you are here to analyze a file containing a language <br>" +
-            "then Analyze -> Analyze syntax is your option <br>" +
-            "There is a doc with the information of the language, give it a read <br>" +
+            "then Analyze -> Analyze syntax is your option. <br>" +
+            "There is a doc with the information of the language, give it a read. <br>" +
             "<html>"
     JOptionPane.showMessageDialog(null, message, "How to use", JOptionPane.QUESTION_MESSAGE)
 }
 
 fun aboutTeam() {
     val message: String = "<html>" +
-            "<h1> Automata theory </h1> <br>" +
-            "<h3> Teacher: Yazmany Jahaziel Guerrero Ceja </h3> <br>" +
+            "<h1> Automata's theory. </h1> <br>" +
+            "<h3> Teacher: Yazmany Jahaziel Guerrero Ceja. </h3> <br>" +
             "<h3> Team 10 </h3> <br>" +
             "Team's member: <br> <br>" +
             "Salvador Armando Hernández García 1860667 <br>" +
