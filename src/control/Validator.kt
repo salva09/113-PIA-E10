@@ -8,7 +8,7 @@ private fun init() {
     add("iniciar", KEYWORD_2)
     add("terminar.", KEYWORD_3)
     add("imprimir|leer", FUNCTION)
-    add("[a-z][a-z0-9_]*", VARIABLE)
+    add("[a-z][a-z0-9]*", VARIABLE)
     add("\\(", OPEN_BRACKET)
     add("\\)", CLOSE_BRACKET)
     add(":=", ASSIGNATION)

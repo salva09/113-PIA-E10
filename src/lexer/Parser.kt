@@ -245,6 +245,7 @@ private fun factor() {
 }
 
 private fun factorOp() {
+    optionalWhitespace()
     when (lookahead!!.token) {
         RAISED -> {
             nextToken()
