@@ -146,10 +146,10 @@ private fun imprimir() {
 
         if (!argument) {
             try {
-                value()
+                expression()
             } catch (ex: LanguageException) {
                 throw LanguageException("Syntax error\n" +
-                        "At line $line: Function impimir is expecting an argument")
+                        "At line $line: Function imprimir is expecting an argument")
             }
         }
 
@@ -215,7 +215,6 @@ private fun term() {
 }
 
 private fun termOp() {
-    optionalWhitespace()
     when (lookahead!!.token) {
         MULT_DIV -> {
             if (lookahead!!.sequence == "/") activeDivision = true
@@ -398,6 +397,10 @@ private fun optionalWhitespace() {
 }
 
 private fun endOfLine() {
+    if (lookahead!!.token == WHITESPACE) {
+        throw LanguageException("Syntax error\n" +
+                "At line $line: Symbol \";\" was expected, but whitespace was found")
+    }
     when (lookahead!!.token) {
         SEMICOLON -> {
             nextToken()
