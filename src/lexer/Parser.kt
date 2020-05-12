@@ -18,7 +18,10 @@ fun parse() {
     instructions()
     end()
 
-    if (lookahead!!.token != EPSILON && !lookahead!!.sequence.isEmpty())
+    while (lookahead!!.sequence.isEmpty() && lookahead!!.token != EPSILON) {
+        nextToken()
+    }
+    if (lookahead!!.token != EPSILON)
         throw LanguageException("Syntax error\n" +
                 "At line " + line + ": " + "Unexpected symbol \"" + lookahead!!.sequence + "\" was found")
 }
