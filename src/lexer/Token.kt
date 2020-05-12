@@ -17,6 +17,6 @@ const val MINUS = 13
 const val LINE_BREAK = 14
 const val SEMICOLON = 15
 const val WHITESPACE = 16
-const val TAB = 17
+const val VARIABLE_NOT_VALID = 17
 
 data class Token(var token: Int = 0, var sequence: String = "")
