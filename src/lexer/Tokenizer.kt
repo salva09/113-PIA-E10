@@ -2,7 +2,6 @@ package lexer
 
 import control.LanguageException
 import java.util.*
-import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 private var tokeninfo = LinkedList<TokenInfo>()
@@ -20,17 +19,17 @@ fun tokenize(string: String) {
     var line = 1
     tokens.clear()
 
-    while (!input.equals("")) {
+    while (input != "") {
         var match = false
 
         for (info in tokeninfo) {
-            val m: Matcher = info.regex.matcher(input)
+            val matcher = info.regex.matcher(input)
 
-            if (m.find()) {
+            if (matcher.find()) {
                 match = true
 
-                val tok: String = m.group().trim()
-                tokens.add(Token(info.token, tok))
+                val sequence = matcher.group().trim()
+                tokens.add(Token(info.token, sequence))
 
                 if (info.token == VARIABLE_NOT_VALID)
                     throw LanguageException("Lexicon error\n" +
@@ -38,13 +37,13 @@ fun tokenize(string: String) {
                     )
                 if (info.token == LINE_BREAK) line++
 
-                input = m.replaceFirst("")
+                input = matcher.replaceFirst("")
                 break
             }
         }
         if (!match) {
             throw LanguageException("Lexicon error\n" +
-                    "At line $line: Unexpected character : \"" + input[0] + "\""
+                    "At line $line: Unexpected character: \"" + input[0] + "\""
             )
         }
     }
