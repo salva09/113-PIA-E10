@@ -183,44 +183,44 @@ private fun assignation() {
 }
 
 private fun expression() {
-    signedTerm()
-    sumOp()
+    signedNumber()
+    sumOperation()
 }
 
-private fun sumOp() {
+private fun sumOperation() {
     when (lookahead!!.token) {
         PLUS_MINUS -> {
             nextToken()
-            term()
-            sumOp()
+            number()
+            sumOperation()
         }
     }
 }
 
-private fun signedTerm() {
+private fun signedNumber() {
     when (lookahead!!.token) {
         PLUS_MINUS -> {
             nextToken()
-            term()
+            number()
         }
         else -> {
-            term()
+            number()
         }
     }
 }
 
-private fun term() {
+private fun number() {
     factor()
-    termOp()
+    numberOperation()
 }
 
-private fun termOp() {
+private fun numberOperation() {
     when (lookahead!!.token) {
         MULT_DIV -> {
             if (lookahead!!.sequence == "/") activeDivision = true
             nextToken()
             signedFactor()
-            termOp()
+            numberOperation()
         }
     }
 }
@@ -240,10 +240,10 @@ private fun signedFactor() {
 private fun factor() {
     optionalWhitespace()
     argument()
-    factorOp()
+    factorOperation()
 }
 
-private fun factorOp() {
+private fun factorOperation() {
     optionalWhitespace()
     when (lookahead!!.token) {
         RAISED -> {
