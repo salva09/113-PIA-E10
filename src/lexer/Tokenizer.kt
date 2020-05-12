@@ -32,6 +32,10 @@ fun tokenize(string: String) {
                 val tok: String = m.group().trim()
                 tokens.add(Token(info.token, tok))
 
+                if (info.token == VARIABLE_NOT_VALID)
+                    throw LanguageException("Lexicon error\n" +
+                        "At line $line: Variable declaration not valid"
+                    )
                 if (info.token == LINE_BREAK) line++
 
                 input = m.replaceFirst("")

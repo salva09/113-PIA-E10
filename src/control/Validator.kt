@@ -8,11 +8,12 @@ private fun init() {
     add("iniciar", KEYWORD_2)
     add("terminar.", KEYWORD_3)
     add("imprimir|leer", FUNCTION)
+    add("[0-9]+[a-z]+[a-z0-9]*", VARIABLE_NOT_VALID)
+    add("[0-9]+", NUMBER)
     add("[a-z][a-z0-9]*", VARIABLE)
     add("\\(", OPEN_BRACKET)
     add("\\)", CLOSE_BRACKET)
     add(":=", ASSIGNATION)
-    add("[0-9]+", NUMBER)
     add("[+-]", PLUS_MINUS)
     add("[*/]", MULT_DIV)
     add("\\^", RAISED)
@@ -20,7 +21,6 @@ private fun init() {
     add("\n", LINE_BREAK)
     add(";", SEMICOLON)
     add("\\s", WHITESPACE)
-    add("\t", TAB)
 }
 
 fun analyze(input: String) {
