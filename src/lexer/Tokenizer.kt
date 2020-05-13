@@ -8,7 +8,7 @@ private var tokeninfo = LinkedList<TokenInfo>()
 var tokens =  LinkedList<Token>()
 
 fun add(regex: String, token: Int) {
-    tokeninfo.add(TokenInfo(Pattern.compile("^(" + regex + ")"), token))
+    tokeninfo.add(TokenInfo(Pattern.compile("^($regex)"), token))
 }
 
 fun tokenize(string: String) {
