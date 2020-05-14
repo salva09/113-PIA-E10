@@ -2,14 +2,18 @@ package lexer
 
 import control.LanguageException
 import kotlin.collections.ArrayList
+import kotlin.properties.Delegates
 
 private var line: Int = 0
-private var activeDivision = false
+private var activeDivision by Delegates.notNull<Boolean>()
+private var space by Delegates.notNull<Boolean>()
 private lateinit var variables: ArrayList<String>
 private lateinit var lookahead: Token
 
 fun parse() {
     line = 1
+    activeDivision = false
+    space = false
     variables = ArrayList()
     lookahead = tokens.first
 
@@ -30,6 +34,15 @@ private fun nextToken() {
     tokens.pop()
     // at the end of input we return an epsilon token
     lookahead = if (tokens.isEmpty()) Token(EPSILON, "") else tokens.first
+
+    if (space) {
+        if (lookahead.token == WHITESPACE) {
+            throw LanguageException("Syntax error\n" +
+                    "At line $line: Number of whitespaces exceeds one")
+        } else {
+            space = false
+        }
+    }
 }
 
 private fun startOfProgram() {
@@ -352,6 +365,7 @@ private fun variable() {
 private fun whitespace() {
     when (lookahead.token) {
         WHITESPACE -> {
+            space = true
             nextToken()
         }
         else -> {
@@ -371,6 +385,7 @@ private fun whitespace() {
 
 private fun optionalWhitespace() {
     if (lookahead.token == WHITESPACE) {
+        space = true
         nextToken()
     }
 }
