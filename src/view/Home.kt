@@ -15,7 +15,6 @@ import org.fife.ui.rtextarea.RTextScrollPane
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import org.fife.ui.rsyntaxtextarea.TokenMakerFactory
 import org.fife.ui.rsyntaxtextarea.AbstractTokenMakerFactory
-import org.fife.ui.rsyntaxtextarea.SyntaxScheme
 import org.fife.ui.rsyntaxtextarea.Token
 import java.awt.BorderLayout
 import java.awt.Color
@@ -85,7 +84,7 @@ class Home : JFrame() {
                 } catch (ex: Exception) {
                     val message = "OS not supported\n" + ex.localizedMessage
                     JOptionPane.showMessageDialog(null, message, "System error", JOptionPane.QUESTION_MESSAGE)
-                    System.exit(0)
+                    exitProcess(0)
                 }
             }
         }
