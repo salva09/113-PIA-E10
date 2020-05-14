@@ -44,7 +44,7 @@ fun aboutTeam() {
             "<h1> Automata's theory. </h1> <br>" +
             "<h3> Teacher: Yazmany Jahaziel Guerrero Ceja. </h3> <br>" +
             "<h3> Team 10 </h3> <br>" +
-            "Team's member: <br> <br>" +
+            "Team's members: <br> <br>" +
             "Salvador Armando Hernández García 1860667 <br>" +
             "Edson Yael García Silva 1863860 <br>" +
             "María Eugenia Concepción Flores Rodríguez 1818538 <br> <br>" +
