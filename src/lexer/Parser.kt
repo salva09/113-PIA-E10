@@ -149,13 +149,12 @@ private fun imprimir() {
 
         if (!argument) {
             try {
-                expression()
+                E()
             } catch (ex: LanguageException) {
                 throw LanguageException("Syntax error\n" +
                         "At line $line: Function imprimir is expecting an argument")
             }
         }
-
         endOfLine()
         nextLine()
     }
@@ -180,129 +179,116 @@ private fun assignation() {
         else -> {
             nextToken()
             optionalWhitespace()
-            expression()
+            E()
         }
     }
 }
 
-private fun expression() {
-    signedNumber()
-    sumOperation()
+private fun E() {
+    optionalWhitespace()
+    Y()
+    optionalWhitespace()
+    if (lookahead.token == PLUS_MINUS) {
+        EPrime()
+    }
 }
 
-private fun sumOperation() {
-    when (lookahead.token) {
-        PLUS_MINUS -> {
-            nextToken()
-            number()
-            sumOperation()
+private fun EPrime() {
+    if (lookahead.token == PLUS_MINUS) {
+        nextToken()
+        Y()
+        optionalWhitespace()
+        if (lookahead.token == PLUS_MINUS) {
+            EPrime()
         }
     }
 }
 
-private fun signedNumber() {
-    when (lookahead.token) {
-        PLUS_MINUS -> {
-            nextToken()
-            number()
-        }
-        else -> {
-            number()
-        }
+private fun Y() {
+    J()
+    optionalWhitespace()
+    if (lookahead.token == MULT_DIV) {
+        if (lookahead.sequence == "/") activeDivision = true
+        YPrime()
     }
 }
 
-private fun number() {
-    factor()
-    numberOperation()
-}
-
-private fun numberOperation() {
-    when (lookahead.token) {
-        MULT_DIV -> {
+private fun YPrime() {
+    if (lookahead.token == MULT_DIV) {
+        nextToken()
+        J()
+        optionalWhitespace()
+        if (lookahead.token == MULT_DIV) {
             if (lookahead.sequence == "/") activeDivision = true
-            nextToken()
-            signedFactor()
-            numberOperation()
+            YPrime()
         }
     }
 }
 
-private fun signedFactor() {
-    when (lookahead.token) {
-        PLUS_MINUS -> {
-            nextToken()
-            factor()
-        }
-        else -> {
-            factor()
-        }
-    }
-}
-
-private fun factor() {
+private fun J() {
+    G()
     optionalWhitespace()
-    argument()
-    factorOperation()
+    if (lookahead.token == RAISED) {
+        JPrime()
+    }
 }
 
-private fun factorOperation() {
-    optionalWhitespace()
-    when (lookahead.token) {
-        RAISED -> {
-            nextToken()
-            signedFactor()
+private fun JPrime() {
+    if (lookahead.token == RAISED) {
+        nextToken()
+        G()
+        optionalWhitespace()
+        if (lookahead.token == RAISED) {
+            JPrime()
         }
     }
 }
 
-private fun argument() {
-    when (lookahead.token) {
-        OPEN_BRACKET -> {
+private fun G() {
+    optionalWhitespace()
+    if (lookahead.sequence == "-") {
+        nextToken()
+        G()
+    } else {
+        C()
+    }
+}
+
+private fun C() {
+    if (lookahead.token == OPEN_BRACKET) {
+        nextToken()
+        E()
+        if (lookahead.token == CLOSE_BRACKET) {
             nextToken()
-            expression()
-            if (lookahead.token != CLOSE_BRACKET) {
-                if (lookahead.sequence.isEmpty()) {
-                    throw LanguageException("Syntax error\n" +
-                            "At line $line: Close brackets was expected, but empty string was found")
-                } else {
-                    throw LanguageException("Syntax error\n" +
-                            "At line $line: Close brackets was expected, but \"" + lookahead.sequence +
-                            "\" was found")
-                }
+        } else {
+            if (lookahead.sequence.isEmpty()) {
+                throw LanguageException("Syntax error\n" +
+                        "At line $line: Close brackets was expected, but empty string was found")
+            } else {
+                throw LanguageException("Syntax error\n" +
+                        "At line $line: Close brackets was expected, but \"" + lookahead.sequence +
+                        "\" was found")
             }
-            nextToken()
         }
-        else -> {
-            value()
-        }
-    }
-}
-
-private fun value() {
-    when (lookahead.token) {
-        NUMBER -> {
+    } else {
+        if (lookahead.token == NUMBER) {
             if (activeDivision and (lookahead.sequence == "0"))
                 throw LanguageException("Arithmetic error\n" +
                         "At line $line: Divide by zero cannot be possible")
             else
                 activeDivision = false
             nextToken()
-        }
-        else -> {
-            when (lookahead.token) {
-                VARIABLE -> {
-                    if (variables.contains(lookahead.sequence)) {
-                        nextToken()
-                    } else {
-                        throw LanguageException("Syntax error\n" +
-                                "At line $line: Variable not declared")
-                    }
-                }
-                else -> {
+        } else {
+            if (lookahead.token == VARIABLE) {
+                if (variables.contains(lookahead.sequence)) {
+                    nextToken()
+                } else {
                     throw LanguageException("Syntax error\n" +
-                            "At line $line: A value was expected, but empty string was found")
+                            "At line $line: Variable '${lookahead.sequence}' not declared")
                 }
+            } else {
+                throw LanguageException("Syntax error\n" +
+                        "At line $line: A value was expected, but empty string was found")
             }
         }
     }
