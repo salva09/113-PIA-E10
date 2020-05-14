@@ -31,9 +31,9 @@ fun howToUse() {
             "Edit options: <br>" +
             "Common edit options like everyone knows. <br><br>" +
             "Analyze option: <br>" +
-            "Analyze language -> Analyzes the code using a " +
+            "Analyze language -> Analyzes the code using a <br>" +
             "recursive descent parser. <br><br>" +
-            "There is a doc with the information of the language, " +
+            "There is a doc with the information of the language, <br>" +
             "give it a read. <br>" +
             "<html>"
     JOptionPane.showMessageDialog(null, message, "How to use", JOptionPane.QUESTION_MESSAGE)
