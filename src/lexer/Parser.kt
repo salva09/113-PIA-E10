@@ -23,7 +23,7 @@ fun parse() {
     }
     if (lookahead.token != EPSILON)
         throw LanguageException("Syntax error\n" +
-                "At line " + line + ": " + "Unexpected symbol \"" + lookahead.sequence + "\" was found")
+                "At line $line: Unexpected symbol '${lookahead.sequence}' was found")
 }
 
 private fun nextToken() {
@@ -44,12 +44,11 @@ private fun startOfProgram() {
             when {
                 lookahead.sequence.isEmpty() -> {
                     throw LanguageException("Syntax error\n" +
-                            "At line $line: Symbol \"programa\" was expected, but empty string was found")
+                            "At line $line: Symbol 'programa' was expected, but empty string was found")
                 }
                 else -> {
                     throw LanguageException("Syntax error\n" +
-                            "At line " + line + ": " + "Symbol \"programa\" was expected, but \"" +
-                            lookahead.sequence + "\" was found")
+                            "At line $line: Symbol 'programa' was expected, but '${lookahead.sequence}' was found")
                 }
             }
         }
@@ -66,12 +65,11 @@ private fun start() {
             when {
                 lookahead.sequence.isEmpty() -> {
                     throw LanguageException("Syntax error\n" +
-                            "At line $line: Symbol \"iniciar\" was expected, but empty string was found")
+                            "At line $line: Symbol 'iniciar' was expected, but empty string was found")
                 }
                 else -> {
                     throw LanguageException("Syntax error\n" +
-                            "At line $line: Symbol \"iniciar\" was expected, but \"" + lookahead.sequence +
-                            "\" was found")
+                            "At line $line: Symbol 'iniciar' was expected, but '${lookahead.sequence}' was found")
                 }
             }
         }
@@ -100,8 +98,7 @@ private fun instructions() {
                         }
                         else -> {
                             throw LanguageException("Syntax error\n" +
-                                    "At line $line: A instruction was expected, but \"" + lookahead.sequence +
-                                    "\" was found")
+                                    "At line $line: A instruction was expected, but '${lookahead.sequence}' was found")
                         }
                     }
                 }
@@ -132,17 +129,15 @@ private fun imprimir() {
                 if (variables.contains(lookahead.sequence)) {
                     nextToken()
                 } else {
-                    throw LanguageException("Syntax error\n" +
-                            "At line $line: Variable not declared")
+                    throw LanguageException("")
                 }
             } else {
-                throw ArithmeticException("Syntax error\n" +
-                        "At line $line: A variable was expected, but \"" + lookahead.sequence + "\" was found")
+                throw ArithmeticException("")
             }
             true
         } catch (ex: LanguageException) {
             throw LanguageException("Syntax error\n" +
-                    "At line $line: Variable not declared")
+                    "At line $line: Variable '${lookahead.sequence}' not declared")
         } catch (ex: ArithmeticException) {
             false
         }
@@ -152,7 +147,7 @@ private fun imprimir() {
                 E()
             } catch (ex: LanguageException) {
                 throw LanguageException("Syntax error\n" +
-                        "At line $line: Function imprimir is expecting an argument")
+                        "At line $line: Function 'imprimir' is expecting an argument")
             }
         }
         endOfLine()
@@ -167,12 +162,11 @@ private fun assignation() {
             when {
                 lookahead.sequence.isEmpty() -> {
                     throw LanguageException("Syntax error\n" +
-                            "At line $line: Symbol \":=\" was expected, but empty string was found")
+                            "At line $line: Symbol ':=' was expected, but empty string was found")
                 }
                 else -> {
                     throw LanguageException("Syntax error\n" +
-                            "At line $line: Symbol \":=\" was expected, but \"" + lookahead.sequence +
-                            "\" was found")
+                            "At line $line: Symbol ':=' was expected, but '${lookahead.sequence}' was found")
                 }
             }
         }
@@ -266,8 +260,7 @@ private fun C() {
                         "At line $line: Close brackets was expected, but empty string was found")
             } else {
                 throw LanguageException("Syntax error\n" +
-                        "At line $line: Close brackets was expected, but \"" + lookahead.sequence +
-                        "\" was found")
+                        "At line $line: Close brackets was expected, but '${lookahead.sequence}' was found")
             }
         }
     } else {
@@ -303,12 +296,11 @@ private fun end() {
             when {
                 lookahead.sequence.isEmpty() -> {
                     throw LanguageException("Syntax error\n" +
-                            "At line $line: Symbol \"terminar.\" was expected, but empty string was found")
+                            "At line $line: Symbol 'terminar.' was expected, but empty string was found")
                 }
                 else -> {
                     throw LanguageException("Syntax error\n" +
-                            "At line $line: Symbol \"terminar.\" was expected, but \"" + lookahead.sequence +
-                            "\" was found")
+                            "At line $line: Symbol 'terminar.' was expected, but '${lookahead.sequence}' was found")
                 }
             }
         }
@@ -329,7 +321,7 @@ private fun name() {
                 }
                 else -> {
                     throw LanguageException("Syntax error\n" +
-                            "At line $line: A name was expected, but \"" + lookahead.sequence + "\" was found")
+                            "At line $line: A name was expected, but '${lookahead.sequence}' was found")
                 }
             }
         }
@@ -350,8 +342,7 @@ private fun variable() {
                 }
                 else -> {
                     throw LanguageException("Syntax error\n" +
-                            "At line $line: A variable was expected, but \"" + lookahead.sequence +
-                            "\" was found")
+                            "At line $line: A variable was expected, but '${lookahead.sequence}' was found")
                 }
             }
         }
@@ -371,8 +362,7 @@ private fun whitespace() {
                 }
                 else -> {
                     throw LanguageException("Syntax error\n" +
-                            "At line $line: A whitespace was expected, but \"" + lookahead.sequence +
-                            "\" was found")
+                            "At line $line: A whitespace was expected, but '${lookahead.sequence}' was found")
                 }
             }
         }
@@ -388,7 +378,7 @@ private fun optionalWhitespace() {
 private fun endOfLine() {
     if (lookahead.token == WHITESPACE) {
         throw LanguageException("Syntax error\n" +
-                "At line $line: Symbol \";\" was expected, but whitespace was found")
+                "At line $line: Symbol ';' was expected, but whitespace was found")
     }
     when (lookahead.token) {
         SEMICOLON -> {
@@ -398,11 +388,11 @@ private fun endOfLine() {
             when {
                 lookahead.sequence.isEmpty() -> {
                     throw LanguageException("Syntax error\n" +
-                            "At line $line: Symbol \";\" was expected, but empty string was found")
+                            "At line $line: Symbol ';' was expected, but empty string was found")
                 }
                 else -> {
                     throw LanguageException("Syntax error\n" +
-                            "At line $line: Symbol \";\" was expected, but \"" + lookahead.sequence + "\" was found")
+                            "At line $line: Symbol ';' was expected, but '${lookahead.sequence}' was found")
                 }
             }
         }
@@ -423,7 +413,7 @@ private fun nextLine() {
                 }
                 else -> {
                     throw LanguageException("Syntax error\n" +
-                            "At line $line: Line break was expected, but \"" + lookahead.sequence + "\" was found")
+                            "At line $line: Line break was expected, but '${lookahead.sequence}' was found")
                 }
             }
         }
