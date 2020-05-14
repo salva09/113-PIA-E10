@@ -7,10 +7,10 @@ import javax.swing.JOptionPane
 fun welcome(): Boolean {
     val message: String = "<html>" +
             "Thank you for using my program! <br>" +
-            "I hope that you don\'t face any bugs. <br>" +
+            "I hope that you don't face any bugs. <br>" +
             "You have some file examples with this program. <br><br>" +
-            "Tip: If you don\'t know how to use this program <br>" +
-            "go to About -> How to use." +
+            "Tip: If you don't know how to use this program <br>" +
+            "go to About: How to use." +
             "</html>"
     val checkbox = JCheckBox("Show at startup")
     checkbox.isSelected = true
@@ -23,16 +23,18 @@ fun welcome(): Boolean {
 fun howToUse() {
     val message: String = "<html>" +
             "This is a code editor for a specific language, it has <br>" +
-            "a syntax highlighting and a (broken) code completition. <br><br>" +
-            "Basic options: <br>" +
-            "If you want to open a file, use File -> Open file. <br>" +
-            "If you want to save that file, just File -> Save file. <br>" +
-            "You have some edit options in the Edit tab. <br>" +
-            "To exit the program you can use File -> Exit or just close. <br>" +
-            "the window <br><br>" +
-            "If you are here to analyze a file containing a language <br>" +
-            "then Analyze -> Analyze syntax is your option. <br>" +
-            "There is a doc with the information of the language, give it a read. <br>" +
+            "a syntax highlighting and a code completion. <br><br>" +
+            "File options: <br>" +
+            "Open -> Pop ups a menu to select and open a file. <br>" +
+            "Save -> Saves the current opened file. <br>" +
+            "Exit -> Closes the window and exits the program. <br><br>" +
+            "Edit options: <br>" +
+            "Common edit options like everyone knows. <br><br>" +
+            "Analyze option: <br>" +
+            "Analyze language -> Analyzes the code using a " +
+            "recursive descent parser. <br><br>" +
+            "There is a doc with the information of the language, " +
+            "give it a read. <br>" +
             "<html>"
     JOptionPane.showMessageDialog(null, message, "How to use", JOptionPane.QUESTION_MESSAGE)
 }
@@ -72,6 +74,6 @@ fun aboutLicense() {
             "AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION <br>" +
             "WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</h6>" +
             "</html>"
-    val logo = ImageIcon("view/assets/mit_license_logo.png")
+    val logo = ImageIcon("assets/mit_license_logo.png")
     JOptionPane.showMessageDialog(null, message, "License", JOptionPane.QUESTION_MESSAGE, logo)
 }

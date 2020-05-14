@@ -140,7 +140,7 @@ class Home : JFrame() {
         menuBar.add(analyzerMenu)
 
         val aboutMenu = JMenu("About")
-        val teamInfo = JMenuItem("Info")
+        val teamInfo = JMenuItem("Information")
         val licenseInfo = JMenuItem("License")
         val howToUse = JMenuItem("How to use")
         teamInfo.addActionListener { aboutTeam() }
