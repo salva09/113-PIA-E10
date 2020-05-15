@@ -67,11 +67,10 @@ class Home : JFrame() {
             file.createNewFile()
             showAtStartup = welcome()
             if (showAtStartup) {
-                file.writeText("welcome: true")
+                file.writeText("welcome: true\nexperimental: false")
             } else {
-                file.writeText("welcome: false")
+                file.writeText("welcome: false\nexperimental: false")
             }
-            file.writeText("experimental: false")
         } else {
             file.forEachLine {
                 if (it.contains("welcome: true")) {
