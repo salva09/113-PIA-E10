@@ -6,7 +6,7 @@ import javax.swing.JOptionPane
 private fun init() {
     addTokenInfo("programa", KEYWORD_1)
     addTokenInfo("iniciar", KEYWORD_2)
-    addTokenInfo("terminar.", KEYWORD_3)
+    addTokenInfo("terminar\\.", KEYWORD_3)
     addTokenInfo("imprimir|leer", FUNCTION)
     addTokenInfo("[0-9]+[a-z]+[a-z0-9]*", VARIABLE_NOT_VALID)
     addTokenInfo("[0-9]+", NUMBER)
