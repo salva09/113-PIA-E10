@@ -3,7 +3,7 @@ package control
 import lexer.*
 import javax.swing.JOptionPane
 
-private fun init() {
+private fun setTokenInfo() {
     addTokenInfo("programa", KEYWORD_1)
     addTokenInfo("iniciar", KEYWORD_2)
     addTokenInfo("terminar\\.", KEYWORD_3)
@@ -24,7 +24,7 @@ private fun init() {
 }
 
 fun analyze(input: String) {
-    init()
+    setTokenInfo()
     try {
         tokenize(input)
         parse()
