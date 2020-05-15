@@ -2,9 +2,9 @@ package view
 
 import com.formdev.flatlaf.FlatLightLaf
 import control.analyze
-import control.setDarkLaf
-import control.setDarkScrollPane
-import control.setDarkTextArea
+import Experimental.setDarkLaf
+import Experimental.setDarkScrollPane
+import Experimental.setDarkTextArea
 import file.fileName
 import file.getFileContent
 import file.openFile
