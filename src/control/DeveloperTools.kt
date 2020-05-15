@@ -43,10 +43,9 @@ fun setDarkTextArea(textArea: RSyntaxTextArea) {
     textArea.revalidate()
 }
 
-fun setDarkScrollPane(scrollPane: RTextScrollPane): RTextScrollPane {
-    scrollPane.background = background
-    scrollPane.foreground = foreground
-    scrollPane.revalidate()
+fun setDarkScrollPane(scrollPane: RTextScrollPane) {
+    scrollPane.gutter.borderColor = Color.GRAY
+    scrollPane.gutter.background = background
 
-    return scrollPane
+    scrollPane.revalidate()
 }
