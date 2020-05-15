@@ -76,6 +76,5 @@ fun aboutLicense() {
             "AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION <br>" +
             "WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</h6>" +
             "</html>"
-    val logo = ImageIcon("assets/mit_license_logo.png")
-    JOptionPane.showMessageDialog(null, message, "License", JOptionPane.QUESTION_MESSAGE, logo)
+    JOptionPane.showMessageDialog(null, message, "License", JOptionPane.QUESTION_MESSAGE)
 }
