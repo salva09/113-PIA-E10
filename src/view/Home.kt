@@ -1,6 +1,7 @@
 package view
 
 import com.formdev.flatlaf.FlatLightLaf
+import control.setDarkTheme
 import control.analyze
 import file.fileName
 import file.getFileContent
@@ -146,8 +147,11 @@ class Home : JFrame() {
         if (devMode) {
             val developerTools = JMenu("Developer Tools")
             val run = JMenuItem("Run")
+            val darkTheme = JMenuItem("Dark theme")
             run.addActionListener {}
+            darkTheme.addActionListener { setDarkTheme(textArea) }
             developerTools.add(run)
+            developerTools.add(darkTheme)
             menuBar.add(developerTools)
         }
 
