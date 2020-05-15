@@ -263,6 +263,7 @@ private tailrec fun G() {
 
 private fun C() {
     if (lookahead.token == OPEN_BRACKET) {
+        activeDivision = false
         nextToken()
         E()
         if (lookahead.token == CLOSE_BRACKET) {
