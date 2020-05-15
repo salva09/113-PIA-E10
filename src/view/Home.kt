@@ -2,9 +2,9 @@ package view
 
 import com.formdev.flatlaf.FlatLightLaf
 import control.analyze
-import Experimental.setDarkLaf
-import Experimental.setDarkScrollPane
-import Experimental.setDarkTextArea
+import experimental.setDarkLaf
+import experimental.setDarkScrollPane
+import experimental.setDarkTextArea
 import file.fileName
 import file.getFileContent
 import file.openFile
@@ -181,7 +181,7 @@ class Home : JFrame() {
     }
 
     private fun createExpMenu(textArea: RSyntaxTextArea, scrollPane: RTextScrollPane): JMenu {
-        val experimentalMenu = JMenu("Experimental")
+        val experimentalMenu = JMenu("experimental")
 
         val run = JMenuItem("Run")
         val darkTheme = JMenuItem("Dark theme")
