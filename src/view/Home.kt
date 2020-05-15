@@ -149,7 +149,7 @@ class Home : JFrame() {
             val run = JMenuItem("Run")
             val darkTheme = JMenuItem("Dark theme")
             run.addActionListener {}
-            darkTheme.addActionListener { setDarkTheme(textArea) }
+            darkTheme.addActionListener { setDarkTheme(textArea, this) }
             developerTools.add(run)
             developerTools.add(darkTheme)
             menuBar.add(developerTools)

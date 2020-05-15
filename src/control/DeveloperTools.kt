@@ -1,14 +1,21 @@
 package control
 
+import com.formdev.flatlaf.FlatDarculaLaf
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import org.fife.ui.rsyntaxtextarea.Token
 import java.awt.Color
+import javax.swing.JFrame
+import javax.swing.SwingUtilities
+import javax.swing.UIManager
 
-fun setDarkTheme(textArea: RSyntaxTextArea): RSyntaxTextArea {
+fun setDarkTheme(textArea: RSyntaxTextArea, frame: JFrame): RSyntaxTextArea {
+    UIManager.setLookAndFeel(FlatDarculaLaf())
+    SwingUtilities.updateComponentTreeUI(frame)
+
     //Colors
-    val green = Color(123, 160, 91)
+    val green = Color(123, 180, 91)
     val gray = Color(128, 128, 128)
-    val red = Color(220, 20, 60)
+    val red = Color(230, 20, 60)
     val blue = Color(176, 196, 222)
     val currentLine = Color(50, 50, 50)
     val background = Color(43, 43, 43)
