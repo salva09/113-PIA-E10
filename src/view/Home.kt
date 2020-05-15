@@ -71,6 +71,7 @@ class Home : JFrame() {
             } else {
                 file.writeText("welcome: false")
             }
+            file.writeText("experimental: false")
         } else {
             file.forEachLine {
                 if (it.contains("welcome: true")) {
