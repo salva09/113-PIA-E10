@@ -1,8 +1,10 @@
 package view
 
 import com.formdev.flatlaf.FlatLightLaf
-import control.setDarkTheme
 import control.analyze
+import control.setDarkLaf
+import control.setDarkScrollPane
+import control.setDarkTextArea
 import file.fileName
 import file.getFileContent
 import file.openFile
@@ -41,7 +43,7 @@ class Home : JFrame() {
         defaultCloseOperation = EXIT_ON_CLOSE
         pack()
         setLocationRelativeTo(null)
-        createMenuBar(textArea)
+        createMenuBar(textArea, scrollPane)
     }
 
     private fun setLookAndFeel() {
@@ -84,14 +86,29 @@ class Home : JFrame() {
         }
     }
 
-    private fun createMenuBar(textArea: RSyntaxTextArea) {
+    private fun createMenuBar(textArea: RSyntaxTextArea, scrollPane: RTextScrollPane) {
         val menuBar = JMenuBar()
 
+        menuBar.add(createFileMenu(textArea))
+        menuBar.add(createEditMenu())
+        menuBar.add(createAnalyzeMenu(textArea))
+        menuBar.add(createAboutMenu())
+
+        if (devMode) {
+            menuBar.add(createDevMenu(textArea, scrollPane))
+        }
+
+        jMenuBar = menuBar
+    }
+
+    private fun createFileMenu(textArea: RSyntaxTextArea): JMenu {
         val fileMenu = JMenu("File")
+
         val openFile = JMenuItem("Open")
         val saveFile = JMenuItem("Save")
         val saveFileAs = JMenuItem("Save as")
         val exit = JMenuItem("Exit")
+
         openFile.addActionListener {
             try {
                 if (openFile(openFile)) {
@@ -106,13 +123,18 @@ class Home : JFrame() {
         saveFile.addActionListener { saveFile(openFile, textArea.text) }
         saveFileAs.addActionListener { file.saveFileAs(openFile, textArea.text) }
         exit.addActionListener { exitProcess(0) }
+
         fileMenu.add(openFile)
         fileMenu.add(saveFile)
         fileMenu.add(saveFileAs)
         fileMenu.add(exit)
-        menuBar.add(fileMenu)
 
+        return fileMenu
+    }
+
+    private fun createEditMenu(): JMenu {
         val editMenu = JMenu("Edit")
+
         editMenu.add(createMenuItem(RTextArea.getAction(RTextArea.UNDO_ACTION)))
         editMenu.add(createMenuItem(RTextArea.getAction(RTextArea.REDO_ACTION)))
         editMenu.addSeparator()
@@ -122,40 +144,59 @@ class Home : JFrame() {
         editMenu.add(createMenuItem(RTextArea.getAction(RTextArea.DELETE_ACTION)))
         editMenu.addSeparator()
         editMenu.add(createMenuItem(RTextArea.getAction(RTextArea.SELECT_ALL_ACTION)))
-        menuBar.add(editMenu)
 
+        return editMenu
+    }
+
+    private fun createAnalyzeMenu(textArea: RSyntaxTextArea): JMenu {
         val analyzerMenu = JMenu("Analyze")
+
         val analyze = JMenuItem("Analyze language")
+
         analyze.addActionListener {
             analyze(textArea.text)
         }
-        analyzerMenu.add(analyze)
-        menuBar.add(analyzerMenu)
 
+        analyzerMenu.add(analyze)
+
+        return analyzerMenu
+    }
+
+    private fun createAboutMenu(): JMenu {
         val aboutMenu = JMenu("About")
+
         val teamInfo = JMenuItem("Information")
         val licenseInfo = JMenuItem("License")
         val howToUse = JMenuItem("How to use")
+
         teamInfo.addActionListener { aboutTeam() }
         licenseInfo.addActionListener { aboutLicense() }
         howToUse.addActionListener { howToUse() }
+
         aboutMenu.add(teamInfo)
         aboutMenu.add(howToUse)
         aboutMenu.add(licenseInfo)
-        menuBar.add(aboutMenu)
 
-        if (devMode) {
-            val developerTools = JMenu("Developer Tools")
-            val run = JMenuItem("Run")
-            val darkTheme = JMenuItem("Dark theme")
-            run.addActionListener {}
-            darkTheme.addActionListener { setDarkTheme(textArea, this) }
-            developerTools.add(run)
-            developerTools.add(darkTheme)
-            menuBar.add(developerTools)
+        return aboutMenu
+    }
+
+    private fun createDevMenu(textArea: RSyntaxTextArea, scrollPane: RTextScrollPane): JMenu {
+        val developerTools = JMenu("Developer Tools")
+
+        val run = JMenuItem("Run")
+        val darkTheme = JMenuItem("Dark theme")
+
+        run.addActionListener {}
+        darkTheme.addActionListener {
+            setDarkTextArea(textArea)
+            setDarkLaf(this)
+            setDarkScrollPane(scrollPane)
         }
 
-        jMenuBar = menuBar
+        developerTools.add(run)
+        developerTools.add(darkTheme)
+
+        return developerTools
     }
 
     private fun createMenuItem(action: Action): JMenuItem? {
