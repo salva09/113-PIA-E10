@@ -7,7 +7,7 @@ import java.util.regex.Pattern
 private var tokeninfo = LinkedList<TokenInfo>()
 var tokens =  LinkedList<Token>()
 
-fun add(regex: String, token: Int) {
+fun addTokenInfo(regex: String, token: Int) {
     tokeninfo.add(TokenInfo(Pattern.compile("^($regex)"), token))
 }
 
