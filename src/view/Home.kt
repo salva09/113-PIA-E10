@@ -27,7 +27,7 @@ import kotlin.properties.Delegates
 import kotlin.system.exitProcess
 
 class Home : JFrame() {
-    private var devMode by Delegates.notNull<Boolean>()
+    private var experimentalMode by Delegates.notNull<Boolean>()
 
     init {
         setLookAndFeel()
@@ -81,7 +81,7 @@ class Home : JFrame() {
                         file.writeText("welcome: false")
                     }
                 }
-                devMode = it.contains("devmode: true")
+                experimentalMode = it.contains("experimental: true")
             }
         }
     }
@@ -94,8 +94,8 @@ class Home : JFrame() {
         menuBar.add(createAnalyzeMenu(textArea))
         menuBar.add(createAboutMenu())
 
-        if (devMode) {
-            menuBar.add(createDevMenu(textArea, scrollPane))
+        if (experimentalMode) {
+            menuBar.add(createExpMenu(textArea, scrollPane))
         }
 
         jMenuBar = menuBar
@@ -180,8 +180,8 @@ class Home : JFrame() {
         return aboutMenu
     }
 
-    private fun createDevMenu(textArea: RSyntaxTextArea, scrollPane: RTextScrollPane): JMenu {
-        val developerTools = JMenu("Developer Tools")
+    private fun createExpMenu(textArea: RSyntaxTextArea, scrollPane: RTextScrollPane): JMenu {
+        val experimentalMenu = JMenu("Experimental")
 
         val run = JMenuItem("Run")
         val darkTheme = JMenuItem("Dark theme")
@@ -193,10 +193,10 @@ class Home : JFrame() {
             setDarkScrollPane(scrollPane)
         }
 
-        developerTools.add(run)
-        developerTools.add(darkTheme)
+        experimentalMenu.add(run)
+        experimentalMenu.add(darkTheme)
 
-        return developerTools
+        return experimentalMenu
     }
 
     private fun createMenuItem(action: Action): JMenuItem? {
