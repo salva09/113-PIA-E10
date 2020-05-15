@@ -23,7 +23,7 @@ fun setDarkLaf(frame: JFrame) {
     SwingUtilities.updateComponentTreeUI(frame)
 }
 
-fun setDarkTextArea(textArea: RSyntaxTextArea): RSyntaxTextArea {
+fun setDarkTextArea(textArea: RSyntaxTextArea) {
     //Color schemes
     val scheme = textArea.syntaxScheme
 
@@ -39,13 +39,13 @@ fun setDarkTextArea(textArea: RSyntaxTextArea): RSyntaxTextArea {
     textArea.marginLineColor = Color.DARK_GRAY
     textArea.currentLineHighlightColor = currentLine
     textArea.caretColor = Color.WHITE
-    textArea.revalidate()
 
-    return textArea
+    textArea.revalidate()
 }
 
 fun setDarkScrollPane(scrollPane: RTextScrollPane): RTextScrollPane {
     scrollPane.background = background
+    scrollPane.foreground = foreground
     scrollPane.revalidate()
 
     return scrollPane

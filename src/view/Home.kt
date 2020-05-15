@@ -216,7 +216,7 @@ class Home : JFrame() {
         textArea.syntaxEditingStyle = "text/program"
 
         //Light theme
-        textArea = setLightTheme(textArea)
+        setLightTheme(textArea)
 
         //Code completion config
         val provider = createCompletionProvider()
@@ -226,7 +226,7 @@ class Home : JFrame() {
         return textArea
     }
 
-    private fun setLightTheme(textArea: RSyntaxTextArea): RSyntaxTextArea {
+    private fun setLightTheme(textArea: RSyntaxTextArea) {
         //Colors
         val green = Color(123, 160, 91)
         val gray = Color(128, 128, 128)
@@ -247,8 +247,8 @@ class Home : JFrame() {
         textArea.currentLineHighlightColor = background
         textArea.isMarginLineEnabled = true
         textArea.marginLineColor = Color.DARK_GRAY
+
         textArea.revalidate()
-        return textArea
     }
 
     //Experimental field
