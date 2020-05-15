@@ -3,24 +3,27 @@ package control
 import com.formdev.flatlaf.FlatDarculaLaf
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import org.fife.ui.rsyntaxtextarea.Token
+import org.fife.ui.rtextarea.RTextScrollPane
 import java.awt.Color
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
 import javax.swing.UIManager
 
-fun setDarkTheme(textArea: RSyntaxTextArea, frame: JFrame): RSyntaxTextArea {
+//Colors
+private val green = Color(123, 180, 91)
+private val gray = Color(128, 128, 128)
+private val red = Color(230, 20, 60)
+private val blue = Color(176, 196, 222)
+private val currentLine = Color(50, 50, 50)
+private val background = Color(43, 43, 43)
+private val foreground = Color(140, 168, 173)
+
+fun setDarkLaf(frame: JFrame) {
     UIManager.setLookAndFeel(FlatDarculaLaf())
     SwingUtilities.updateComponentTreeUI(frame)
+}
 
-    //Colors
-    val green = Color(123, 180, 91)
-    val gray = Color(128, 128, 128)
-    val red = Color(230, 20, 60)
-    val blue = Color(176, 196, 222)
-    val currentLine = Color(50, 50, 50)
-    val background = Color(43, 43, 43)
-    val foreground = Color(140, 168, 173)
-
+fun setDarkTextArea(textArea: RSyntaxTextArea): RSyntaxTextArea {
     //Color schemes
     val scheme = textArea.syntaxScheme
 
@@ -35,6 +38,15 @@ fun setDarkTheme(textArea: RSyntaxTextArea, frame: JFrame): RSyntaxTextArea {
     textArea.isMarginLineEnabled = true
     textArea.marginLineColor = Color.DARK_GRAY
     textArea.currentLineHighlightColor = currentLine
+    textArea.caretColor = Color.WHITE
     textArea.revalidate()
+
     return textArea
+}
+
+fun setDarkScrollPane(scrollPane: RTextScrollPane): RTextScrollPane {
+    scrollPane.background = background
+    scrollPane.revalidate()
+
+    return scrollPane
 }
