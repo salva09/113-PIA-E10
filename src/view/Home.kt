@@ -25,6 +25,7 @@ import kotlin.system.exitProcess
 
 class Home : JFrame() {
     private lateinit var textArea: RSyntaxTextArea
+    private var devMode by Delegates.notNull<Boolean>()
 
     init {
         setLookAndFeel()
@@ -78,6 +79,7 @@ class Home : JFrame() {
                         file.writeText("welcome: false")
                     }
                 }
+                devMode = it.contains("devmode: true")
             }
         }
     }
@@ -141,6 +143,14 @@ class Home : JFrame() {
         aboutMenu.add(howToUse)
         aboutMenu.add(licenseInfo)
         menuBar.add(aboutMenu)
+
+        if (devMode) {
+            val developerTools = JMenu("Developer Tools")
+            val run = JMenuItem("Run")
+            run.addActionListener {}
+            developerTools.add(run)
+            menuBar.add(developerTools)
+        }
 
         jMenuBar = menuBar
     }
