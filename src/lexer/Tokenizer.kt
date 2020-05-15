@@ -12,6 +12,7 @@ fun addTokenInfo(regex: String, token: Int) {
 }
 
 fun tokenize(string: String) {
+    tokens.clear()
     tokens = LinkedList<Token>()
     if (string.isEmpty()) throw LanguageException("Expected some input, but empty string was found")
 
