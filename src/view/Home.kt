@@ -27,7 +27,7 @@ import kotlin.properties.Delegates
 import kotlin.system.exitProcess
 
 class Home : JFrame() {
-    private var experimentalMode by Delegates.notNull<Boolean>()
+    private var experimentalMode = false
 
     init {
         setLookAndFeel()
