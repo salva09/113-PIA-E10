@@ -20,12 +20,16 @@ import java.awt.BorderLayout
 import java.awt.Color
 import java.io.File
 import javax.swing.*
+import kotlin.properties.Delegates
 import kotlin.system.exitProcess
 
 class Home : JFrame() {
     private lateinit var textArea: RSyntaxTextArea
 
     init {
+        setLookAndFeel()
+        setConfig()
+
         val pane = JPanel(BorderLayout())
         createTextArea()
         val scrollPane = RTextScrollPane(textArea)
@@ -39,52 +43,40 @@ class Home : JFrame() {
         createMenuBar()
     }
 
-    companion object {
-        @JvmStatic
-        fun main(args: Array<String>) {
-            // Start all Swing applications on the EDT.
-            SwingUtilities.invokeLater {
-                setLookAndFeel()
-                Home().isVisible = true
-                setConfig()
-            }
-        }
-
-        private fun setConfig() {
-            val file = File("config.txt")
-            var showAtStartup: Boolean
-            if (!file.exists()) {
-                file.createNewFile()
-                showAtStartup = welcome()
-                if (showAtStartup) {
-                    file.writeText("welcome: true")
-                } else {
-                    file.writeText("welcome: false")
-                }
-            } else {
-                file.forEachLine {
-                    if (it.contains("welcome: true")) {
-                        showAtStartup = welcome()
-                        if (showAtStartup) {
-                            file.writeText("welcome: true")
-                        } else {
-                            file.writeText("welcome: false")
-                        }
-                    }
-                }
-            }
-        }
-
-        private fun setLookAndFeel() {
+    private fun setLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(FlatLightLaf())
+        } catch (e: Exception) {
             try {
-                UIManager.setLookAndFeel(FlatLightLaf())
-            } catch (e: Exception) {
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
-                } catch (ex: Exception) {
-                    val message = "OS not supported\n" + ex.localizedMessage
-                    JOptionPane.showMessageDialog(null, message, "System error", JOptionPane.QUESTION_MESSAGE)
-                    exitProcess(0)
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
+            } catch (ex: Exception) {
+                val message = "OS not supported\n" + ex.localizedMessage
+                JOptionPane.showMessageDialog(null, message, "System error", JOptionPane.QUESTION_MESSAGE)
+                exitProcess(0)
+            }
+        }
+    }
+
+    private fun setConfig() {
+        val file = File("config.txt")
+        var showAtStartup: Boolean
+        if (!file.exists()) {
+            file.createNewFile()
+            showAtStartup = welcome()
+            if (showAtStartup) {
+                file.writeText("welcome: true")
+            } else {
+                file.writeText("welcome: false")
+            }
+        } else {
+            file.forEachLine {
+                if (it.contains("welcome: true")) {
+                    showAtStartup = welcome()
+                    if (showAtStartup) {
+                        file.writeText("welcome: true")
+                    } else {
+                        file.writeText("welcome: false")
+                    }
                 }
             }
         }
@@ -221,5 +213,15 @@ class Home : JFrame() {
         provider.addCompletion(BasicCompletion(provider, "imprimir"))
 
         return provider
+    }
+
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            // Start all Swing applications on the EDT.
+            SwingUtilities.invokeLater {
+                Home().isVisible = true
+            }
+        }
     }
 }
