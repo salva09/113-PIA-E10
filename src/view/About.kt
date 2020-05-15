@@ -24,6 +24,8 @@ fun howToUse() {
     val message: String = "<html>" +
             "This is a code editor for a specific language, it has <br>" +
             "a syntax highlighting and a code completion. <br><br>" +
+            "Code completion: <br>" +
+            "Press ctlr + space to use the code completion. <br><br>" +
             "File options: <br>" +
             "Open -> Pop ups a menu to select and open a file. <br>" +
             "Save -> Saves the current opened file. <br>" +
