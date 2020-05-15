@@ -41,9 +41,9 @@ class Home : JFrame() {
         contentPane = pane
         title = "113-PIA-E10"
         defaultCloseOperation = EXIT_ON_CLOSE
+        createMenuBar(textArea, scrollPane)
         pack()
         setLocationRelativeTo(null)
-        createMenuBar(textArea, scrollPane)
     }
 
     private fun setLookAndFeel() {
