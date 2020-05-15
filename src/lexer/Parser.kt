@@ -89,7 +89,7 @@ private fun start() {
     }
 }
 
-private fun instructions() {
+private tailrec fun instructions() {
     when (lookahead.token) {
         FUNCTION -> {
             leer()
@@ -200,7 +200,7 @@ private fun E() {
     }
 }
 
-private fun EPrime() {
+private tailrec fun EPrime() {
     if (lookahead.token == PLUS_MINUS) {
         nextToken()
         Y()
@@ -220,7 +220,7 @@ private fun Y() {
     }
 }
 
-private fun YPrime() {
+private tailrec fun YPrime() {
     if (lookahead.token == MULT_DIV) {
         nextToken()
         J()
@@ -240,7 +240,7 @@ private fun J() {
     }
 }
 
-private fun JPrime() {
+private tailrec fun JPrime() {
     if (lookahead.token == RAISED) {
         nextToken()
         G()
@@ -251,7 +251,7 @@ private fun JPrime() {
     }
 }
 
-private fun G() {
+private tailrec fun G() {
     optionalWhitespace()
     if (lookahead.sequence == "-") {
         nextToken()
