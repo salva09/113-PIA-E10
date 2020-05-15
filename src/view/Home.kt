@@ -24,7 +24,6 @@ import kotlin.properties.Delegates
 import kotlin.system.exitProcess
 
 class Home : JFrame() {
-    private lateinit var textArea: RSyntaxTextArea
     private var devMode by Delegates.notNull<Boolean>()
 
     init {
@@ -32,7 +31,7 @@ class Home : JFrame() {
         setConfig()
 
         val pane = JPanel(BorderLayout())
-        createTextArea()
+        val textArea = createTextArea()
         val scrollPane = RTextScrollPane(textArea)
         pane.add(scrollPane)
 
@@ -41,7 +40,7 @@ class Home : JFrame() {
         defaultCloseOperation = EXIT_ON_CLOSE
         pack()
         setLocationRelativeTo(null)
-        createMenuBar()
+        createMenuBar(textArea)
     }
 
     private fun setLookAndFeel() {
@@ -84,7 +83,7 @@ class Home : JFrame() {
         }
     }
 
-    private fun createMenuBar() {
+    private fun createMenuBar(textArea: RSyntaxTextArea) {
         val menuBar = JMenuBar()
 
         val fileMenu = JMenu("File")
@@ -161,8 +160,8 @@ class Home : JFrame() {
         return item
     }
 
-    private fun createTextArea() {
-        textArea = RSyntaxTextArea(30, 60)
+    private fun createTextArea(): RSyntaxTextArea {
+        var textArea = RSyntaxTextArea(30, 60)
         textArea.isCodeFoldingEnabled = true
         textArea.paintTabLines = true
 
@@ -172,15 +171,17 @@ class Home : JFrame() {
         textArea.syntaxEditingStyle = "text/program"
 
         //Light theme
-        setLightTheme()
+        textArea = setLightTheme(textArea)
 
         //Code completion config
         val provider = createCompletionProvider()
         val ac = AutoCompletion(provider)
         ac.install(textArea)
+
+        return textArea
     }
 
-    private fun setLightTheme() {
+    private fun setLightTheme(textArea: RSyntaxTextArea): RSyntaxTextArea {
         //Colors
         val green = Color(123, 160, 91)
         val gray = Color(128, 128, 128)
@@ -202,6 +203,7 @@ class Home : JFrame() {
         textArea.isMarginLineEnabled = true
         textArea.marginLineColor = Color.DARK_GRAY
         textArea.revalidate()
+        return textArea
     }
 
     //Experimental field
