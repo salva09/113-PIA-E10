@@ -195,17 +195,17 @@ private fun E() {
     optionalWhitespace()
     Y()
     optionalWhitespace()
-    if (lookahead.token == PLUS_MINUS) {
+    if (lookahead.token == PLUS or MINUS) {
         EPrime()
     }
 }
 
 private tailrec fun EPrime() {
-    if (lookahead.token == PLUS_MINUS) {
+    if (lookahead.token == PLUS or MINUS) {
         nextToken()
         Y()
         optionalWhitespace()
-        if (lookahead.token == PLUS_MINUS) {
+        if (lookahead.token == PLUS or MINUS) {
             EPrime()
         }
     }
@@ -253,7 +253,7 @@ private tailrec fun JPrime() {
 
 private tailrec fun G() {
     optionalWhitespace()
-    if (lookahead.sequence == "-") {
+    if (lookahead.token == MINUS) {
         nextToken()
         G()
     } else {
