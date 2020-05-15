@@ -29,8 +29,7 @@ fun analyze(input: String) {
         tokenize(input)
         parse()
 
-        val output = "Right now there is not output"
-        JOptionPane.showMessageDialog(null, "Output: $output", "The input given is valid!", JOptionPane.INFORMATION_MESSAGE)
+        JOptionPane.showMessageDialog(null, "The input given is valid!", "", JOptionPane.INFORMATION_MESSAGE)
     } catch (ex: LanguageException) {
         JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error", JOptionPane.ERROR_MESSAGE)
     }
