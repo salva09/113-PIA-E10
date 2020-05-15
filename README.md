@@ -1,6 +1,6 @@
 # 113-PIA-E10
 
-Automata's theory final project, it's a language analyzer using a parser.
+Automata's theory final project, it's a language analyzer using a recursive descent parser.
 
 ## Project
 
