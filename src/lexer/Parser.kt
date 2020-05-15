@@ -293,8 +293,13 @@ private fun C() {
                             "At line $line: Variable '${lookahead.sequence}' not declared")
                 }
             } else {
-                throw LanguageException("Syntax error\n" +
-                        "At line $line: A value was expected, but empty string was found")
+                if (lookahead.sequence.isEmpty()) {
+                    throw LanguageException("Syntax error\n" +
+                            "At line $line: A value was expected, but empty string was found")
+                } else {
+                    throw LanguageException("Syntax error\n" +
+                            "At line $line: A value was expected, but '${lookahead.sequence}' was found")
+                }
             }
         }
     }
