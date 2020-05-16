@@ -263,11 +263,11 @@ class Home : JFrame() {
 
         // Add completions for keywords. A BasicCompletion is just
         // a straightforward word completion.
-        provider.addCompletion(BasicCompletion(provider, "programa"))
+        provider.addCompletion(BasicCompletion(provider, "programa "))
         provider.addCompletion(BasicCompletion(provider, "iniciar"))
         provider.addCompletion(BasicCompletion(provider, "terminar."))
-        provider.addCompletion(BasicCompletion(provider, "leer"))
-        provider.addCompletion(BasicCompletion(provider, "imprimir"))
+        provider.addCompletion(BasicCompletion(provider, "leer "))
+        provider.addCompletion(BasicCompletion(provider, "imprimir "))
 
         return provider
     }
