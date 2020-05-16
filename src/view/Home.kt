@@ -1,8 +1,6 @@
 package view
 
-import com.formdev.flatlaf.FlatLightLaf
 import control.analyze
-import experimental.*
 import file.fileName
 import file.getFileContent
 import file.openFile
@@ -16,12 +14,10 @@ import org.fife.ui.rtextarea.RTextScrollPane
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import org.fife.ui.rsyntaxtextarea.TokenMakerFactory
 import org.fife.ui.rsyntaxtextarea.AbstractTokenMakerFactory
-import org.fife.ui.rsyntaxtextarea.Token
+import view.themes.*
 import java.awt.BorderLayout
-import java.awt.Color
 import java.io.File
 import javax.swing.*
-import kotlin.properties.Delegates
 import kotlin.system.exitProcess
 
 class Home : JFrame() {

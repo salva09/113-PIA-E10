@@ -1,4 +1,4 @@
-package experimental
+package view.themes
 
 import com.formdev.flatlaf.FlatLightLaf
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
