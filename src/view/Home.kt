@@ -2,9 +2,7 @@ package view
 
 import com.formdev.flatlaf.FlatLightLaf
 import control.analyze
-import experimental.setDarkLaf
-import experimental.setDarkScrollPane
-import experimental.setDarkTextArea
+import experimental.*
 import file.fileName
 import file.getFileContent
 import file.openFile
@@ -30,13 +28,17 @@ class Home : JFrame() {
     private var experimentalMode = false
 
     init {
-        setLookAndFeel()
-        setConfig()
-
         val pane = JPanel(BorderLayout())
         val textArea = createTextArea()
         val scrollPane = RTextScrollPane(textArea)
         pane.add(scrollPane)
+
+        //Light theme
+        setLightLaf(this)
+        setLightTextArea(textArea)
+        setLightScrollPane(scrollPane)
+
+        setConfig()
 
         contentPane = pane
         title = "113-PIA-E10"
@@ -44,20 +46,6 @@ class Home : JFrame() {
         createMenuBar(textArea, scrollPane)
         pack()
         setLocationRelativeTo(null)
-    }
-
-    private fun setLookAndFeel() {
-        try {
-            UIManager.setLookAndFeel(FlatLightLaf())
-        } catch (e: Exception) {
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
-            } catch (ex: Exception) {
-                val message = "OS not supported\n" + ex.localizedMessage
-                JOptionPane.showMessageDialog(null, message, "System error", JOptionPane.QUESTION_MESSAGE)
-                exitProcess(0)
-            }
-        }
     }
 
     private fun setConfig() {
@@ -215,40 +203,12 @@ class Home : JFrame() {
         atmf.putMapping("text/program", "view.Syntax")
         textArea.syntaxEditingStyle = "text/program"
 
-        //Light theme
-        setLightTheme(textArea)
-
         //Code completion config
         val provider = createCompletionProvider()
         val ac = AutoCompletion(provider)
         ac.install(textArea)
 
         return textArea
-    }
-
-    private fun setLightTheme(textArea: RSyntaxTextArea) {
-        //Colors
-        val green = Color(123, 160, 91)
-        val gray = Color(128, 128, 128)
-        val red = Color(220, 20, 60)
-        val blue = Color(176, 196, 222)
-        val background = Color(255, 255, 255)
-        val foreground = Color(0, 0, 0)
-
-        //Color schemes
-        val scheme = textArea.syntaxScheme
-
-        scheme.getStyle(Token.RESERVED_WORD).foreground = gray
-        scheme.getStyle(Token.RESERVED_WORD_2).foreground = red
-        scheme.getStyle(Token.FUNCTION).foreground = green
-        scheme.getStyle(Token.LITERAL_NUMBER_DECIMAL_INT).foreground = blue
-        textArea.background = background
-        textArea.foreground = foreground
-        textArea.currentLineHighlightColor = background
-        textArea.isMarginLineEnabled = true
-        textArea.marginLineColor = Color.DARK_GRAY
-
-        textArea.revalidate()
     }
 
     //Experimental field
