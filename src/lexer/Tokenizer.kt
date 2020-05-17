@@ -17,7 +17,6 @@ fun tokenize(string: String) {
 
     var input = string
     var line = 1
-    tokens.clear()
 
     while (input != "") {
         var match = false
