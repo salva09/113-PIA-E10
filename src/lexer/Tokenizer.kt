@@ -5,7 +5,7 @@ import java.util.*
 import java.util.regex.Pattern
 
 private var tokeninfo = LinkedList<TokenInfo>()
-var tokens =  LinkedList<Token>()
+val tokens =  LinkedList<Token>()
 
 fun addTokenInfo(regex: String, token: Int) {
     tokeninfo.add(TokenInfo(Pattern.compile("^($regex)"), token))
@@ -13,7 +13,6 @@ fun addTokenInfo(regex: String, token: Int) {
 
 fun tokenize(string: String) {
     tokens.clear()
-    tokens = LinkedList<Token>()
     if (string.isEmpty()) throw LanguageException("Expected some input, but empty string was found")
 
     var input = string

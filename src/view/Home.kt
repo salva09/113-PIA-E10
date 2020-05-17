@@ -1,10 +1,12 @@
 package view
 
 import control.analyze
+import experimental.run
 import file.fileName
 import file.getFileContent
 import file.openFile
 import file.saveFile
+import lexer.tokens
 import org.fife.ui.autocomplete.AutoCompletion
 import org.fife.ui.autocomplete.BasicCompletion
 import org.fife.ui.autocomplete.CompletionProvider
@@ -38,7 +40,7 @@ class Home : JFrame() {
         defaultCloseOperation = EXIT_ON_CLOSE
 
         applyPreferences(textArea, scrollPane)
-        createMenuBar(textArea, scrollPane)
+        createMenuBar(textArea)
 
         pack()
 
@@ -73,7 +75,7 @@ class Home : JFrame() {
         setPreferences(preferences)
     }
 
-    private fun createMenuBar(textArea: RSyntaxTextArea, scrollPane: RTextScrollPane) {
+    private fun createMenuBar(textArea: RSyntaxTextArea) {
         val menuBar = JMenuBar()
 
         menuBar.add(createFileMenu(textArea))
@@ -82,7 +84,7 @@ class Home : JFrame() {
         menuBar.add(createAboutMenu())
 
         if (experimentalMode) {
-            menuBar.add(createExpMenu(textArea, scrollPane))
+            menuBar.add(createExpMenu())
         }
 
         jMenuBar = menuBar
@@ -167,12 +169,12 @@ class Home : JFrame() {
         return aboutMenu
     }
 
-    private fun createExpMenu(textArea: RSyntaxTextArea, scrollPane: RTextScrollPane): JMenu {
+    private fun createExpMenu(): JMenu {
         val experimentalMenu = JMenu("Experimental")
 
         val run = JMenuItem("Run")
 
-        run.addActionListener {}
+        run.addActionListener { run(tokens) }
 
         experimentalMenu.add(run)
 
