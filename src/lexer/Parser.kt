@@ -204,7 +204,7 @@ private tailrec fun EPrime() {
     nextToken()
     Y()
     optionalWhitespace()
-    if (lookahead.token == MINUS or PLUS) {
+    if (lookahead.token == MINUS || lookahead.sequence == "+") {
         EPrime()
     }
 }
