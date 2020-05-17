@@ -16,7 +16,6 @@ import org.fife.ui.rsyntaxtextarea.TokenMakerFactory
 import org.fife.ui.rsyntaxtextarea.AbstractTokenMakerFactory
 import view.themes.*
 import java.awt.BorderLayout
-import java.io.File
 import javax.swing.*
 import kotlin.system.exitProcess
 
@@ -34,7 +33,7 @@ class Home : JFrame() {
         setLightTextArea(textArea)
         setLightScrollPane(scrollPane)
 
-        setConfig()
+        applyPreferences()
 
         contentPane = pane
         title = "113-PIA-E10"
@@ -44,30 +43,24 @@ class Home : JFrame() {
         setLocationRelativeTo(null)
     }
 
-    private fun setConfig() {
-        val file = File("config.txt")
-        var showAtStartup: Boolean
-        if (!file.exists()) {
-            file.createNewFile()
-            showAtStartup = welcome()
-            if (showAtStartup) {
-                file.writeText("welcome: true\nexperimental: false")
-            } else {
-                file.writeText("welcome: false\nexperimental: false")
-            }
-        } else {
-            file.forEachLine {
-                if (it.contains("welcome: true")) {
-                    showAtStartup = welcome()
-                    if (showAtStartup) {
-                        file.writeText("welcome: true")
-                    } else {
-                        file.writeText("welcome: false")
-                    }
-                }
-                experimentalMode = it.contains("experimental: true")
+    private fun applyPreferences() {
+        val preferences = getPreferences()
+        
+        for(config in preferences) {
+            if (config.name == "welcome" && config.value == true) {
+                config.value = welcome()
+                break
             }
         }
+
+        for (config in preferences) {
+            experimentalMode = if (config.name == "experimental" && config.value == true) {
+                true
+                break
+            } else false
+        }
+
+        setPreferences(preferences)
     }
 
     private fun createMenuBar(textArea: RSyntaxTextArea, scrollPane: RTextScrollPane) {
@@ -165,7 +158,7 @@ class Home : JFrame() {
     }
 
     private fun createExpMenu(textArea: RSyntaxTextArea, scrollPane: RTextScrollPane): JMenu {
-        val experimentalMenu = JMenu("experimental")
+        val experimentalMenu = JMenu("Experimental")
 
         val run = JMenuItem("Run")
         val darkTheme = JMenuItem("Dark theme")
