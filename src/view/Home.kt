@@ -164,7 +164,7 @@ class Home : JFrame() {
 
         val run = JMenuItem("Run")
 
-        run.addActionListener { run(tokens) }
+        run.addActionListener { run() }
 
         experimentalMenu.add(run)
 
