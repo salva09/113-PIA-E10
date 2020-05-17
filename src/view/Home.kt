@@ -33,17 +33,19 @@ class Home : JFrame() {
         setLightTextArea(textArea)
         setLightScrollPane(scrollPane)
 
-        applyPreferences()
-
         contentPane = pane
         title = "113-PIA-E10"
         defaultCloseOperation = EXIT_ON_CLOSE
+
+        applyPreferences(textArea, scrollPane)
         createMenuBar(textArea, scrollPane)
+
         pack()
+
         setLocationRelativeTo(null)
     }
 
-    private fun applyPreferences() {
+    private fun applyPreferences(textArea: RSyntaxTextArea, scrollPane: RTextScrollPane) {
         val preferences = getPreferences()
         
         for(config in preferences) {
@@ -54,12 +56,20 @@ class Home : JFrame() {
         }
 
         for (config in preferences) {
-            experimentalMode = if (config.name == "experimental" && config.value == true) {
-                true
+            if (config.name == "dark" && config.value == true) {
+                setDarkLaf(this)
+                setDarkTextArea(textArea)
+                setDarkScrollPane(scrollPane)
                 break
-            } else false
+            }
         }
 
+        for (config in preferences) {
+            experimentalMode = if (config.name == "experimental" && config.value == true) {
+                true
+            } else false
+        }
+        print(preferences)
         setPreferences(preferences)
     }
 
@@ -161,17 +171,10 @@ class Home : JFrame() {
         val experimentalMenu = JMenu("Experimental")
 
         val run = JMenuItem("Run")
-        val darkTheme = JMenuItem("Dark theme")
 
         run.addActionListener {}
-        darkTheme.addActionListener {
-            setDarkTextArea(textArea)
-            setDarkLaf(this)
-            setDarkScrollPane(scrollPane)
-        }
 
         experimentalMenu.add(run)
-        experimentalMenu.add(darkTheme)
 
         return experimentalMenu
     }

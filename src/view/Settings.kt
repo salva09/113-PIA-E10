@@ -9,6 +9,7 @@ private val preferences = ArrayList<Config>()
 
 private fun setDefaultPreferences() {
     preferences.add(Config("welcome", true))
+    preferences.add(Config("dark", false))
     preferences.add(Config("experimental", false))
 }
 
