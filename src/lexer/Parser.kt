@@ -195,7 +195,7 @@ private fun E() {
     optionalWhitespace()
     Y()
     optionalWhitespace()
-    if (lookahead.token == PLUS or MINUS) {
+    if (lookahead.token == MINUS || lookahead.sequence == "+") {
         EPrime()
     }
 }
