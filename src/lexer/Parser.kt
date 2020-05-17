@@ -1,21 +1,24 @@
 package lexer
 
 import control.LanguageException
+import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 
 private var line: Int = 0
 private var activeDivision by Delegates.notNull<Boolean>()
 private var space by Delegates.notNull<Boolean>()
+private lateinit var tokensToParse: LinkedList<Token>
 private lateinit var variables: ArrayList<String>
 private lateinit var lookahead: Token
 
 fun parse() {
+    tokensToParse = tokens.clone() as LinkedList<Token>
     line = 1
     activeDivision = false
     space = false
     variables = ArrayList()
-    lookahead = tokens.first
+    lookahead = tokensToParse.first
 
     startOfProgram()
     start()
@@ -31,9 +34,9 @@ fun parse() {
 }
 
 private fun nextToken() {
-    tokens.pop()
+    tokensToParse.pop()
     // at the end of input we return an epsilon token
-    lookahead = if (tokens.isEmpty()) Token(EPSILON, "") else tokens.first
+    lookahead = if (tokensToParse.isEmpty()) Token(EPSILON, "") else tokensToParse.first
 
     if (space) {
         if (lookahead.token == WHITESPACE) {
