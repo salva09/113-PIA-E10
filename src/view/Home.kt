@@ -48,31 +48,21 @@ class Home : JFrame() {
     }
 
     private fun applyPreferences(textArea: RSyntaxTextArea, scrollPane: RTextScrollPane) {
-        val preferences = getPreferences()
-        
-        for(config in preferences) {
-            if (config.name == "welcome" && config.value == true) {
-                config.value = welcome()
-                break
-            }
+        getPreferences()
+
+        if (getConfig("welcome").value) {
+            getConfig("welcome").value = welcome()
         }
 
-        for (config in preferences) {
-            if (config.name == "dark" && config.value == true) {
-                setDarkLaf(this)
-                setDarkTextArea(textArea)
-                setDarkScrollPane(scrollPane)
-                break
-            }
+        if (getConfig("dark").value) {
+            setDarkLaf(this)
+            setDarkTextArea(textArea)
+            setDarkScrollPane(scrollPane)
         }
 
-        for (config in preferences) {
-            experimentalMode = if (config.name == "experimental" && config.value == true) {
-                true
-            } else false
-        }
+        experimentalMode = getConfig("experimental").value
 
-        setPreferences(preferences)
+        setPreferences()
     }
 
     private fun createMenuBar(textArea: RSyntaxTextArea) {

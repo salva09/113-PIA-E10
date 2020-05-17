@@ -14,7 +14,7 @@ private fun setDefaultPreferences() {
     preferences.add(Config("experimental", false))
 }
 
-fun setPreferences(preferences: ArrayList<Config>) {
+fun setPreferences() {
     val file = File("config.txt")
     var config = ""
     preferences.forEach {
@@ -23,7 +23,7 @@ fun setPreferences(preferences: ArrayList<Config>) {
     file.writeText(config)
 }
 
-fun getPreferences(): ArrayList<Config> {
+fun getPreferences() {
     val file = File("config.txt")
 
     if (file.exists()) {
@@ -34,7 +34,15 @@ fun getPreferences(): ArrayList<Config> {
     } else {
         file.createNewFile()
         setDefaultPreferences()
-        setPreferences(preferences)
+        setPreferences()
     }
-    return preferences
+}
+
+fun getConfig(preference: String): Config {
+    for(config in preferences) {
+        if (config.name == preference) {
+            return config
+        }
+    }
+    return Config(preference, false)
 }
