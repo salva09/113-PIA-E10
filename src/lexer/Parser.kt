@@ -201,13 +201,11 @@ private fun E() {
 }
 
 private tailrec fun EPrime() {
-    if (lookahead.token == PLUS or MINUS) {
-        nextToken()
-        Y()
-        optionalWhitespace()
-        if (lookahead.token == PLUS or MINUS) {
-            EPrime()
-        }
+    nextToken()
+    Y()
+    optionalWhitespace()
+    if (lookahead.token == MINUS or PLUS) {
+        EPrime()
     }
 }
 
@@ -221,14 +219,12 @@ private fun Y() {
 }
 
 private tailrec fun YPrime() {
+    nextToken()
+    J()
+    optionalWhitespace()
     if (lookahead.token == MULT_DIV) {
-        nextToken()
-        J()
-        optionalWhitespace()
-        if (lookahead.token == MULT_DIV) {
-            if (lookahead.sequence == "/") activeDivision = true
-            YPrime()
-        }
+        if (lookahead.sequence == "/") activeDivision = true
+        YPrime()
     }
 }
 
@@ -241,13 +237,11 @@ private fun J() {
 }
 
 private tailrec fun JPrime() {
+    nextToken()
+    G()
+    optionalWhitespace()
     if (lookahead.token == RAISED) {
-        nextToken()
-        G()
-        optionalWhitespace()
-        if (lookahead.token == RAISED) {
-            JPrime()
-        }
+        JPrime()
     }
 }
 
