@@ -69,7 +69,7 @@ class Home : JFrame() {
                 true
             } else false
         }
-        print(preferences)
+
         setPreferences(preferences)
     }
 
