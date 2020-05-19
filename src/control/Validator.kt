@@ -16,7 +16,8 @@ private fun setTokenInfo() {
     addTokenInfo(":=", ASSIGNATION)
     addTokenInfo("\\+", PLUS)
     addTokenInfo("-", MINUS)
-    addTokenInfo("[*/]", MULT_DIV)
+    addTokenInfo("\\*", MULT)
+    addTokenInfo("/", DIV)
     addTokenInfo("\\^", RAISED)
     addTokenInfo("\n", LINE_BREAK)
     addTokenInfo(";", SEMICOLON)
@@ -25,12 +26,6 @@ private fun setTokenInfo() {
 
 fun analyze(input: String) {
     setTokenInfo()
-    try {
-        tokenize(input)
-        parse()
-
-        JOptionPane.showMessageDialog(null, "The input given is valid!", "", JOptionPane.INFORMATION_MESSAGE)
-    } catch (ex: LanguageException) {
-        JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error", JOptionPane.ERROR_MESSAGE)
-    }
+    tokenize(input)
+    parse()
 }

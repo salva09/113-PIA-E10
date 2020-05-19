@@ -1,5 +1,6 @@
 package view
 
+import control.LanguageException
 import control.analyze
 import experimental.run
 import file.fileName
@@ -74,7 +75,7 @@ class Home : JFrame() {
         menuBar.add(createAboutMenu())
 
         if (experimentalMode) {
-            menuBar.add(createExpMenu())
+            menuBar.add(createExpMenu(textArea))
         }
 
         jMenuBar = menuBar
@@ -133,7 +134,12 @@ class Home : JFrame() {
         val analyze = JMenuItem("Analyze language")
 
         analyze.addActionListener {
-            analyze(textArea.text)
+            try {
+                analyze(textArea.text)
+                JOptionPane.showMessageDialog(null, "The input given is valid!", "", JOptionPane.INFORMATION_MESSAGE)
+            } catch (ex: LanguageException) {
+                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error", JOptionPane.ERROR_MESSAGE)
+            }
         }
 
         analyzerMenu.add(analyze)
@@ -159,12 +165,19 @@ class Home : JFrame() {
         return aboutMenu
     }
 
-    private fun createExpMenu(): JMenu {
+    private fun createExpMenu(textArea: RSyntaxTextArea): JMenu {
         val experimentalMenu = JMenu("Experimental")
 
         val run = JMenuItem("Run")
 
-        run.addActionListener { run() }
+        run.addActionListener {
+            try {
+                analyze(textArea.text)
+                run()
+            } catch (ex: LanguageException) {
+                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error", JOptionPane.ERROR_MESSAGE)
+            }
+        }
 
         experimentalMenu.add(run)
 
