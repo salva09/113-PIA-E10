@@ -25,7 +25,6 @@ fun evaluate(tokens: LinkedList<Char>): Stack<Int> {
     var wasOperator = true
 
     while (tokens.first != ';' && !tokens.isEmpty()) {
-        println("Values: $values Operators: $operators")
         if (tokens.first == '(') {
             operators.add(tokens.first)
         } else {
@@ -60,11 +59,10 @@ fun evaluate(tokens: LinkedList<Char>): Stack<Int> {
                 }
             }
         }
-        wasOperator = !tokens.first.isDigit()
+        wasOperator = isOperator(tokens.first)
         tokens.pop()
     }
     while (!operators.isEmpty()) {
-        println("Values: $values Operators: $operators")
         val number1 = values.pop()
         val number2 = values.pop()
         val operation = operators.pop()
@@ -72,6 +70,11 @@ fun evaluate(tokens: LinkedList<Char>): Stack<Int> {
         values.add(result)
     }
     return values
+}
+
+fun isOperator(sequence: Char) = when (sequence) {
+    '+', '-', '*', '/', '(' -> true
+    else -> false
 }
 
 fun operate(a: Int, b: Int, operation: Char) = when (operation) {
