@@ -3,7 +3,7 @@ import java.util.LinkedList
 import java.util.Stack
 import kotlin.math.pow
 
-fun evaluate(tokens: LinkedList<Token>): Int {
+fun evaluate(tokens: LinkedList<Token>, variables: LinkedHashMap<String, Int>): Int {
     val values = Stack<Int>()
     val operators = Stack<Int>()
     var wasOperator = true
@@ -26,19 +26,23 @@ fun evaluate(tokens: LinkedList<Token>): Int {
                     values.add(-1)
                     operators.add(MULT)
                 } else {
-                    if (tokens.first.token == NUMBER) {
-                        values.add(tokens.first.sequence.toInt())
+                    if (tokens.first.token == VARIABLE) {
+                        values.add(variables[tokens.first.sequence])
                     } else {
-                        while (!operators.isEmpty() && hierarchy(tokens.first.token) <= hierarchy(operators.peek())) {
-                            if (operators.peek() != OPEN_BRACKET) {
-                                val number1 = values.pop()
-                                val number2 = values.pop()
-                                val operation = operators.pop()
-                                val result = operate(number2, number1, operation)
-                                values.add(result)
+                        if (tokens.first.token == NUMBER) {
+                            values.add(tokens.first.sequence.toInt())
+                        } else {
+                            while (!operators.isEmpty() && hierarchy(tokens.first.token) <= hierarchy(operators.peek())) {
+                                if (operators.peek() != OPEN_BRACKET) {
+                                    val number1 = values.pop()
+                                    val number2 = values.pop()
+                                    val operation = operators.pop()
+                                    val result = operate(number2, number1, operation)
+                                    values.add(result)
+                                }
                             }
+                            operators.add(tokens.first.token)
                         }
-                        operators.add(tokens.first.token)
                     }
                 }
             }
