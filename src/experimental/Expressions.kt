@@ -1,35 +1,19 @@
+import lexer.*
 import java.util.LinkedList
 import java.util.Stack
 import kotlin.math.pow
 
-fun main() {
-    println("Enter an expression: ")
-    val input = readLine()!!
-    val tokens = LinkedList<Char>()
-    for (char in input) {
-        if (char != ' ') {
-            tokens.add(char)
-        }
-    }
-    try {
-        println("Result: ${evaluate(tokens)}")
-    } catch (ex: ArithmeticException) {
-        println(ex.localizedMessage)
-    } catch (ex: Exception) {
-        println(ex.localizedMessage)
-    }
-}
-fun evaluate(tokens: LinkedList<Char>): Stack<Int> {
+fun evaluate(tokens: LinkedList<Token>): Int {
     val values = Stack<Int>()
-    val operators = Stack<Char>()
+    val operators = Stack<Int>()
     var wasOperator = true
 
-    while (tokens.first != ';' && !tokens.isEmpty()) {
-        if (tokens.first == '(') {
-            operators.add(tokens.first)
+    while (tokens.first.token != SEMICOLON && !tokens.isEmpty()) {
+        if (tokens.first.token == OPEN_BRACKET) {
+            operators.add(tokens.first.token)
         } else {
-            if (tokens.first == ')') {
-                while (operators.peek() != '(' && !operators.isEmpty()) {
+            if (tokens.first.token == CLOSE_BRACKET) {
+                while (operators.peek() != OPEN_BRACKET && !operators.isEmpty()) {
                     val number1 = values.pop()
                     val number2 = values.pop()
                     val operation = operators.pop()
@@ -38,15 +22,15 @@ fun evaluate(tokens: LinkedList<Char>): Stack<Int> {
                 }
                 operators.pop()
             } else {
-                if (wasOperator && tokens.first == '-') {
+                if (wasOperator && tokens.first.token == MINUS) {
                     values.add(-1)
-                    operators.add('*')
+                    operators.add(MULT)
                 } else {
-                    if (tokens.first.isDigit()) {
-                        values.add(tokens.first.toString().toInt())
+                    if (tokens.first.token == NUMBER) {
+                        values.add(tokens.first.sequence.toInt())
                     } else {
-                        while (!operators.isEmpty() && hierarchy(tokens.first) <= hierarchy(operators.peek())) {
-                            if (operators.peek() != '(') {
+                        while (!operators.isEmpty() && hierarchy(tokens.first.token) <= hierarchy(operators.peek())) {
+                            if (operators.peek() != OPEN_BRACKET) {
                                 val number1 = values.pop()
                                 val number2 = values.pop()
                                 val operation = operators.pop()
@@ -54,12 +38,12 @@ fun evaluate(tokens: LinkedList<Char>): Stack<Int> {
                                 values.add(result)
                             }
                         }
-                        operators.add(tokens.first)
+                        operators.add(tokens.first.token)
                     }
                 }
             }
         }
-        wasOperator = isOperator(tokens.first)
+        wasOperator = isOperator(tokens.first.token)
         tokens.pop()
     }
     while (!operators.isEmpty()) {
@@ -69,29 +53,29 @@ fun evaluate(tokens: LinkedList<Char>): Stack<Int> {
         val result = operate(number2, number1, operation)
         values.add(result)
     }
-    return values
+    return if (values.size == 1) values.first() else throw Exception("There was an error evaluating the expression")
 }
 
-fun isOperator(sequence: Char) = when (sequence) {
-    '+', '-', '*', '/', '(' -> true
+private fun isOperator(token: Int) = when (token) {
+    PLUS, MINUS, MULT, DIV -> true
     else -> false
 }
 
-fun operate(a: Int, b: Int, operation: Char) = when (operation) {
-    '+' -> a + b
-    '-' -> a - b
-    '*' -> a * b
-    '/' -> if (b != 0) a / b else throw ArithmeticException("Divide by zero cannot be possible")
-    '^' -> a.toFloat().pow(b).toInt()
+private fun operate(a: Int, b: Int, operation: Int) = when (operation) {
+    PLUS -> a + b
+    MINUS -> a - b
+    MULT -> a * b
+    DIV -> if (b != 0) a / b else throw ArithmeticException("Divide by zero cannot be possible")
+    RAISED -> a.toFloat().pow(b).toInt()
     else -> throw Exception("Operator not recognized")
 }
 
-fun hierarchy(operation: Char) = when (operation) {
-    '+' -> 1
-    '-' -> 1
-    '*' -> 2
-    '/' -> 2
-    '^' -> 3
-    '(' -> 0
+private fun hierarchy(token: Int) = when (token) {
+    PLUS -> 1
+    MINUS -> 1
+    MULT -> 2
+    DIV -> 2
+    RAISED -> 3
+    OPEN_BRACKET -> 0
     else -> throw Exception("Operator not recognized")
 }
