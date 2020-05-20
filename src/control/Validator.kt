@@ -1,7 +1,6 @@
 package control
 
 import lexer.*
-import javax.swing.JOptionPane
 
 private fun setTokenInfo() {
     addTokenInfo("programa", KEYWORD_1)

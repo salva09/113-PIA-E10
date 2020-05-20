@@ -1,6 +1,7 @@
+package experimental
+
 import lexer.*
-import java.util.LinkedList
-import java.util.Stack
+import java.util.*
 import kotlin.math.pow
 
 fun evaluate(tokens: LinkedList<Token>, variables: LinkedHashMap<String, Int>): Int {

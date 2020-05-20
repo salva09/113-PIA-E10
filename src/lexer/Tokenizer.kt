@@ -5,7 +5,7 @@ import java.util.*
 import java.util.regex.Pattern
 
 private var tokeninfo = LinkedList<TokenInfo>()
-val tokens =  LinkedList<Token>()
+val tokens = LinkedList<Token>()
 
 fun addTokenInfo(regex: String, token: Int) {
     tokeninfo.add(TokenInfo(Pattern.compile("^($regex)"), token))
@@ -32,7 +32,7 @@ fun tokenize(string: String) {
 
                 if (info.token == VARIABLE_NOT_VALID)
                     throw LanguageException("Lexicon error\n" +
-                        "At line $line: Variable declaration not valid"
+                            "At line $line: Variable declaration not valid"
                     )
                 if (info.token == LINE_BREAK) line++
 

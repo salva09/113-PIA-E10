@@ -12,7 +12,7 @@ var fileName = ""
 
 fun openFile(openFile: JMenuItem): Boolean {
     fileChooser = JFileChooser()
-    var result = fileChooser.showOpenDialog(openFile)
+    val result = fileChooser.showOpenDialog(openFile)
 
     if (result != 0) throw Exception("No file open")
 

@@ -1,6 +1,5 @@
 package experimental
 
-import evaluate
 import lexer.*
 
 fun run() {

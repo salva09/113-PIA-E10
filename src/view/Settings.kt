@@ -1,7 +1,6 @@
 package view
 
 import java.io.File
-import kotlin.collections.ArrayList
 
 data class Config(val name: String, var value: Boolean)
 
@@ -39,7 +38,7 @@ fun getPreferences() {
 }
 
 fun getConfig(preference: String): Config {
-    for(config in preferences) {
+    for (config in preferences) {
         if (config.name == preference) {
             return config
         }
