@@ -100,8 +100,14 @@ class Home : JFrame() {
                 print(ex.localizedMessage)
             }
         }
-        saveFile.addActionListener { saveFile(openFile, textArea.text) }
-        saveFileAs.addActionListener { file.saveFileAs(openFile, textArea.text) }
+        saveFile.addActionListener {
+            saveFile(openFile, textArea.text)
+            title = "$fileName~113-PIA-E10"
+        }
+        saveFileAs.addActionListener {
+            file.saveFileAs(openFile, textArea.text)
+            title = "$fileName~113-PIA-E10"
+        }
         exit.addActionListener { exitProcess(0) }
 
         fileMenu.add(openFile)
