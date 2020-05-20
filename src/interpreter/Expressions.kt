@@ -62,7 +62,7 @@ fun evaluate(tokens: LinkedList<Token>, variables: LinkedHashMap<String, Long>):
 }
 
 private fun isOperator(token: Int) = when (token) {
-    PLUS, MINUS, MULT, DIV -> true
+    PLUS, MINUS, MULT, DIV, OPEN_BRACKET -> true
     else -> false
 }
 
