@@ -138,34 +138,8 @@ private fun leer() {
 private fun imprimir() {
     if (lookahead.sequence == "imprimir") {
         nextToken()
-
-        val argument: Boolean = try {
-            whitespace()
-            if (lookahead.token == VARIABLE) {
-                if (variables.contains(lookahead.sequence)) {
-                    nextToken()
-                } else {
-                    throw LanguageException("")
-                }
-            } else {
-                throw ArithmeticException("")
-            }
-            true
-        } catch (ex: LanguageException) {
-            throw LanguageException("Syntax error\n" +
-                    "At line $line: Variable '${lookahead.sequence}' not declared")
-        } catch (ex: ArithmeticException) {
-            false
-        }
-
-        if (!argument) {
-            try {
-                E()
-            } catch (ex: LanguageException) {
-                throw LanguageException("Syntax error\n" +
-                        "At line $line: Function 'imprimir' is expecting an argument")
-            }
-        }
+        whitespace()
+        E()
         endOfLine()
         nextLine()
     }
@@ -198,7 +172,7 @@ private fun E() {
     optionalWhitespace()
     Y()
     optionalWhitespace()
-    if (lookahead.token == MINUS || lookahead.token == PLUS) {
+    if (lookahead.token == MINUS || lookahead.sequence == "+") {
         EPrime()
     }
 }
@@ -207,7 +181,7 @@ private tailrec fun EPrime() {
     nextToken()
     Y()
     optionalWhitespace()
-    if (lookahead.token == MINUS || lookahead.token == PLUS) {
+    if (lookahead.token == MINUS || lookahead.sequence == "+") {
         EPrime()
     }
 }
