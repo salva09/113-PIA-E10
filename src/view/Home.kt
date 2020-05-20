@@ -2,11 +2,7 @@ package view
 
 import lexer.ParserException
 import lexer.analyze
-import file.fileName
-import file.getFileContent
-import file.new
-import file.openFile
-import file.saveFile
+import file.FileManager
 import interpreter.run
 import org.fife.ui.autocomplete.AutoCompletion
 import org.fife.ui.autocomplete.BasicCompletion
@@ -23,7 +19,6 @@ import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import javax.swing.*
 import kotlin.system.exitProcess
-
 
 class Home : JFrame() {
     private var experimentalMode = false
@@ -84,6 +79,7 @@ class Home : JFrame() {
     }
 
     private fun createFileMenu(textArea: RSyntaxTextArea): JMenu {
+        val fileManager = FileManager()
         var previousText = ""
 
         val fileMenu = JMenu("File")
@@ -99,26 +95,26 @@ class Home : JFrame() {
                 val message = "Your file isn't saved!\nDo you want to save it?"
                 if (JOptionPane.showConfirmDialog(null, message, "Warning",
                                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
-                    saveFile(openFile, textArea.text)
+                    fileManager.saveFile(openFile, textArea.text)
                 }
             }
-            textArea.text = new()
+            textArea.text = fileManager.new()
             previousText = ""
-            title = "$fileName~113 PIA E10"
+            title = "${fileManager.fileName}~113 PIA E10"
         }
         openFile.addActionListener {
             if (previousText != textArea.text) {
                 val message = "Your file isn't saved!\nDo you want to save it?"
                 if (JOptionPane.showConfirmDialog(null, message, "Warning",
                                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
-                    saveFile(openFile, textArea.text)
+                    fileManager.saveFile(openFile, textArea.text)
                 }
             }
             try {
-                if (openFile(openFile)) {
-                    textArea.text = getFileContent()
+                if (fileManager.openFile(openFile)) {
+                    textArea.text = fileManager.getFileContent()
                     previousText = textArea.text
-                    title = "$fileName~113 PIA E10"
+                    title = "${fileManager.fileName}~113 PIA E10"
                     textArea.discardAllEdits()
                 }
             } catch (ex: Exception) {
@@ -126,21 +122,21 @@ class Home : JFrame() {
             }
         }
         saveFile.addActionListener {
-            saveFile(openFile, textArea.text)
+            fileManager.saveFile(openFile, textArea.text)
             previousText = textArea.text
-            title = "$fileName~113 PIA E10"
+            title = "${fileManager.fileName}~113 PIA E10"
         }
         saveFileAs.addActionListener {
-            file.saveFileAs(openFile, textArea.text)
+            fileManager.saveFileAs(openFile, textArea.text)
             previousText = textArea.text
-            title = "$fileName~113 PIA E10"
+            title = "${fileManager.fileName}~113 PIA E10"
         }
         exit.addActionListener {
             if (previousText != textArea.text) {
                 val message = "Your file isn't saved!\nDo you want to save it?"
                 if (JOptionPane.showConfirmDialog(null, message, "Warning",
                                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
-                    saveFile(openFile, textArea.text)
+                    fileManager.saveFile(openFile, textArea.text)
                 }
             }
             exitProcess(0)
@@ -158,7 +154,7 @@ class Home : JFrame() {
                     val message = "Your file isn't saved!\nDo you want to save it?"
                     if (JOptionPane.showConfirmDialog(null, message, "Warning",
                                     JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
-                        saveFile(openFile, textArea.text)
+                        fileManager.saveFile(openFile, textArea.text)
                     }
                 }
                 dispose()
