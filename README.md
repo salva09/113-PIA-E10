@@ -1,15 +1,17 @@
-# 113-PIA-E10
+# 113 PIA E10
 
-Automata's theory final project, it's a language analyzer using a recursive descent parser and can run code through an custom interpreter.
+Automata's theory final project, it's a language analyzer using a recursive descent parser and can run code through a 
+custom interpreter.
 
 ## Project
 
-This app was developed using the Intellij IDEA IDE, you are free of trying to open it on other IDE.
+This app is developed using the Intellij IDEA IDE.
+You are free of trying to open it on another IDE.
 
 ## Built With
 
 * [Kotlin](https://kotlinlang.org/) - Programming language
-* [OpenJDK 11](https://openjdk.java.net/) - Runtime enviorenment
+* [OpenJDK 11](https://openjdk.java.net/) - Runtime environment and development kit
 * [Intellij IDEA](https://www.jetbrains.com/idea/) - JetBrain's IDE
 
 ## Author
