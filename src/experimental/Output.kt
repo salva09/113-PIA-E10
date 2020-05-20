@@ -2,8 +2,7 @@ package experimental
 
 import javax.swing.JOptionPane
 
-fun showOutput(values: ArrayList<Int?>) {
-    var output = "Output:\n"
-    values.forEach { output += "$it\n" }
+fun showOutput(value: Int?) {
+    var output = "Output: $value"
     JOptionPane.showMessageDialog(null, output, "", JOptionPane.INFORMATION_MESSAGE)
 }
