@@ -1,4 +1,4 @@
-package experimental
+package interpreter
 
 import lexer.*
 import java.util.*

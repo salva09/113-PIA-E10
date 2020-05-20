@@ -2,11 +2,11 @@ package view
 
 import control.LanguageException
 import control.analyze
-import experimental.run
 import file.fileName
 import file.getFileContent
 import file.openFile
 import file.saveFile
+import interpreter.run
 import org.fife.ui.autocomplete.AutoCompletion
 import org.fife.ui.autocomplete.BasicCompletion
 import org.fife.ui.autocomplete.CompletionProvider
@@ -70,11 +70,11 @@ class Home : JFrame() {
 
         menuBar.add(createFileMenu(textArea))
         menuBar.add(createEditMenu())
-        menuBar.add(createAnalyzeMenu(textArea))
+        menuBar.add(createToolMenu(textArea))
         menuBar.add(createAboutMenu())
 
         if (experimentalMode) {
-            menuBar.add(createExpMenu(textArea))
+            menuBar.add(createExpMenu())
         }
 
         jMenuBar = menuBar
@@ -133,10 +133,11 @@ class Home : JFrame() {
         return editMenu
     }
 
-    private fun createAnalyzeMenu(textArea: RSyntaxTextArea): JMenu {
-        val analyzerMenu = JMenu("Analyze")
+    private fun createToolMenu(textArea: RSyntaxTextArea): JMenu {
+        val toolMenu = JMenu("Tools")
 
-        val analyze = JMenuItem("Analyze language")
+        val analyze = JMenuItem("Inspect code")
+        val run = JMenuItem("Run")
 
         analyze.addActionListener {
             try {
@@ -146,10 +147,19 @@ class Home : JFrame() {
                 JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error", JOptionPane.ERROR_MESSAGE)
             }
         }
+        run.addActionListener {
+            try {
+                analyze(textArea.text)
+                run()
+            } catch (ex: Exception) {
+                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error", JOptionPane.ERROR_MESSAGE)
+            }
+        }
 
-        analyzerMenu.add(analyze)
+        toolMenu.add(analyze)
+        toolMenu.add(run)
 
-        return analyzerMenu
+        return toolMenu
     }
 
     private fun createAboutMenu(): JMenu {
@@ -170,21 +180,8 @@ class Home : JFrame() {
         return aboutMenu
     }
 
-    private fun createExpMenu(textArea: RSyntaxTextArea): JMenu {
+    private fun createExpMenu(): JMenu {
         val experimentalMenu = JMenu("Experimental")
-
-        val run = JMenuItem("Run")
-
-        run.addActionListener {
-            try {
-                analyze(textArea.text)
-                run()
-            } catch (ex: Exception) {
-                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error", JOptionPane.ERROR_MESSAGE)
-            }
-        }
-
-        experimentalMenu.add(run)
 
         return experimentalMenu
     }
