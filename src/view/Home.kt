@@ -4,9 +4,9 @@ import control.LanguageException
 import control.analyze
 import file.fileName
 import file.getFileContent
+import file.new
 import file.openFile
 import file.saveFile
-import file.new
 import interpreter.run
 import org.fife.ui.autocomplete.AutoCompletion
 import org.fife.ui.autocomplete.BasicCompletion
@@ -19,8 +19,11 @@ import org.fife.ui.rtextarea.RTextArea
 import org.fife.ui.rtextarea.RTextScrollPane
 import view.themes.*
 import java.awt.BorderLayout
+import java.awt.event.WindowAdapter
+import java.awt.event.WindowEvent
 import javax.swing.*
 import kotlin.system.exitProcess
+
 
 class Home : JFrame() {
     private var experimentalMode = false
@@ -38,7 +41,7 @@ class Home : JFrame() {
 
         contentPane = pane
         title = "~113 PIA E10"
-        defaultCloseOperation = EXIT_ON_CLOSE
+        defaultCloseOperation = WindowConstants.DO_NOTHING_ON_CLOSE
 
         applyPreferences(textArea, scrollPane)
         createMenuBar(textArea)
@@ -82,6 +85,8 @@ class Home : JFrame() {
     }
 
     private fun createFileMenu(textArea: RSyntaxTextArea): JMenu {
+        var previousText = ""
+
         val fileMenu = JMenu("File")
 
         val new = JMenuItem("New")
@@ -91,13 +96,29 @@ class Home : JFrame() {
         val exit = JMenuItem("Exit")
 
         new.addActionListener {
+            if (previousText != textArea.text) {
+                val message = "Your file isn't saved!\nDo you want to save it?"
+                if (JOptionPane.showConfirmDialog(null, message, "Warning",
+                                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+                    saveFile(openFile, textArea.text)
+                }
+            }
             textArea.text = new()
+            previousText = ""
             title = "$fileName~113 PIA E10"
         }
         openFile.addActionListener {
+            if (previousText != textArea.text) {
+                val message = "Your file isn't saved!\nDo you want to save it?"
+                if (JOptionPane.showConfirmDialog(null, message, "Warning",
+                                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+                    saveFile(openFile, textArea.text)
+                }
+            }
             try {
                 if (openFile(openFile)) {
                     textArea.text = getFileContent()
+                    previousText = textArea.text
                     title = "$fileName~113 PIA E10"
                     textArea.discardAllEdits()
                 }
@@ -107,19 +128,44 @@ class Home : JFrame() {
         }
         saveFile.addActionListener {
             saveFile(openFile, textArea.text)
+            previousText = textArea.text
             title = "$fileName~113 PIA E10"
         }
         saveFileAs.addActionListener {
             file.saveFileAs(openFile, textArea.text)
+            previousText = textArea.text
             title = "$fileName~113 PIA E10"
         }
-        exit.addActionListener { exitProcess(0) }
+        exit.addActionListener {
+            if (previousText != textArea.text) {
+                val message = "Your file isn't saved!\nDo you want to save it?"
+                if (JOptionPane.showConfirmDialog(null, message, "Warning",
+                                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+                    saveFile(openFile, textArea.text)
+                }
+            }
+            exitProcess(0)
+        }
 
         fileMenu.add(new)
         fileMenu.add(openFile)
         fileMenu.add(saveFile)
         fileMenu.add(saveFileAs)
         fileMenu.add(exit)
+
+        this.addWindowListener(object : WindowAdapter() {
+            override fun windowClosing(event: WindowEvent) {
+                if (previousText != textArea.text) {
+                    val message = "Your file isn't saved!\nDo you want to save it?"
+                    if (JOptionPane.showConfirmDialog(null, message, "Warning",
+                                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+                        saveFile(openFile, textArea.text)
+                    }
+                }
+                dispose()
+                exitProcess(0)
+            }
+        })
 
         return fileMenu
     }
@@ -149,17 +195,22 @@ class Home : JFrame() {
         analyze.addActionListener {
             try {
                 analyze(textArea.text)
-                JOptionPane.showMessageDialog(null, "The input given is valid!", "", JOptionPane.INFORMATION_MESSAGE)
+                JOptionPane.showMessageDialog(null, "The input is correct grammarly", "",
+                        JOptionPane.INFORMATION_MESSAGE)
             } catch (ex: LanguageException) {
-                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error", JOptionPane.ERROR_MESSAGE)
+                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error",
+                        JOptionPane.ERROR_MESSAGE)
             }
         }
         run.addActionListener {
             try {
                 analyze(textArea.text)
                 run()
+                JOptionPane.showMessageDialog(null, "Program executed correctly", "",
+                        JOptionPane.INFORMATION_MESSAGE)
             } catch (ex: Exception) {
-                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error", JOptionPane.ERROR_MESSAGE)
+                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error",
+                        JOptionPane.ERROR_MESSAGE)
             }
         }
 
