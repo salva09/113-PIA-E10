@@ -1,5 +1,7 @@
 package lexer
 
+import java.util.regex.Pattern
+
 const val EPSILON = 0
 const val KEYWORD_1 = 1
 const val KEYWORD_2 = 2
@@ -21,3 +23,5 @@ const val WHITESPACE = 17
 const val VARIABLE_NOT_VALID = 18
 
 data class Token(var token: Int = 0, var sequence: String = "")
+
+data class TokenInfo(val regex: Pattern, val token: Int = 0)
