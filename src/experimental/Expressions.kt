@@ -4,8 +4,8 @@ import lexer.*
 import java.util.*
 import kotlin.math.pow
 
-fun evaluate(tokens: LinkedList<Token>, variables: LinkedHashMap<String, Int>): Int {
-    val values = Stack<Int>()
+fun evaluate(tokens: LinkedList<Token>, variables: LinkedHashMap<String, Long>): Long {
+    val values = Stack<Long>()
     val operators = Stack<Int>()
     var wasOperator = true
 
@@ -31,7 +31,7 @@ fun evaluate(tokens: LinkedList<Token>, variables: LinkedHashMap<String, Int>): 
                         values.add(variables[tokens.first.sequence])
                     } else {
                         if (tokens.first.token == NUMBER) {
-                            values.add(tokens.first.sequence.toInt())
+                            values.add(tokens.first.sequence.toLong())
                         } else {
                             while (!operators.isEmpty() && hierarchy(tokens.first.token) <= hierarchy(operators.peek())) {
                                 if (operators.peek() != OPEN_BRACKET) {
@@ -66,12 +66,12 @@ private fun isOperator(token: Int) = when (token) {
     else -> false
 }
 
-private fun operate(a: Int, b: Int, operation: Int) = when (operation) {
+private fun operate(a: Long, b: Long, operation: Int) = when (operation) {
     PLUS -> a + b
     MINUS -> a - b
     MULT -> a * b
-    DIV -> if (b != 0) a / b else throw ArithmeticException("Divide by zero cannot be possible")
-    RAISED -> a.toFloat().pow(b).toInt()
+    DIV -> if (b.compareTo(0) != 0) a / b else throw ArithmeticException("Divide by zero cannot be possible")
+    RAISED -> a.toFloat().pow(b.toFloat()).toLong()
     else -> throw Exception("Operator not recognized")
 }
 

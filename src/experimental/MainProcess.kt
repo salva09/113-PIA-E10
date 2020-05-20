@@ -7,7 +7,7 @@ fun run() {
         tokens.remove(Token(WHITESPACE, ""))
     }
 
-    val variables = LinkedHashMap<String, Int>()
+    val variables = LinkedHashMap<String, Long>()
 
     while (tokens.first.token != KEYWORD_3) {
         if (tokens.first.token == VARIABLE) {
