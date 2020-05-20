@@ -6,6 +6,7 @@ import file.fileName
 import file.getFileContent
 import file.openFile
 import file.saveFile
+import file.new
 import interpreter.run
 import org.fife.ui.autocomplete.AutoCompletion
 import org.fife.ui.autocomplete.BasicCompletion
@@ -36,7 +37,7 @@ class Home : JFrame() {
         setLightScrollPane(scrollPane)
 
         contentPane = pane
-        title = "113-PIA-E10"
+        title = "~113 PIA E10"
         defaultCloseOperation = EXIT_ON_CLOSE
 
         applyPreferences(textArea, scrollPane)
@@ -83,16 +84,21 @@ class Home : JFrame() {
     private fun createFileMenu(textArea: RSyntaxTextArea): JMenu {
         val fileMenu = JMenu("File")
 
+        val new = JMenuItem("New")
         val openFile = JMenuItem("Open")
         val saveFile = JMenuItem("Save")
         val saveFileAs = JMenuItem("Save as")
         val exit = JMenuItem("Exit")
 
+        new.addActionListener {
+            textArea.text = new()
+            title = "$fileName~113 PIA E10"
+        }
         openFile.addActionListener {
             try {
                 if (openFile(openFile)) {
                     textArea.text = getFileContent()
-                    title = "$fileName~113-PIA-E10"
+                    title = "$fileName~113 PIA E10"
                     textArea.discardAllEdits()
                 }
             } catch (ex: Exception) {
@@ -101,14 +107,15 @@ class Home : JFrame() {
         }
         saveFile.addActionListener {
             saveFile(openFile, textArea.text)
-            title = "$fileName~113-PIA-E10"
+            title = "$fileName~113 PIA E10"
         }
         saveFileAs.addActionListener {
             file.saveFileAs(openFile, textArea.text)
-            title = "$fileName~113-PIA-E10"
+            title = "$fileName~113 PIA E10"
         }
         exit.addActionListener { exitProcess(0) }
 
+        fileMenu.add(new)
         fileMenu.add(openFile)
         fileMenu.add(saveFile)
         fileMenu.add(saveFileAs)

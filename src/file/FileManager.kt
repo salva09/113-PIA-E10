@@ -57,3 +57,9 @@ fun saveFileAs(openFile: JMenuItem, modifiedText: String) {
     }
     fileName = file!!.name
 }
+
+fun new(): String {
+    file = null
+    fileName = ""
+    return ""
+}
