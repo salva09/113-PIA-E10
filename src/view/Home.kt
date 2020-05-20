@@ -179,7 +179,7 @@ class Home : JFrame() {
             try {
                 analyze(textArea.text)
                 run()
-            } catch (ex: LanguageException) {
+            } catch (ex: Exception) {
                 JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error", JOptionPane.ERROR_MESSAGE)
             }
         }
