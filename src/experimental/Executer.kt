@@ -9,7 +9,6 @@ fun run() {
     }
 
     val variables = LinkedHashMap<String, Int>()
-    val valuesToShow = ArrayList<Int?>()
 
     while (tokens.first.token != KEYWORD_3) {
         if (tokens.first.token == VARIABLE) {
@@ -23,10 +22,14 @@ fun run() {
         if (tokens.first.token == FUNCTION) {
             if (tokens.first.sequence == "imprimir") {
                 tokens.pop()
-                valuesToShow.add(variables[tokens.first.sequence])
+                showOutput(evaluate(tokens, variables))
+            } else {
+                if (tokens.first.sequence == "leer") {
+                    tokens.pop()
+                    variables[tokens.first.sequence] = readInput(tokens.first.sequence)
+                }
             }
         }
         tokens.pop()
     }
-    if (valuesToShow.isNotEmpty()) showOutput(valuesToShow)
 }
