@@ -95,8 +95,8 @@ private fun start() {
 private tailrec fun instructions() {
     when (lookahead.token) {
         FUNCTION -> {
-            leer()
-            imprimir()
+            read()
+            print()
         }
         else -> {
             when (lookahead.token) {
@@ -125,7 +125,7 @@ private tailrec fun instructions() {
     if (lookahead.token == VARIABLE) instructions()
 }
 
-private fun leer() {
+private fun read() {
     if (lookahead.sequence == "leer") {
         nextToken()
         whitespace()
@@ -135,11 +135,11 @@ private fun leer() {
     }
 }
 
-private fun imprimir() {
+private fun print() {
     if (lookahead.sequence == "imprimir") {
         nextToken()
         whitespace()
-        E()
+        e()
         endOfLine()
         nextLine()
     }
@@ -163,80 +163,80 @@ private fun assignation() {
         else -> {
             nextToken()
             optionalWhitespace()
-            E()
+            e()
         }
     }
 }
 
-private fun E() {
+private fun e() {
     optionalWhitespace()
-    Y()
+    y()
     optionalWhitespace()
     if (lookahead.token == MINUS || lookahead.sequence == "+") {
-        EPrime()
+        ePrime()
     }
 }
 
-private tailrec fun EPrime() {
+private tailrec fun ePrime() {
     nextToken()
-    Y()
+    y()
     optionalWhitespace()
     if (lookahead.token == MINUS || lookahead.sequence == "+") {
-        EPrime()
+        ePrime()
     }
 }
 
-private fun Y() {
-    J()
+private fun y() {
+    j()
     optionalWhitespace()
     if (lookahead.token == MULT || lookahead.token == DIV) {
         if (lookahead.token == DIV) activeDivision = true
-        YPrime()
+        yPrime()
     }
 }
 
-private tailrec fun YPrime() {
+private tailrec fun yPrime() {
     nextToken()
-    J()
+    j()
     optionalWhitespace()
     if (lookahead.token == MULT || lookahead.token == DIV) {
         if (lookahead.sequence == "/") activeDivision = true
-        YPrime()
+        yPrime()
     }
 }
 
-private fun J() {
-    G()
+private fun j() {
+    g()
     optionalWhitespace()
     if (lookahead.token == RAISED) {
-        JPrime()
+        jPrime()
     }
 }
 
-private tailrec fun JPrime() {
+private tailrec fun jPrime() {
     nextToken()
-    G()
+    g()
     optionalWhitespace()
     if (lookahead.token == RAISED) {
-        JPrime()
+        jPrime()
     }
 }
 
-private tailrec fun G() {
+private tailrec fun g() {
     optionalWhitespace()
     if (lookahead.token == MINUS) {
         nextToken()
-        G()
+        g()
     } else {
-        C()
+        c()
     }
 }
 
-private fun C() {
+private fun c() {
     if (lookahead.token == OPEN_BRACKET) {
         activeDivision = false
         nextToken()
-        E()
+        e()
         if (lookahead.token == CLOSE_BRACKET) {
             nextToken()
         } else {
