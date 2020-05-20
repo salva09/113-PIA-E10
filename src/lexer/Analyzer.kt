@@ -1,6 +1,6 @@
 package lexer
 
-private fun setTokenInfo() {
+private fun Tokenizer.setTokenInfo() {
     addTokenInfo("programa", KEYWORD_1)
     addTokenInfo("iniciar", KEYWORD_2)
     addTokenInfo("terminar\\.", KEYWORD_3)
@@ -22,7 +22,9 @@ private fun setTokenInfo() {
 }
 
 fun analyze(input: String) {
-    setTokenInfo()
-    tokenize(input)
-    parse()
+    val tokenizer = Tokenizer()
+    tokenizer.setTokenInfo()
+    tokenizer.tokenize(input)
+    val parser = Parser()
+    parser parse tokenizer.tokens
 }
