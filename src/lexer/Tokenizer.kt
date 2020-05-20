@@ -1,6 +1,5 @@
 package lexer
 
-import control.LanguageException
 import java.util.*
 import java.util.regex.Pattern
 
@@ -13,7 +12,7 @@ fun addTokenInfo(regex: String, token: Int) {
 
 fun tokenize(string: String) {
     tokens.clear()
-    if (string.isEmpty()) throw LanguageException("Expected some input, but empty string was found")
+    if (string.isEmpty()) throw ParserException("Expected some input, but empty string was found")
 
     var input = string
     var line = 1
@@ -31,7 +30,7 @@ fun tokenize(string: String) {
                 tokens.add(Token(info.token, sequence))
 
                 if (info.token == VARIABLE_NOT_VALID)
-                    throw LanguageException("Lexicon error\n" +
+                    throw ParserException("Lexicon error\n" +
                             "At line $line: Variable declaration not valid"
                     )
                 if (info.token == LINE_BREAK) line++
@@ -41,7 +40,7 @@ fun tokenize(string: String) {
             }
         }
         if (!match) {
-            throw LanguageException("Lexicon error\n" +
+            throw ParserException("Lexicon error\n" +
                     "At line $line: Unexpected character: '${input[0]}'"
             )
         }

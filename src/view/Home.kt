@@ -1,6 +1,6 @@
 package view
 
-import control.LanguageException
+import lexer.ParserException
 import control.analyze
 import file.fileName
 import file.getFileContent
@@ -197,7 +197,7 @@ class Home : JFrame() {
                 analyze(textArea.text)
                 JOptionPane.showMessageDialog(null, "The input is correct grammarly", "",
                         JOptionPane.INFORMATION_MESSAGE)
-            } catch (ex: LanguageException) {
+            } catch (ex: ParserException) {
                 JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error",
                         JOptionPane.ERROR_MESSAGE)
             }
