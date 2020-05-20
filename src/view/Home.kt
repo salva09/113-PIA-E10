@@ -34,11 +34,6 @@ class Home : JFrame() {
         val scrollPane = RTextScrollPane(textArea)
         pane.add(scrollPane)
 
-        //Light theme
-        setLightLaf(this)
-        setLightTextArea(textArea)
-        setLightScrollPane(scrollPane)
-
         contentPane = pane
         title = "~113 PIA E10"
         defaultCloseOperation = WindowConstants.DO_NOTHING_ON_CLOSE
@@ -62,6 +57,10 @@ class Home : JFrame() {
             setDarkLaf(this)
             setDarkTextArea(textArea)
             setDarkScrollPane(scrollPane)
+        } else {
+            setLightLaf(this)
+            setLightTextArea(textArea)
+            setLightScrollPane(scrollPane)
         }
 
         experimentalMode = getConfig("experimental").value
