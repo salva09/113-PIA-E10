@@ -43,6 +43,7 @@ fun saveFile(openFile: JMenuItem, modifiedText: String) {
             file!!.writeText(modifiedText)
         }
     }
+    fileName = file!!.name
 }
 
 fun saveFileAs(openFile: JMenuItem, modifiedText: String) {
@@ -54,4 +55,5 @@ fun saveFileAs(openFile: JMenuItem, modifiedText: String) {
         file = File(fileChooser.selectedFile.absolutePath)
         file!!.writeText(modifiedText)
     }
+    fileName = file!!.name
 }
