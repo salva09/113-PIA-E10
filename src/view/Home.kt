@@ -1,7 +1,7 @@
 package view
 
 import lexer.ParserException
-import control.analyze
+import lexer.analyze
 import file.fileName
 import file.getFileContent
 import file.new

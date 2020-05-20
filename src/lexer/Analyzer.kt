@@ -1,6 +1,4 @@
-package control
-
-import lexer.*
+package lexer
 
 private fun setTokenInfo() {
     addTokenInfo("programa", KEYWORD_1)
