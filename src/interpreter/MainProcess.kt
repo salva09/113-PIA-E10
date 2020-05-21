@@ -27,7 +27,7 @@ fun run(tokens: LinkedList<Token>) {
             } else {
                 if (tokens.first.sequence == "leer") {
                     tokens.pop()
-                    variables[tokens.first.sequence] = readInput(tokens.first.sequence)
+                    variables[tokens.first.sequence] = readInput()
                 }
             }
         }
