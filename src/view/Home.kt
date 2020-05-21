@@ -203,7 +203,7 @@ class Home : JFrame() {
                 JOptionPane.showMessageDialog(null, "Program executed correctly", "",
                         JOptionPane.INFORMATION_MESSAGE)
             } catch (ex: Exception) {
-                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error",
+                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Runtime error",
                         JOptionPane.ERROR_MESSAGE)
             }
         }
