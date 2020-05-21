@@ -28,7 +28,11 @@ fun evaluate(tokens: LinkedList<Token>, variables: LinkedHashMap<String, Long>):
                     operators.add(MULT)
                 } else {
                     if (tokens.first.token == VARIABLE) {
-                        values.add(variables[tokens.first.sequence])
+                        if (variables[tokens.first.sequence] != null) {
+                            values.add(variables[tokens.first.sequence])
+                        } else {
+                            throw Exception("Variable '${tokens.first.sequence}' must be initialized")
+                        }
                     } else {
                         if (tokens.first.token == NUMBER) {
                             values.add(tokens.first.sequence.toLong())
