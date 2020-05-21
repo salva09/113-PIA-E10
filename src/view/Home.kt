@@ -193,7 +193,10 @@ class Home : JFrame() {
                 JOptionPane.showMessageDialog(null, "The input is correct grammarly", "",
                         JOptionPane.INFORMATION_MESSAGE)
             } catch (ex: ParserException) {
-                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Error",
+                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Parsing error",
+                        JOptionPane.ERROR_MESSAGE)
+            } catch (ex: Exception) {
+                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Unexpected error",
                         JOptionPane.ERROR_MESSAGE)
             }
         }
