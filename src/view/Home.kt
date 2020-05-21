@@ -1,8 +1,10 @@
 package view
 
 import file.FileManager
+import interpreter.RuntimeException
 import interpreter.run
-import lexer.ParserException
+import lexer.LexiconException
+import lexer.SyntaxException
 import lexer.analyze
 import org.fife.ui.autocomplete.AutoCompletion
 import org.fife.ui.autocomplete.BasicCompletion
@@ -192,8 +194,11 @@ class Home : JFrame() {
                 analyze(textArea.text)
                 JOptionPane.showMessageDialog(null, "The program is correct grammarly", "",
                         JOptionPane.INFORMATION_MESSAGE)
-            } catch (ex: ParserException) {
-                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Parsing error",
+            } catch (ex: SyntaxException) {
+                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Syntax error",
+                        JOptionPane.ERROR_MESSAGE)
+            } catch (ex: LexiconException) {
+                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Lexicon error",
                         JOptionPane.ERROR_MESSAGE)
             } catch (ex: Exception) {
                 JOptionPane.showMessageDialog(null, ex.localizedMessage, "Unexpected error",
@@ -205,8 +210,20 @@ class Home : JFrame() {
                 run(analyze(textArea.text))
                 JOptionPane.showMessageDialog(null, "Program executed correctly", "",
                         JOptionPane.INFORMATION_MESSAGE)
-            } catch (ex: Exception) {
+            } catch (ex: SyntaxException) {
+                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Syntax error",
+                        JOptionPane.ERROR_MESSAGE)
+            } catch (ex: LexiconException) {
+                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Lexicon error",
+                        JOptionPane.ERROR_MESSAGE)
+            } catch (ex: RuntimeException) {
                 JOptionPane.showMessageDialog(null, ex.localizedMessage, "Runtime error",
+                        JOptionPane.ERROR_MESSAGE)
+            } catch (ex: ArithmeticException) {
+                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Arithmetic error",
+                        JOptionPane.ERROR_MESSAGE)
+            } catch (ex: Exception) {
+                JOptionPane.showMessageDialog(null, ex.localizedMessage, "Unexpected error",
                         JOptionPane.ERROR_MESSAGE)
             }
         }

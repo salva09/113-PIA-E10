@@ -4,7 +4,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 
-class ParserException(message: String) : Exception(message)
+class SyntaxException(message: String) : Exception(message)
 
 class Parser() {
     private var line: Int = 0
@@ -29,8 +29,7 @@ class Parser() {
             nextToken()
         }
         if (lookahead.token != EPSILON)
-            throw ParserException("Syntax error\n" +
-                    "At line $line: Unexpected symbol '${lookahead.sequence}' was found")
+            throw SyntaxException("At line $line: Unexpected symbol '${lookahead.sequence}' was found")
     }
 
     private fun nextToken() {
@@ -40,8 +39,7 @@ class Parser() {
 
         if (space) {
             if (lookahead.token == WHITESPACE) {
-                throw ParserException("Syntax error\n" +
-                        "At line $line: Number of whitespaces exceeds one")
+                throw SyntaxException("At line $line: Number of whitespaces exceeds one")
             } else {
                 space = false
             }
@@ -59,12 +57,10 @@ class Parser() {
             else -> {
                 when {
                     lookahead.sequence.isEmpty() -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: Symbol 'programa' was expected, but empty string was found")
+                        throw SyntaxException("At line $line: Symbol 'programa' was expected, but empty string was found")
                     }
                     else -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: Symbol 'programa' was expected, but '${lookahead.sequence}' was found")
+                        throw SyntaxException("At line $line: Symbol 'programa' was expected, but '${lookahead.sequence}' was found")
                     }
                 }
             }
@@ -80,12 +76,10 @@ class Parser() {
             else -> {
                 when {
                     lookahead.sequence.isEmpty() -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: Symbol 'iniciar' was expected, but empty string was found")
+                        throw SyntaxException("At line $line: Symbol 'iniciar' was expected, but empty string was found")
                     }
                     else -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: Symbol 'iniciar' was expected, but '${lookahead.sequence}' was found")
+                        throw SyntaxException("At line $line: Symbol 'iniciar' was expected, but '${lookahead.sequence}' was found")
                     }
                 }
             }
@@ -109,12 +103,10 @@ class Parser() {
                     else -> {
                         when {
                             lookahead.sequence.isEmpty() -> {
-                                throw ParserException("Syntax error\n" +
-                                        "At line $line: A instruction was expected, but empty string was found")
+                                throw SyntaxException("At line $line: A instruction was expected, but empty string was found")
                             }
                             else -> {
-                                throw ParserException("Syntax error\n" +
-                                        "At line $line: A instruction was expected, but '${lookahead.sequence}' was found")
+                                throw SyntaxException("At line $line: A instruction was expected, but '${lookahead.sequence}' was found")
                             }
                         }
                     }
@@ -151,12 +143,10 @@ class Parser() {
             lookahead.token != ASSIGNATION -> {
                 when {
                     lookahead.sequence.isEmpty() -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: Symbol ':=' was expected, but empty string was found")
+                        throw SyntaxException("At line $line: Symbol ':=' was expected, but empty string was found")
                     }
                     else -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: Symbol ':=' was expected, but '${lookahead.sequence}' was found")
+                        throw SyntaxException("At line $line: Symbol ':=' was expected, but '${lookahead.sequence}' was found")
                     }
                 }
             }
@@ -238,11 +228,9 @@ class Parser() {
                 nextToken()
             } else {
                 if (lookahead.sequence.isEmpty()) {
-                    throw ParserException("Syntax error\n" +
-                            "At line $line: Close brackets was expected, but empty string was found")
+                    throw SyntaxException("At line $line: Close brackets was expected, but empty string was found")
                 } else {
-                    throw ParserException("Syntax error\n" +
-                            "At line $line: Close brackets was expected, but '${lookahead.sequence}' was found")
+                    throw SyntaxException("At line $line: Close brackets was expected, but '${lookahead.sequence}' was found")
                 }
             }
         } else {
@@ -253,16 +241,13 @@ class Parser() {
                     if (variables.contains(lookahead.sequence)) {
                         nextToken()
                     } else {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: Variable '${lookahead.sequence}' not declared")
+                        throw SyntaxException("At line $line: Variable '${lookahead.sequence}' not declared")
                     }
                 } else {
                     if (lookahead.sequence.isEmpty()) {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: A value was expected, but empty string was found")
+                        throw SyntaxException("At line $line: A value was expected, but empty string was found")
                     } else {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: A value was expected, but '${lookahead.sequence}' was found")
+                        throw SyntaxException("At line $line: A value was expected, but '${lookahead.sequence}' was found")
                     }
                 }
             }
@@ -277,12 +262,10 @@ class Parser() {
             else -> {
                 when {
                     lookahead.sequence.isEmpty() -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: Symbol 'terminar.' was expected, but empty string was found")
+                        throw SyntaxException("At line $line: Symbol 'terminar.' was expected, but empty string was found")
                     }
                     else -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: Symbol 'terminar.' was expected, but '${lookahead.sequence}' was found")
+                        throw SyntaxException("At line $line: Symbol 'terminar.' was expected, but '${lookahead.sequence}' was found")
                     }
                 }
             }
@@ -298,12 +281,10 @@ class Parser() {
             else -> {
                 when {
                     lookahead.sequence.isEmpty() -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: A name was expected, but empty string was found")
+                        throw SyntaxException("At line $line: A name was expected, but empty string was found")
                     }
                     else -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: A name was expected, but '${lookahead.sequence}' was found")
+                        throw SyntaxException("At line $line: A name was expected, but '${lookahead.sequence}' was found")
                     }
                 }
             }
@@ -319,12 +300,10 @@ class Parser() {
             else -> {
                 when {
                     lookahead.sequence.isEmpty() -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: A variable was expected, but empty string was found")
+                        throw SyntaxException("At line $line: A variable was expected, but empty string was found")
                     }
                     else -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: A variable was expected, but '${lookahead.sequence}' was found")
+                        throw SyntaxException("At line $line: A variable was expected, but '${lookahead.sequence}' was found")
                     }
                 }
             }
@@ -340,12 +319,10 @@ class Parser() {
             else -> {
                 when {
                     lookahead.sequence.isEmpty() -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: A whitespace was expected, but empty string was found")
+                        throw SyntaxException("At line $line: A whitespace was expected, but empty string was found")
                     }
                     else -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: A whitespace was expected, but '${lookahead.sequence}' was found")
+                        throw SyntaxException("At line $line: A whitespace was expected, but '${lookahead.sequence}' was found")
                     }
                 }
             }
@@ -361,8 +338,7 @@ class Parser() {
 
     private fun endOfLine() {
         if (lookahead.token == WHITESPACE) {
-            throw ParserException("Syntax error\n" +
-                    "At line $line: Symbol ';' was expected, but whitespace was found")
+            throw SyntaxException("At line $line: Symbol ';' was expected, but whitespace was found")
         }
         when (lookahead.token) {
             SEMICOLON -> {
@@ -371,12 +347,10 @@ class Parser() {
             else -> {
                 when {
                     lookahead.sequence.isEmpty() -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: Symbol ';' was expected, but empty string was found")
+                        throw SyntaxException("At line $line: Symbol ';' was expected, but empty string was found")
                     }
                     else -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: Symbol ';' was expected, but '${lookahead.sequence}' was found")
+                        throw SyntaxException("At line $line: Symbol ';' was expected, but '${lookahead.sequence}' was found")
                     }
                 }
             }
@@ -392,12 +366,10 @@ class Parser() {
             else -> {
                 when {
                     lookahead.sequence.isEmpty() -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: Line break was expected")
+                        throw SyntaxException("At line $line: Line break was expected")
                     }
                     else -> {
-                        throw ParserException("Syntax error\n" +
-                                "At line $line: Line break was expected, but '${lookahead.sequence}' was found")
+                        throw SyntaxException("At line $line: Line break was expected, but '${lookahead.sequence}' was found")
                     }
                 }
             }

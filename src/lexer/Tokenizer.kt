@@ -3,6 +3,8 @@ package lexer
 import java.util.*
 import java.util.regex.Pattern
 
+class LexiconException(message: String) : Exception(message)
+
 class Tokenizer() {
     private var tokeninfo = LinkedList<TokenInfo>()
     val tokens = LinkedList<Token>()
@@ -13,7 +15,7 @@ class Tokenizer() {
 
     infix fun tokenize(string: String) {
         tokens.clear()
-        if (string.isEmpty()) throw ParserException("Expected a program, but empty string was found")
+        if (string.isEmpty()) throw LexiconException("Expected a program, but empty string was found")
 
         var input = string
         var line = 1
@@ -31,9 +33,7 @@ class Tokenizer() {
                     tokens.add(Token(info.token, sequence))
 
                     if (info.token == VARIABLE_NOT_VALID)
-                        throw ParserException("Lexicon error\n" +
-                                "At line $line: Variable declaration not valid"
-                        )
+                        throw LexiconException("At line $line: Variable declaration not valid")
                     if (info.token == LINE_BREAK) line++
 
                     input = matcher.replaceFirst("")
@@ -41,9 +41,7 @@ class Tokenizer() {
                 }
             }
             if (!match) {
-                throw ParserException("Lexicon error\n" +
-                        "At line $line: Unexpected character: '${input[0]}'"
-                )
+                throw LexiconException("At line $line: Unexpected character: '${input[0]}'")
             }
         }
     }

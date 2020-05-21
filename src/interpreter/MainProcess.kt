@@ -4,6 +4,8 @@ import lexer.*
 import java.util.*
 import kotlin.collections.LinkedHashMap
 
+class RuntimeException(message: String) : Exception(message)
+
 fun run(tokens: LinkedList<Token>) {
     while (tokens.contains(Token(WHITESPACE, ""))) {
         tokens.remove(Token(WHITESPACE, ""))
