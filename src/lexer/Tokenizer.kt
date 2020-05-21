@@ -13,7 +13,7 @@ class Tokenizer() {
 
     infix fun tokenize(string: String) {
         tokens.clear()
-        if (string.isEmpty()) throw ParserException("Expected some input, but empty string was found")
+        if (string.isEmpty()) throw ParserException("Expected a program, but empty string was found")
 
         var input = string
         var line = 1

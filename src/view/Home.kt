@@ -190,7 +190,7 @@ class Home : JFrame() {
         analyze.addActionListener {
             try {
                 analyze(textArea.text)
-                JOptionPane.showMessageDialog(null, "The input is correct grammarly", "",
+                JOptionPane.showMessageDialog(null, "The program is correct grammarly", "",
                         JOptionPane.INFORMATION_MESSAGE)
             } catch (ex: ParserException) {
                 JOptionPane.showMessageDialog(null, ex.localizedMessage, "Parsing error",
