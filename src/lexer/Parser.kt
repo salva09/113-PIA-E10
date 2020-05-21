@@ -8,7 +8,6 @@ class ParserException(message: String) : Exception(message)
 
 class Parser() {
     private var line: Int = 0
-    private var activeDivision by Delegates.notNull<Boolean>()
     private var space by Delegates.notNull<Boolean>()
     private lateinit var tokensToParse: LinkedList<Token>
     private lateinit var variables: ArrayList<String>
@@ -17,7 +16,6 @@ class Parser() {
     infix fun parse(tokens: LinkedList<Token>) {
         tokensToParse = tokens.clone() as LinkedList<Token>
         line = 1
-        activeDivision = false
         space = false
         variables = ArrayList()
         lookahead = tokensToParse.first
@@ -192,7 +190,6 @@ class Parser() {
         j()
         optionalWhitespace()
         if (lookahead.token == MULT || lookahead.token == DIV) {
-            if (lookahead.token == DIV) activeDivision = true
             yPrime()
         }
     }
@@ -202,7 +199,6 @@ class Parser() {
         j()
         optionalWhitespace()
         if (lookahead.token == MULT || lookahead.token == DIV) {
-            if (lookahead.sequence == "/") activeDivision = true
             yPrime()
         }
     }
@@ -236,7 +232,6 @@ class Parser() {
 
     private fun c() {
         if (lookahead.token == OPEN_BRACKET) {
-            activeDivision = false
             nextToken()
             e()
             if (lookahead.token == CLOSE_BRACKET) {
@@ -252,11 +247,6 @@ class Parser() {
             }
         } else {
             if (lookahead.token == NUMBER) {
-                if (activeDivision and (lookahead.sequence == "0"))
-                    throw ParserException("Arithmetic error\n" +
-                            "At line $line: Divide by zero cannot be possible")
-                else
-                    activeDivision = false
                 nextToken()
             } else {
                 if (lookahead.token == VARIABLE) {
