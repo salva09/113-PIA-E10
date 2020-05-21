@@ -1,8 +1,10 @@
 package interpreter
 
 import lexer.*
+import java.util.*
+import kotlin.collections.LinkedHashMap
 
-fun run() {
+fun run(tokens: LinkedList<Token>) {
     while (tokens.contains(Token(WHITESPACE, ""))) {
         tokens.remove(Token(WHITESPACE, ""))
     }

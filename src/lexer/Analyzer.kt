@@ -1,5 +1,7 @@
 package lexer
 
+import java.util.*
+
 private fun Tokenizer.setTokenInfo() {
     addTokenInfo("programa", KEYWORD_1)
     addTokenInfo("iniciar", KEYWORD_2)
@@ -21,10 +23,10 @@ private fun Tokenizer.setTokenInfo() {
     addTokenInfo("\\s", WHITESPACE)
 }
 
-fun analyze(input: String) {
+fun analyze(input: String): LinkedList<Token> {
     val tokenizer = Tokenizer()
     tokenizer.setTokenInfo()
-    tokenizer.tokenize(input)
-    val parser = Parser()
-    parser parse tokenizer.tokens
+    tokenizer tokenize input
+    Parser() parse tokenizer.tokens
+    return tokenizer.tokens
 }

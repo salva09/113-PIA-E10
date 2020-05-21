@@ -11,7 +11,7 @@ class Tokenizer() {
         tokeninfo.add(TokenInfo(Pattern.compile("^($regex)"), token))
     }
 
-    fun tokenize(string: String) {
+    infix fun tokenize(string: String) {
         tokens.clear()
         if (string.isEmpty()) throw ParserException("Expected some input, but empty string was found")
 

@@ -1,9 +1,9 @@
 package view
 
-import lexer.ParserException
-import lexer.analyze
 import file.FileManager
 import interpreter.run
+import lexer.ParserException
+import lexer.analyze
 import org.fife.ui.autocomplete.AutoCompletion
 import org.fife.ui.autocomplete.BasicCompletion
 import org.fife.ui.autocomplete.CompletionProvider
@@ -199,8 +199,7 @@ class Home : JFrame() {
         }
         run.addActionListener {
             try {
-                analyze(textArea.text)
-                run()
+                run(analyze(textArea.text))
                 JOptionPane.showMessageDialog(null, "Program executed correctly", "",
                         JOptionPane.INFORMATION_MESSAGE)
             } catch (ex: Exception) {
