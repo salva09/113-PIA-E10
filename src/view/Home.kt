@@ -103,6 +103,7 @@ class Home : JFrame() {
             textArea.text = fileManager.new()
             previousText = ""
             title = "${fileManager.fileName}~113 PIA E10"
+            textArea.discardAllEdits()
         }
         openFile.addActionListener {
             if (previousText != textArea.text) {
