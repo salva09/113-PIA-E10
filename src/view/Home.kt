@@ -19,6 +19,7 @@ import view.themes.*
 import java.awt.BorderLayout
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
+import java.io.IOException
 import javax.swing.*
 import kotlin.system.exitProcess
 
@@ -120,7 +121,7 @@ class Home : JFrame() {
                     title = "${fileManager.fileName}~113 PIA E10"
                     textArea.discardAllEdits()
                 }
-            } catch (ex: Exception) {
+            } catch (ex: IOException) {
                 print(ex.localizedMessage)
             }
         }

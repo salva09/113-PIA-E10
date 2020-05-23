@@ -1,6 +1,7 @@
 package file
 
 import java.io.File
+import java.io.IOException
 import javax.swing.JFileChooser
 import javax.swing.JMenuItem
 import javax.swing.JOptionPane
@@ -15,7 +16,7 @@ class FileManager() {
         fileChooser = JFileChooser()
         val result = fileChooser.showOpenDialog(openFile)
 
-        if (result != 0) throw Exception("No file open")
+        if (result != 0) throw IOException("No file open")
 
         return if (!fileChooser.selectedFile.name.endsWith(".txt")) {
             JOptionPane.showMessageDialog(null, "File type not supported", "Error", JOptionPane.ERROR_MESSAGE)
