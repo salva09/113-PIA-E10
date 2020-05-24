@@ -25,11 +25,8 @@ class Parser() {
         instructions()
         end()
 
-        while (lookahead.sequence.isEmpty() && lookahead.token != EPSILON) {
-            nextToken()
-        }
         if (lookahead.token != EPSILON)
-            throw SyntaxException("At line $line: Unexpected symbol '${lookahead.sequence}' was found")
+            throw SyntaxException("The program must finish with 'terminar.' and an empty string")
     }
 
     private fun nextToken() {
