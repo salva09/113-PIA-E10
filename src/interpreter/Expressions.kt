@@ -10,10 +10,9 @@ fun evaluate(tokens: LinkedList<Token>, variables: LinkedHashMap<String, Long>):
     var wasOperator = true
 
     while (tokens.first.token != SEMICOLON && !tokens.isEmpty()) {
-        if (tokens.first.token == OPEN_BRACKET) {
-            operators.add(tokens.first.token)
-        } else {
-            if (tokens.first.token == CLOSE_BRACKET) {
+        when {
+            tokens.first.token == OPEN_BRACKET -> operators.add(tokens.first.token)
+            tokens.first.token == CLOSE_BRACKET -> {
                 while (operators.peek() != OPEN_BRACKET && !operators.isEmpty()) {
                     val number1 = values.pop()
                     val number2 = values.pop()
@@ -21,40 +20,31 @@ fun evaluate(tokens: LinkedList<Token>, variables: LinkedHashMap<String, Long>):
                     val result = operate(number2, number1, operation)
                     values.add(result)
                 }
-                operators.pop()
-            } else {
-                if (wasOperator && tokens.first.token == MINUS) {
-                    values.add(-1)
-                    operators.add(MULT)
+            }
+            wasOperator && tokens.first.token == MINUS -> {
+                values.add(-1)
+                operators.add(MULT)
+            }
+            wasOperator && tokens.first.token == PLUS -> {}
+            tokens.first.token == VARIABLE -> {
+                if (variables[tokens.first.sequence] != null) {
+                    values.add(variables[tokens.first.sequence])
                 } else {
-                    if (wasOperator && tokens.first.token == PLUS) {
-
-                    } else {
-                        if (tokens.first.token == VARIABLE) {
-                            if (variables[tokens.first.sequence] != null) {
-                                values.add(variables[tokens.first.sequence])
-                            } else {
-                                throw RuntimeException("Variable '${tokens.first.sequence}' must be initialized")
-                            }
-                        } else {
-                            if (tokens.first.token == NUMBER) {
-                                values.add(tokens.first.sequence.toLong())
-                            } else {
-                                while (!operators.isEmpty() && hierarchy(tokens.first.token) <= hierarchy(operators.peek())) {
-                                    if (operators.peek() != OPEN_BRACKET) {
-                                        val number1 = values.pop()
-                                        val number2 = values.pop()
-                                        val operation = operators.pop()
-                                        val result = operate(number2, number1, operation)
-                                        values.add(result)
-                                    }
-                                }
-                                operators.add(tokens.first.token)
-                            }
-                        }
+                    throw RuntimeException("Variable '${tokens.first.sequence}' must be initialized")
+                }
+            }
+            tokens.first.token == NUMBER -> values.add(tokens.first.sequence.toLong())
+            else -> {
+                while (!operators.isEmpty() && hierarchy(tokens.first.token) <= hierarchy(operators.peek())) {
+                    if (operators.peek() != OPEN_BRACKET) {
+                        val number1 = values.pop()
+                        val number2 = values.pop()
+                        val operation = operators.pop()
+                        val result = operate(number2, number1, operation)
+                        values.add(result)
                     }
                 }
-
+                operators.add(tokens.first.token)
             }
         }
         wasOperator = isOperator(tokens.first.token)
