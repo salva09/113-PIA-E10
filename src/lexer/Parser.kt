@@ -209,7 +209,7 @@ class Parser() {
 
     private tailrec fun g() {
         optionalWhitespace()
-        if (lookahead.token == MINUS) {
+        if (lookahead.token == MINUS || lookahead.token == PLUS) {
             nextToken()
             g()
         } else {

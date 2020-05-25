@@ -27,29 +27,34 @@ fun evaluate(tokens: LinkedList<Token>, variables: LinkedHashMap<String, Long>):
                     values.add(-1)
                     operators.add(MULT)
                 } else {
-                    if (tokens.first.token == VARIABLE) {
-                        if (variables[tokens.first.sequence] != null) {
-                            values.add(variables[tokens.first.sequence])
-                        } else {
-                            throw RuntimeException("Variable '${tokens.first.sequence}' must be initialized")
-                        }
+                    if (wasOperator && tokens.first.token == PLUS) {
+
                     } else {
-                        if (tokens.first.token == NUMBER) {
-                            values.add(tokens.first.sequence.toLong())
-                        } else {
-                            while (!operators.isEmpty() && hierarchy(tokens.first.token) <= hierarchy(operators.peek())) {
-                                if (operators.peek() != OPEN_BRACKET) {
-                                    val number1 = values.pop()
-                                    val number2 = values.pop()
-                                    val operation = operators.pop()
-                                    val result = operate(number2, number1, operation)
-                                    values.add(result)
-                                }
+                        if (tokens.first.token == VARIABLE) {
+                            if (variables[tokens.first.sequence] != null) {
+                                values.add(variables[tokens.first.sequence])
+                            } else {
+                                throw RuntimeException("Variable '${tokens.first.sequence}' must be initialized")
                             }
-                            operators.add(tokens.first.token)
+                        } else {
+                            if (tokens.first.token == NUMBER) {
+                                values.add(tokens.first.sequence.toLong())
+                            } else {
+                                while (!operators.isEmpty() && hierarchy(tokens.first.token) <= hierarchy(operators.peek())) {
+                                    if (operators.peek() != OPEN_BRACKET) {
+                                        val number1 = values.pop()
+                                        val number2 = values.pop()
+                                        val operation = operators.pop()
+                                        val result = operate(number2, number1, operation)
+                                        values.add(result)
+                                    }
+                                }
+                                operators.add(tokens.first.token)
+                            }
                         }
                     }
                 }
+
             }
         }
         wasOperator = isOperator(tokens.first.token)
