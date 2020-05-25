@@ -17,7 +17,7 @@ class Tokenizer() {
 
     infix fun tokenize(string: String) {
         tokens.clear()
-        if (string.isEmpty()) throw LexiconException("Expected a program, but empty string was found")
+        if (string.isEmpty()) throw Exception("Expected a program, but empty string was found")
 
         input = string
         line = 1
