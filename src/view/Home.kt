@@ -262,7 +262,7 @@ class Home : JFrame() {
 
     private fun createMenuItem(action: Action): JMenuItem? {
         val item = JMenuItem(action)
-        item.toolTipText = null // Swing annoyingly adds tool tip text to the menu item
+        item.toolTipText = null
         return item
     }
 
@@ -284,18 +284,9 @@ class Home : JFrame() {
         return textArea
     }
 
-    //Experimental field
-
     private fun createCompletionProvider(): CompletionProvider {
-        // A DefaultCompletionProvider is the simplest concrete implementation
-        // of CompletionProvider. This provider has no understanding of
-        // language semantics. It simply checks the text entered up to the
-        // caret position for a match against known completions. This is all
-        // that is needed in the majority of cases.
         val provider = DefaultCompletionProvider()
 
-        // Add completions for keywords. A BasicCompletion is just
-        // a straightforward word completion.
         provider.addCompletion(BasicCompletion(provider, "programa "))
         provider.addCompletion(BasicCompletion(provider, "iniciar"))
         provider.addCompletion(BasicCompletion(provider, "terminar."))
