@@ -22,12 +22,10 @@ fun welcome(): Boolean {
 
 fun howToUse() {
     val message: String = """
-        |This is a code editor for a specific language, it 
-        |has a syntax highlighting and a code completion.
+        |This is a code editor for a specific language, it has a syntax highlighting and a code completion.
         |
         |Code completion:
-        |Press ctlr + space while typing to use the code 
-        |completion.
+        |Press ctlr + space while typing to use the code completion.
         |
         |File options:
         |Open -> Pop ups a menu to select and open a file.
@@ -38,12 +36,10 @@ fun howToUse() {
         |Common edit options like everyone knows.
         |
         |Tools:
-        |Inspect code -> Analyzes the code using a
-        |recursive descent parser.
+        |Inspect code -> Analyzes the code using a recursive descent parser.
         |Run -> Executes the code using an interpreter.
         |
-        |There is a doc bundled with the information of 
-        |the language.
+        |There is a doc bundled with the information of the language.
         """.trimMargin()
     JOptionPane.showMessageDialog(null, message, "How to use", JOptionPane.QUESTION_MESSAGE)
 }
