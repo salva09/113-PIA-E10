@@ -39,7 +39,7 @@ fun howToUse() {
         |Inspect code -> Analyzes the code using a recursive descent parser.
         |Run -> Executes the code using an interpreter.
         |
-        |There is a doc bundled with the information of the language.
+        |If you need a more detailed explanation, check the documentation.
         """.trimMargin()
     JOptionPane.showMessageDialog(null, message, "How to use", JOptionPane.QUESTION_MESSAGE)
 }
