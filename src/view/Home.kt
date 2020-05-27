@@ -47,10 +47,6 @@ class Home : JFrame() {
     private fun applyPreferences(textArea: RSyntaxTextArea, scrollPane: RTextScrollPane) {
         getPreferences()
 
-        if (getConfig("welcome").value) {
-            getConfig("welcome").value = welcome()
-        }
-
         if (getConfig("dark").value) {
             setDarkLaf(this)
             setDarkTextArea(textArea)
@@ -59,6 +55,10 @@ class Home : JFrame() {
             setLightLaf(this)
             setLightTextArea(textArea)
             setLightScrollPane(scrollPane)
+        }
+
+        if (getConfig("welcome").value) {
+            getConfig("welcome").value = welcome()
         }
 
         experimentalMode = getConfig("experimental").value
