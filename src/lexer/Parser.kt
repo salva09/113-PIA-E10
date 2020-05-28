@@ -6,14 +6,14 @@ import kotlin.properties.Delegates
 
 class SyntaxException(message: String) : Exception(message)
 
-class Parser() {
+object Parser {
     private var line: Int = 0
     private var space by Delegates.notNull<Boolean>()
     private lateinit var tokensToParse: LinkedList<Token>
     private lateinit var variables: ArrayList<String>
     private lateinit var lookahead: Token
 
-    infix fun parse(tokens: LinkedList<Token>) {
+    fun parse(tokens: LinkedList<Token>) {
         tokensToParse = tokens.clone() as LinkedList<Token>
         line = 1
         space = false

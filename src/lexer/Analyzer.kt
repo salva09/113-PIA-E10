@@ -24,9 +24,8 @@ private fun Tokenizer.setTokenInfo() {
 }
 
 fun analyze(input: String): LinkedList<Token> {
-    val tokenizer = Tokenizer()
-    tokenizer.setTokenInfo()
-    tokenizer tokenize input
-    Parser() parse tokenizer.tokens
-    return tokenizer.tokens
+    Tokenizer.setTokenInfo()
+    Tokenizer.tokenize(input)
+    Parser.parse(Tokenizer.tokens)
+    return Tokenizer.tokens
 }

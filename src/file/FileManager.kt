@@ -6,7 +6,7 @@ import javax.swing.JFileChooser
 import javax.swing.JMenuItem
 import javax.swing.JOptionPane
 
-class FileManager() {
+object FileManager {
     private lateinit var fileChooser: JFileChooser
     private var file: File? = null
     var fileName = ""

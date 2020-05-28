@@ -5,7 +5,7 @@ import java.util.regex.Pattern
 
 class LexiconException(message: String) : Exception(message)
 
-class Tokenizer() {
+object Tokenizer {
     private var tokeninfo = LinkedList<TokenInfo>()
     val tokens = LinkedList<Token>()
     private var input = ""
@@ -15,7 +15,7 @@ class Tokenizer() {
         tokeninfo.add(TokenInfo(Pattern.compile("^($regex)"), token))
     }
 
-    infix fun tokenize(string: String) {
+    fun tokenize(string: String) {
         tokens.clear()
         if (string.isEmpty()) throw Exception("Expected a program, but empty string was found")
 

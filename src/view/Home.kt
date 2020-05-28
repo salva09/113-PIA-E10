@@ -82,7 +82,6 @@ class Home : JFrame() {
     }
 
     private fun createFileMenu(textArea: RSyntaxTextArea): JMenu {
-        val fileManager = FileManager()
         var previousText = ""
 
         val fileMenu = JMenu("File")
@@ -98,12 +97,12 @@ class Home : JFrame() {
                 val message = "Your file isn't saved!\nDo you want to save it?"
                 if (JOptionPane.showConfirmDialog(null, message, "Warning",
                                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
-                    fileManager.saveFile(openFile, textArea.text)
+                    FileManager.saveFile(openFile, textArea.text)
                 }
             }
-            textArea.text = fileManager.new()
+            textArea.text = FileManager.new()
             previousText = ""
-            title = "${fileManager.fileName}~113 PIA E10"
+            title = "${FileManager.fileName}~113 PIA E10"
             textArea.discardAllEdits()
         }
         openFile.addActionListener {
@@ -111,14 +110,14 @@ class Home : JFrame() {
                 val message = "Your file isn't saved!\nDo you want to save it?"
                 if (JOptionPane.showConfirmDialog(null, message, "Warning",
                                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
-                    fileManager.saveFile(openFile, textArea.text)
+                    FileManager.saveFile(openFile, textArea.text)
                 }
             }
             try {
-                if (fileManager.openFile(openFile)) {
-                    textArea.text = fileManager.getFileContent()
+                if (FileManager.openFile(openFile)) {
+                    textArea.text = FileManager.getFileContent()
                     previousText = textArea.text
-                    title = "${fileManager.fileName}~113 PIA E10"
+                    title = "${FileManager.fileName}~113 PIA E10"
                     textArea.discardAllEdits()
                 }
             } catch (ex: IOException) {
@@ -126,21 +125,21 @@ class Home : JFrame() {
             }
         }
         saveFile.addActionListener {
-            fileManager.saveFile(openFile, textArea.text)
+            FileManager.saveFile(openFile, textArea.text)
             previousText = textArea.text
-            title = "${fileManager.fileName}~113 PIA E10"
+            title = "${FileManager.fileName}~113 PIA E10"
         }
         saveFileAs.addActionListener {
-            fileManager.saveFileAs(openFile, textArea.text)
+            FileManager.saveFileAs(openFile, textArea.text)
             previousText = textArea.text
-            title = "${fileManager.fileName}~113 PIA E10"
+            title = "${FileManager.fileName}~113 PIA E10"
         }
         exit.addActionListener {
             if (previousText != textArea.text) {
                 val message = "Your file isn't saved!\nDo you want to save it?"
                 if (JOptionPane.showConfirmDialog(null, message, "Warning",
                                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
-                    fileManager.saveFile(openFile, textArea.text)
+                    FileManager.saveFile(openFile, textArea.text)
                 }
             }
             exitProcess(0)
@@ -158,7 +157,7 @@ class Home : JFrame() {
                     val message = "Your file isn't saved!\nDo you want to save it?"
                     if (JOptionPane.showConfirmDialog(null, message, "Warning",
                                     JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
-                        fileManager.saveFile(openFile, textArea.text)
+                        FileManager.saveFile(openFile, textArea.text)
                     }
                 }
                 dispose()
