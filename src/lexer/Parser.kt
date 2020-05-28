@@ -9,6 +9,7 @@ class SyntaxException(message: String) : Exception(message)
 object Parser {
     private var line: Int = 0
     private var space by Delegates.notNull<Boolean>()
+    private lateinit var programName: String
     private lateinit var tokensToParse: LinkedList<Token>
     private lateinit var variables: ArrayList<String>
     private lateinit var lookahead: Token
@@ -273,6 +274,7 @@ object Parser {
         whitespace()
         when (lookahead.token) {
             VARIABLE -> {
+                programName = lookahead.sequence
                 nextToken()
             }
             else -> {
@@ -291,6 +293,9 @@ object Parser {
     private fun variable() {
         when (lookahead.token) {
             VARIABLE -> {
+                if (lookahead.sequence == programName) {
+                    throw SyntaxException("At line $line: Variable name cannot be the same as program's name")
+                }
                 variables.add(lookahead.sequence)
                 nextToken()
             }
