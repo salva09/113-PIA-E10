@@ -30,7 +30,7 @@ fun evaluate(tokens: LinkedList<Token>, variables: LinkedHashMap<String, Long>):
                 if (variables[tokens.first.sequence] != null) {
                     values.add(variables[tokens.first.sequence])
                 } else {
-                    throw RuntimeException("Variable '${tokens.first.sequence}' must be initialized")
+                    throw RuntimeException("At line $line: Variable '${tokens.first.sequence}' must be initialized")
                 }
             }
             tokens.first.token == NUMBER -> values.add(tokens.first.sequence.toLong())
@@ -69,9 +69,9 @@ private fun operate(a: Long, b: Long, operation: Int) = when (operation) {
     PLUS -> a + b
     MINUS -> a - b
     MULT -> a * b
-    DIV -> if (b.compareTo(0) != 0) a / b else throw ArithmeticException("Divide by zero cannot be possible")
+    DIV -> if (b.compareTo(0) != 0) a / b else throw ArithmeticException("At line $line: Divide by zero cannot be possible")
     RAISED -> a.toFloat().pow(b.toFloat()).toLong()
-    else -> throw RuntimeException("Operator not recognized")
+    else -> throw Exception("Operator not recognized")
 }
 
 private fun hierarchy(token: Int) = when (token) {
@@ -81,5 +81,5 @@ private fun hierarchy(token: Int) = when (token) {
     DIV -> 2
     RAISED -> 3
     OPEN_BRACKET -> 0
-    else -> throw RuntimeException("Operator not recognized")
+    else -> throw Exception("Operator not recognized")
 }

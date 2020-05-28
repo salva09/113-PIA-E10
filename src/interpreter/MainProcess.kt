@@ -6,6 +6,8 @@ import kotlin.collections.LinkedHashMap
 
 class RuntimeException(message: String) : Exception(message)
 
+var line = 1
+
 fun run(tokens: LinkedList<Token>) {
     while (tokens.contains(Token(WHITESPACE, ""))) {
         tokens.remove(Token(WHITESPACE, ""))
@@ -33,6 +35,7 @@ fun run(tokens: LinkedList<Token>) {
                 }
             }
         }
+        if (tokens.first.token == LINE_BREAK) line++
         tokens.pop()
     }
 }
