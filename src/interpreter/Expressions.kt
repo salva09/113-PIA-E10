@@ -70,7 +70,7 @@ private fun operate(a: Long, b: Long, operation: Int) = when (operation) {
     PLUS -> a + b
     MINUS -> a - b
     MULT -> a * b
-    DIV -> if (b.compareTo(0) != 0) a / b else throw ArithmeticException("At line $line: Divide by zero cannot be possible")
+    DIV -> if (b.compareTo(0) != 0) a / b else throw ArithmeticException("At line $line: Division by zero cannot be possible")
     RAISED -> a.toFloat().pow(b.toFloat()).toLong()
     else -> throw Exception("Operator not recognized")
 }
