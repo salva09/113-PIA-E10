@@ -11,7 +11,7 @@ You are free of trying to open it on another IDE.
 ## Built With
 
 * [Kotlin](https://kotlinlang.org/) - Programming language
-* [OpenJDK 11](https://openjdk.java.net/) - Runtime environment and development kit
+* [OpenJDK 8](https://openjdk.java.net/) - Runtime environment and development kit
 * [Intellij IDEA](https://www.jetbrains.com/idea/) - JetBrain's IDE
 
 ## Author
