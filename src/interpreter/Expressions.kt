@@ -20,6 +20,7 @@ fun evaluate(tokens: LinkedList<Token>, variables: LinkedHashMap<String, Long>):
                     val result = operate(number2, number1, operation)
                     values.add(result)
                 }
+                if (operators.peek() == OPEN_BRACKET) operators.pop()
             }
             wasOperator && tokens.first.token == MINUS -> {
                 values.add(-1)
