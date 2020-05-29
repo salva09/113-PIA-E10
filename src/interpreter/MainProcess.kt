@@ -9,6 +9,8 @@ class RuntimeException(message: String) : Exception(message)
 var line = 1
 
 fun run(tokens: LinkedList<Token>) {
+    line = 1
+
     while (tokens.contains(Token(WHITESPACE, ""))) {
         tokens.remove(Token(WHITESPACE, ""))
     }
