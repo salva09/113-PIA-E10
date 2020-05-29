@@ -1,3 +1,4 @@
+https://www.code-inspector.com/project/7786/score/svg https://www.code-inspector.com/project/7786/status/svg
 # 113 PIA E10
 
 Automata's theory final project, it's a language analyzer using a recursive descent parser and can run code through a 
