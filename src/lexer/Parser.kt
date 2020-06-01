@@ -129,7 +129,11 @@ object Parser {
         if (lookahead.sequence == "imprimir") {
             nextToken()
             whitespace()
-            e()
+            if (lookahead.token == STRING) {
+                nextToken()
+            } else {
+                e()
+            }
             endOfLine()
             nextLine()
         }

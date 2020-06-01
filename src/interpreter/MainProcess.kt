@@ -29,7 +29,11 @@ fun run(tokens: LinkedList<Token>) {
         if (tokens.first.token == FUNCTION) {
             if (tokens.first.sequence == "imprimir") {
                 tokens.pop()
-                showOutput(evaluate(tokens, variables))
+                if (tokens.first.token == STRING) {
+                    showOutput(tokens.first.sequence)
+                } else {
+                    showOutput(evaluate(tokens, variables))
+                }
             } else {
                 if (tokens.first.sequence == "leer") {
                     tokens.pop()
